@@ -138,7 +138,7 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener {
 			jLVerkaeufer.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 			jLVerkaeufer.setFont(new java.awt.Font("DialogInput", java.awt.Font.BOLD, 36));
 			jLTextVerkaeufer = new JLabel();
-			jLTextVerkaeufer.setText("Verkäufer");
+			jLTextVerkaeufer.setText("VerkÃ¤ufer");
 			jLTextVerkaeufer.setFont(highlightFont);
 			GridLayout gridLayout = new GridLayout();
 			gridLayout.setColumns(2);
@@ -304,7 +304,7 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener {
 			jLTextVerkaeufer.setFont(normalFont);
 			break;
 		case FELD_VERKAEUFER :
-			if (statuszeile.equals("")) statuszeile = "Geben Sie die Verkäufernummer ein";
+			if (statuszeile.equals("")) statuszeile = "Geben Sie die VerkÃ¤ufernummer ein";
 			jLTextVerkaeufer.setFont(highlightFont);
 			jLTextArtikelpreis.setFont(normalFont);
 			break;
@@ -330,7 +330,7 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener {
 		entercount++;
 		logger.debug("Entercount = " + entercount);
 		if (verkaeuferText.length() == 0 && artikelpreis.length() == 0 && liste.size() > 0) {
-			if (entercount == 1) statuszeile = "Drücken Sie die <ENTER>-Taste erneut, um den Vorgang abzuschließen.";
+			if (entercount == 1) statuszeile = "DrÃ¼cken Sie die <ENTER>-Taste erneut, um den Vorgang abzuschlieÃŸen.";
 			if (entercount == 2) {
 				logger.debug("Eintrag in DB ablegen");
 				liste.removeAllElements();
