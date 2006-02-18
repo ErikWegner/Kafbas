@@ -10,7 +10,7 @@ public class Kassenposten {
 	}
 	
 	public String toString() {
-		return verkaeufer + "    " + formatiereZahl(true, artikelpreis);
+		return "[" + verkaeufer + "]     " + formatiereZahl(true, artikelpreis);
 	}
 	
 		

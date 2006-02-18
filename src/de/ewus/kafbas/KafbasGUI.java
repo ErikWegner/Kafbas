@@ -268,7 +268,7 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener {
 	 */
 	public void keyReleased(KeyEvent arg0) {
 		// TODO Automatisch erstellter Methoden-Stub
-		logger.debug("keyReleased: " + arg0.toString());
+		//logger.debug("keyReleased: " + arg0.toString());
 		statuszeile = "";
 		
 		if (arg0.getKeyChar() >= '0' && arg0.getKeyChar() <= '9' ) verarbeiteZahl(arg0.getKeyChar());
@@ -348,10 +348,10 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener {
 	
 	private void verarbeitePlus() {
 		if (verkaeuferText.length() == 3 && artikelpreis.length() > 0) {
-			logger.debug("Alte Summe " + summe);
-			logger.debug("Artikelpreis " +artikelpreis.toString());
+			logger.info("Alte Summe " + summe);
+			logger.info("Artikelpreis " +artikelpreis.toString());
 			summe += Long.parseLong(artikelpreis.toString());
-			logger.debug("Neue Summe " + summe);
+			logger.info("Neue Summe " + summe);
 			liste.addKassenposten(verkaeuferText.toString(), artikelpreis.toString());
 			aktualisiereListe();
 			resetEingabefelder();

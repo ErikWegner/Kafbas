@@ -7,7 +7,7 @@ public class Kassenpostenliste extends Vector<Kassenposten> {
 	
 	public Vector getListData() {
 		int size = size();
-		Vector v = new Vector(size);
+		Vector<String> v = new Vector<String>(size);
 		for (int i = 0; i < size; i++) v.addElement(elementAt(i).toString());
 		return v;
 	}
