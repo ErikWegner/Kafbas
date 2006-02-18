@@ -24,6 +24,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Vector;
 import javax.swing.JList;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 
 /**
  * @author Erik Wegner
@@ -81,6 +84,7 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener {
 	 */
 	private void initialize() {
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		this.setJMenuBar(getJJMenuBar());
 		this.addWindowListener(this);
 		//this.setSize(442, 319);
 		this.setContentPane(getJContentPane());
@@ -219,7 +223,10 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener {
 	 * @see java.awt.event.WindowListener#windowClosing(java.awt.event.WindowEvent)
 	 */
 	public void windowClosing(WindowEvent arg0) {
-		// TODO Automatisch erstellter Methoden-Stub
+		beenden();
+	}
+
+	private void beenden() {
 		logger.info("Anwendung wird beendet");
 		setVisible(false);
 		stopDB();
@@ -328,6 +335,13 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener {
 	private StringBuffer artikelpreis = new StringBuffer("");
 
 	private JList jList = null;
+	private JMenuBar jJMenuBar = null;
+	private JMenu jMenu = null;
+	private JMenuItem jMenuItemBeenden = null;
+	private JMenuItem jMenuItem1 = null;
+	private JMenu jMenuAustausch = null;
+	private JMenuItem jMenuItem2 = null;
+	private JMenuItem jMenuItem3 = null;
 	
 	private void verarbeiteEnter() {
 		entercount++;
@@ -552,6 +566,109 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener {
 		}
 	}
 
+	/**
+	 * This method initializes jJMenuBar	
+	 * 	
+	 * @return javax.swing.JMenuBar	
+	 */
+	private JMenuBar getJJMenuBar() {
+		if (jJMenuBar == null) {
+			jJMenuBar = new JMenuBar();
+			jJMenuBar.add(getJMenu());
+		}
+		return jJMenuBar;
+	}
+
+	/**
+	 * This method initializes jMenu	
+	 * 	
+	 * @return javax.swing.JMenu	
+	 */
+	private JMenu getJMenu() {
+		if (jMenu == null) {
+			jMenu = new JMenu();
+			jMenu.setText("Programm");
+			jMenu.add(getJMenuAustausch());
+			jMenu.add(getJMenuItem3());
+			jMenu.addSeparator();
+			jMenu.add(getJMenuItemBeenden());
+		}
+		return jMenu;
+	}
+
+	/**
+	 * This method initializes jMenuItem	
+	 * 	
+	 * @return javax.swing.JMenuItem	
+	 */
+	private JMenuItem getJMenuItemBeenden() {
+		if (jMenuItemBeenden == null) {
+			jMenuItemBeenden = new JMenuItem();
+			jMenuItemBeenden.setText("Beenden");
+			jMenuItemBeenden.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					beenden();
+				}
+			});
+		}
+		return jMenuItemBeenden;
+	}
+
+	/**
+	 * This method initializes jMenuItem1	
+	 * 	
+	 * @return javax.swing.JMenuItem	
+	 */
+	private JMenuItem getJMenuItem1() {
+		if (jMenuItem1 == null) {
+			jMenuItem1 = new JMenuItem();
+			jMenuItem1.setText("erzeugen");
+			jMenuItem1.setActionCommand("erzeugen");
+		}
+		return jMenuItem1;
+	}
+
+	/**
+	 * This method initializes jMenuAustausch	
+	 * 	
+	 * @return javax.swing.JMenu	
+	 */
+	private JMenu getJMenuAustausch() {
+		if (jMenuAustausch == null) {
+			jMenuAustausch = new JMenu();
+			jMenuAustausch.setText("Austauschdatei");
+			jMenuAustausch.add(getJMenuItem1());
+			jMenuAustausch.add(getJMenuItem2());
+		}
+		return jMenuAustausch;
+	}
+
+	/**
+	 * This method initializes jMenuItem2	
+	 * 	
+	 * @return javax.swing.JMenuItem	
+	 */
+	private JMenuItem getJMenuItem2() {
+		if (jMenuItem2 == null) {
+			jMenuItem2 = new JMenuItem();
+			jMenuItem2.setText("einlesen");
+		}
+		return jMenuItem2;
+	}
+
+	/**
+	 * This method initializes jMenuItem3	
+	 * 	
+	 * @return javax.swing.JMenuItem	
+	 */
+	private JMenuItem getJMenuItem3() {
+		if (jMenuItem3 == null) {
+			jMenuItem3 = new JMenuItem();
+			jMenuItem3.setText("Auswertung");
+		}
+		return jMenuItem3;
+	}
+
 
 	
-}  //  @jve:decl-index=0:visual-constraint="14,7"
+}  //  @jve:decl-index=0:visual-constraint="86,8"
