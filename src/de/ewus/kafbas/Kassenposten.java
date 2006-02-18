@@ -23,12 +23,16 @@ public class Kassenposten {
 	}
 
 	public static String formatiereZahl(boolean nullen, String s) {
-		int len = s.length();
 		StringBuffer sb = new StringBuffer("");
 		sb.append(s);
 		while (sb.length()<3) sb.insert(0, "0");
 		sb.insert(sb.length()-2, ",");
 		if (nullen) while (sb.length() <= KafbasGUI.LAENGEPREIS) sb.insert(0, "0");
 		return sb.toString();
+	}
+	
+	public String toDBString(String tabelle, String kassenid) {
+		return "INSERT INTO " + tabelle + " (kassenid, verkaeufer, artikelpreis) VALUES (" +
+			kassenid + ",'" + verkaeufer + "'," + artikelpreis + ")";
 	}
 }

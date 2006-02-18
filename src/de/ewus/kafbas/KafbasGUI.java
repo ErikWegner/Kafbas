@@ -17,6 +17,12 @@ import java.awt.GridLayout;
 import javax.swing.JLabel;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Vector;
 import javax.swing.JList;
 
 /**
@@ -27,7 +33,14 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener {
 
 	private static final Logger logger = Logger.getLogger(KafbasGUI.class.getName());
 	private Kassenpostenliste liste = new Kassenpostenliste();
+	private String jdbccon = "jdbc:derby:kafbas/kafbasdb";
+	private Connection conn;
+	public final int numTabellen = 1;
+	/**  Nummer der Tabelle f&uuml;r die eigene Kasse */
+	public final int TAB_Kassenposten = 0;
 	
+	private String tabellen[];
+
 	private JPanel jContentPane = null;
 
 	private JScrollPane jScrollPane = null;
@@ -58,7 +71,7 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener {
 	 */
 	public KafbasGUI() {
 		super();
-		initialize();
+		if (startDB()) initialize();
 	}
 
 	/**
@@ -209,6 +222,7 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener {
 		// TODO Automatisch erstellter Methoden-Stub
 		logger.info("Anwendung wird beendet");
 		setVisible(false);
+		stopDB();
 		dispose();
 	}
 
@@ -322,8 +336,22 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener {
 			if (entercount == 1) statuszeile = "Drücken Sie die <ENTER>-Taste erneut, um den Vorgang abzuschließen.";
 			if (entercount == 2) {
 				logger.debug("Eintrag in DB ablegen");
-				liste.removeAllElements();
-				aktualisiereListe();
+				//FIXME: Kassen-ID einlesen lassen
+				Vector<String> v = liste.dbbefehle(tabellen[TAB_Kassenposten], "1");
+				try {
+					Statement stmt = conn.createStatement();
+					for (int i = 0; i < v.size(); i++) {
+						logger.debug("Statement " + v.elementAt(i));
+						stmt.executeUpdate(v.elementAt(i));
+					}
+					liste.removeAllElements();
+					aktualisiereListe();
+					summe = 0;
+				}
+				catch (java.sql.SQLException e) {
+					logger.fatal("Datensatz nicht in Datenbank schreiben");
+					logger.fatal("SQLException", e);
+				}
 			}
 		} else {
 			logger.debug("Nicht alle Voraussetzungen okay:\n" + 
@@ -373,6 +401,7 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener {
 			verkaeuferText.append(kb.getVerkaeufer());
 			eingabefeld = FELD_ARTIKELPREIS;
 			aktualisiereListe();
+			summe -= Long.parseLong(artikelpreis.toString());
 		} else {
 			if (eingabefeld == FELD_VERKAEUFER || artikelpreis.length() == 0) {
 				if (verkaeuferText.length() > 0) verkaeuferText.setLength(verkaeuferText.length() - 1);
@@ -417,5 +446,112 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener {
 		}
 		return jList;
 	}
+	
+	/**
+	 *  &Ouml;ffnet die Datenbankverbindung
+	 *
+	 * @return    Erfolg
+	 */
+	public boolean startDB() {
+		logger.info("Datenbankverbindung wird initialisiert");
+		boolean ergebnis = false;
+		try {
+			Class.forName("org.apache.derby.jdbc.EmbeddedDriver").newInstance();
+			logger.debug("getConnection(\"" + jdbccon + ";create=true\")");
+			conn = DriverManager.getConnection(jdbccon + ";create=true", "sa", "");
+			ergebnis = true;
+		}
+		catch (InstantiationException e) {
+			logger.fatal("InstantiationException", e);
+		}
+		catch (ClassNotFoundException e) {
+			logger.fatal("ClassNotFoundException", e);
+		}
+		catch (IllegalAccessException e) {
+			logger.fatal("IllegalAccessException", e);
+		}
+		catch (SQLException e) {
+			logger.fatal("SQLException", e);
+		}
+		if (ergebnis)
+			logger.info("Datenbankverbindung erfolgreich initialisiert");
+		else
+			logger.error("Datenbankverbindung konnte nicht initialisiert werden.");
+		if (ergebnis)
+			initDB();
+		return ergebnis;
+	}
+	
+	/**
+	 *  Beendet die Verbindung zur Datenbank und f&auml;hrt die Datenbank herunter.
+	 */
+	public void stopDB() {
+		logger.info("Datenbank wird heruntergefahren");
+		try {
+			conn.close();
+			DriverManager.getConnection(jdbccon + ";shutdown=true");
+			logger.debug("getConnection(\"" + jdbccon + ";shutdown=true\")");
+		}
+		catch (SQLException e) {
+			// SQLException wird immer geworfen, um
+			// Schließen der Verbindung zu bestätigen
+			//logger.warn("SQLException", e);
+		}
+		logger.info("Herunterfahren der Datenbank beendet");
+	}
+
+
+	/**  Die Datenbank wird mit Tabellen und Inhalten gefüllt */
+	private void initDB() {
+		tabellen = new String[numTabellen];
+		boolean[] tabellenVorhanden = new boolean[numTabellen];
+		String tabSQLStatement[] = new String[numTabellen];
+		for (int i = 0; i < numTabellen; i++)
+			tabellenVorhanden[i] = false;
+
+		//Erzeuge Tabelle lokale Kasse
+		tabellen[TAB_Kassenposten] = "kassenposten";
+		tabSQLStatement[TAB_Kassenposten] = "CREATE TABLE " + tabellen[TAB_Kassenposten] + " (" +
+			"kassenid int, " +
+			"verkaeufer varchar(3)," +
+			"artikelpreis int" +
+			")";
+
+		try {
+			String[] names = {"TABLE"};
+			ResultSet rs = conn.getMetaData().getTables(null, "%", "%", names);
+			String tabname = "";
+			while (rs.next()) {
+				tabname = rs.getString("TABLE_NAME");
+				for (int i = 0; i < numTabellen; i++)
+					if (tabname.equalsIgnoreCase(tabellen[i]))
+						tabellenVorhanden[i] = true;
+
+			}
+		}
+		catch (java.sql.SQLException e) {
+			logger.error("Kann SYSTABLES nicht abfragen");
+			logger.error("SQLException", e);
+		}
+		try {
+			Statement stmt = conn.createStatement();
+			for (int i = 0; i < numTabellen; i++) {
+				logger.debug("Tabelle " + tabellen[i]);
+				if (tabellenVorhanden[i])
+					logger.debug(" -> Tabelle " + tabellen[i] + " ist vorhanden.");
+				else {
+					logger.info(tabSQLStatement[i]);
+					stmt.executeUpdate(tabSQLStatement[i]);
+				}
+			}
+
+		}
+		catch (java.sql.SQLException e) {
+			logger.fatal("Kann Basistabellen in der Datenbank nicht erzeugen");
+			logger.fatal("SQLException", e);
+		}
+	}
+
+
 	
 }  //  @jve:decl-index=0:visual-constraint="14,7"

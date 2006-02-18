@@ -16,4 +16,11 @@ public class Kassenpostenliste extends Vector<Kassenposten> {
 		Kassenposten kp = new Kassenposten(verkaeufer, artikelpreis);
 		add(kp);
 	}
+	
+	public Vector<String> dbbefehle(String tabelle, String kassenid) {
+		int size = size();
+		Vector<String> v = new Vector<String>(size);
+		for (int i = 0; i < size; i++) v.addElement(elementAt(i).toDBString(tabelle, kassenid));
+		return v;
+	}
 }
