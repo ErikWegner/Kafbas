@@ -5,30 +5,19 @@ package de.ewus.kafbas;
 
 import org.apache.log4j.Logger;
 import java.awt.event.KeyEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.awt.Event;
 import java.awt.BorderLayout;
 import java.awt.Font;
-import javax.swing.KeyStroke;
 import javax.swing.JPanel;
-import javax.swing.JMenuItem;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import java.awt.GridLayout;
 import javax.swing.JLabel;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
-import java.util.Vector;
-
 import javax.swing.JList;
-import javax.swing.DefaultListModel;
 
 /**
  * @author Erik Wegner
