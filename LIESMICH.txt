@@ -1,0 +1,21 @@
+Kafbas - KassenAbrechnung Für Basar
+
+Programmiert von EWUS - Erik Wegners Useful Software
+http://ewus.de
+
+Dieses Programm benötigt folgende Bibliotheken:
+
+ o Apache Derby 
+ o Apache Log4J
+
+ 
+## Apache Derby ##
+
+http://db.apache.org/derby
+getestet mit Version 10.1
+Im Einsatz befindet sich die Version 10.1.2.1
+
+## Apache Log4J ##
+
+http://logging.apache.org/log4j
+getestet mit Version 1.2.13
