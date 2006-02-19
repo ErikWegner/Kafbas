@@ -207,8 +207,7 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener {
 	 * @see java.awt.event.WindowListener#windowActivated(java.awt.event.WindowEvent)
 	 */
 	public void windowActivated(WindowEvent arg0) {
-		// TODO Automatisch erstellter Methoden-Stub
-		
+		requestFocus();
 	}
 
 	/* (Kein Javadoc)
@@ -665,10 +664,21 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener {
 		if (jMenuItem3 == null) {
 			jMenuItem3 = new JMenuItem();
 			jMenuItem3.setText("Auswertung");
+			jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					zeigeAuswertung();
+				}
+			});
 		}
 		return jMenuItem3;
 	}
 
+	private void zeigeAuswertung() {
+		DlgAuswertung dlg = new DlgAuswertung(this);
+		
+		dlg.setModal(true);
+		dlg.setVisible(true);
+	}
 
 	
 }  //  @jve:decl-index=0:visual-constraint="86,8"
