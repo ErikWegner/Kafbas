@@ -741,7 +741,7 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener {
     }
 
     private void zeigeAuswertung() {
-	DlgAuswertung dlg = new DlgAuswertung(this, new Auswertung(anzahlKassen));
+	DlgAuswertung dlg = new DlgAuswertung(this, new Auswertung(anzahlKassen, conn));
 		
 	dlg.setModal(true);
 	dlg.setVisible(true);
