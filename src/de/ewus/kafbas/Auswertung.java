@@ -36,9 +36,9 @@ public class Auswertung extends AbstractTableModel {
 	/**
 	 * 
 	 */
-	public Auswertung() {
+	public Auswertung(int anzahlKassen) {
 		super();
-		// TODO Automatisch erstellter Konstruktoren-Stub
+		this.anzahlKassen = anzahlKassen;
 	}
 
 	/* (Kein Javadoc)

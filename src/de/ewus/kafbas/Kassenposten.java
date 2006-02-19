@@ -50,7 +50,7 @@ public class Kassenposten {
 		return sb.toString();
 	}
 	
-	public String toDBString(String tabelle, String kassenid) {
+	public String toDBString(String tabelle, int kassenid) {
 		return "INSERT INTO " + tabelle + " (kassenid, verkaeufer, artikelpreis) VALUES (" +
 			kassenid + ",'" + verkaeufer + "'," + artikelpreis + ")";
 	}

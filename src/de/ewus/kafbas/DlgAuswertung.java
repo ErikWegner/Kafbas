@@ -51,7 +51,7 @@ public class DlgAuswertung extends JDialog {
 	 * @return void
 	 */
 	private void initialize() {
-		this.setSize(300, 200);
+		this.setSize(800, 200);
 		this.setTitle("Auswertung");
 		this.setContentPane(getJContentPane());
 	}

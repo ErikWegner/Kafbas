@@ -38,7 +38,7 @@ public class Kafbas {
 		logger.info("Anwendung gestartet");
 		// TODO Automatisch erstellter Methoden-Stub
 		KafbasGUI gui = new KafbasGUI();
-		gui.setVisible(true);
+		if (gui.initOK()) gui.setVisible(true);
 	}
 
 }

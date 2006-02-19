@@ -36,7 +36,7 @@ public class Kassenpostenliste extends Vector<Kassenposten> {
 		add(kp);
 	}
 	
-	public Vector<String> dbbefehle(String tabelle, String kassenid) {
+	public Vector<String> dbbefehle(String tabelle, int kassenid) {
 		int size = size();
 		Vector<String> v = new Vector<String>(size);
 		for (int i = 0; i < size; i++) v.addElement(elementAt(i).toDBString(tabelle, kassenid));
