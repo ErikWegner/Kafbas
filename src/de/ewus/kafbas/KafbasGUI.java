@@ -357,7 +357,7 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener {
 	private JMenuItem jMenuItem1 = null;
 	private JMenu jMenuAustausch = null;
 	private JMenuItem jMenuItem2 = null;
-	private JMenuItem jMenuItem3 = null;
+	private JMenuItem jMenuItemAuswertung = null;
 	
 	private void verarbeiteEnter() {
 		entercount++;
@@ -605,7 +605,7 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener {
 			jMenu = new JMenu();
 			jMenu.setText("Programm");
 			jMenu.add(getJMenuAustausch());
-			jMenu.add(getJMenuItem3());
+			jMenu.add(getJMenuItemAuswertung());
 			jMenu.addSeparator();
 			jMenu.add(getJMenuItemBeenden());
 		}
@@ -677,21 +677,21 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener {
 	 * 	
 	 * @return javax.swing.JMenuItem	
 	 */
-	private JMenuItem getJMenuItem3() {
-		if (jMenuItem3 == null) {
-			jMenuItem3 = new JMenuItem();
-			jMenuItem3.setText("Auswertung");
-			jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+	private JMenuItem getJMenuItemAuswertung() {
+		if (jMenuItemAuswertung == null) {
+			jMenuItemAuswertung = new JMenuItem();
+			jMenuItemAuswertung.setText("Auswertung");
+			jMenuItemAuswertung.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					zeigeAuswertung();
 				}
 			});
 		}
-		return jMenuItem3;
+		return jMenuItemAuswertung;
 	}
 
 	private void zeigeAuswertung() {
-		DlgAuswertung dlg = new DlgAuswertung(this);
+		DlgAuswertung dlg = new DlgAuswertung(this, new Auswertung());
 		
 		dlg.setModal(true);
 		dlg.setVisible(true);

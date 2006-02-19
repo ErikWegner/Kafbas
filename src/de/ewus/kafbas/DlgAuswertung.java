@@ -35,12 +35,13 @@ public class DlgAuswertung extends JDialog {
 	private JPanel jPanel = null;
 	private JButton jButtonDruck = null;
 	private JButton jButtonSchliessen = null;
-
+	private Auswertung datenquelle = null;
 	/**
 	 * This is the default constructor
 	 */
-	public DlgAuswertung(JFrame owner) {
+	public DlgAuswertung(JFrame owner, Auswertung datenquelle) {
 		super(owner);
+		this.datenquelle = datenquelle;
 		initialize();
 	}
 
@@ -90,8 +91,9 @@ public class DlgAuswertung extends JDialog {
 	 */
 	private JTable getJTable() {
 		if (jTable == null) {
-			jTable = new JTable();
+			jTable = new JTable(datenquelle);
 		}
+		jTable.setDefaultRenderer(Double.class, new WaehrungsSpalteRenderer());
 		return jTable;
 	}
 
