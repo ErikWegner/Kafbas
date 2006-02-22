@@ -27,6 +27,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.awt.BorderLayout;
 import java.awt.Font;
+import java.awt.Toolkit;
 import javax.swing.JPanel;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
@@ -500,7 +501,7 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener {
 			
 	if (eingabefeld == FELD_ARTIKELPREIS) {
 			
-	    if (artikelpreis.length() >= LAENGEPREIS ) getToolkit().beep();
+	    if (artikelpreis.length() >= LAENGEPREIS ) Toolkit.getDefaultToolkit().beep();
 	    else 
 		if ((artikelpreis.length() == 0 && zahl != '0' )||
 		    artikelpreis.length() >0) artikelpreis.append(zahl);
@@ -523,6 +524,7 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener {
 	    jList = new JList(liste);
 	    jList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 	    jList.setVisibleRowCount(12);
+	    jList.setFocusable(false);
 	}
 	return jList;
     }

@@ -4,7 +4,16 @@
 	<classpathentry sourcepath="JRE_SRC" kind="var" path="JRE_LIB"/>
 	<classpathentry exported="true" kind="lib" path="lib/derby.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/derbyLocale_de_DE.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/log4j.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/junit.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/log4j.jar"/>
+	<classpathentry kind="lib" path="lib/bsf-2.3.0.jar"/>
+	<classpathentry kind="lib" path="lib/bsh-1.3.0.jar"/>
+	<classpathentry kind="lib" path="lib/itext-1.3.6.jar"/>
+	<classpathentry kind="lib" path="lib/jcommon-1.0.1.jar"/>
+	<classpathentry kind="lib" path="lib/jcommon-xml-1.0.1.jar"/>
+	<classpathentry kind="lib" path="lib/jfreereport-0.8.7.jar"/>
+	<classpathentry kind="lib" path="lib/libfonts-0.1.4.jar"/>
+	<classpathentry kind="lib" path="lib/pixie-0.8.4.jar"/>
+	<classpathentry kind="lib" path="lib/poi-3.0-alpha1-20050704.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
