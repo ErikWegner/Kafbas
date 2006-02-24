@@ -38,6 +38,7 @@ import java.awt.GridLayout;
 import javax.swing.JLabel;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
+import java.sql.BatchUpdateException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -833,7 +834,7 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 		pm.setMillisToDecideToPopup(1000);
 		int cprogress = 0;
 		String datei = properties.getProperty("Austauschpfad", ".")
-				+ File.pathSeparator + dateiPrefix + kassenID
+				+ File.separator + dateiPrefix + kassenID
 				+ "." + dateiSuffix;
 		try {
 			Statement stmt = conn.createStatement(
@@ -875,22 +876,55 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 		logger.debug("DTA einlesen");
 		//Finde alle kasse???.k
 		File verzeichnis = new File(properties.getProperty("Austauschpfad", "."));
-		File datei;
 		//für alle dateien <> eigene_kassen_id
 		String[] kdaliste = verzeichnis.list(this);
 		ProgressMonitor pm = new ProgressMonitor(this,
-				"Austauschdatei erzeugen", null, 0, 100);
+				"Austauschdatei erzeugen", null, 0, kdaliste.length);
 		pm.setProgress(0);
 		pm.setMillisToDecideToPopup(1000);
-		int maxProgress = 0;
-		for (int c=0; c<kdaliste.length; c++) {
-			logger.debug("Einlesen aus: " + kdaliste[c]);
-			if (zahlAusDateinamen(kdaliste[c]) != kassenID) {
-				datei = new File(kdaliste[c]);
-				maxProgress += datei.length();
-			}
 		//	delete where kassenid=kassenid_der_datei
 		//	insert (datensätze aus datei)
+		int kasse;
+		for (int c=0; c<kdaliste.length; c++) {
+			kasse = zahlAusDateinamen(kdaliste[c]);
+			if (kasse != kassenID) {
+				int zeile = 0;
+				try {
+					Statement stmt = conn.createStatement();
+					String anweisung;
+					conn.setAutoCommit(false);
+					anweisung = "DELETE * FROM " + tabellen[TAB_Kassenposten] + " WHERE kassenid = " + kasse;
+					logger.debug("Anweisung: " + anweisung);
+					stmt.addBatch(anweisung);
+					
+					BufferedReader in = new BufferedReader( new FileReader(new File(verzeichnis, kdaliste[c])) );
+					while (in.ready()) {
+						zeile++;
+						String[] teile = in.readLine().split(",");
+
+						anweisung = "INSERT INTO " + tabellen[TAB_Kassenposten] +
+						" (kassenid, verkaeufer, artikelpreis) VALUES (" +
+						kasse + ",'" + teile[0] + "'," + teile[1] + ")";
+						logger.debug("Anweisung: " + anweisung);
+						stmt.addBatch(anweisung);
+					}
+					in.close();
+					stmt.executeBatch();
+				} catch (FileNotFoundException e) {
+					logger.error("FileNotFoundException", e);
+				} catch (IOException e) {
+					logger.error("IOException", e);
+				} catch (ArrayIndexOutOfBoundsException e) {
+					logger.error("In der Datei " + kdaliste[c] + " ist die Zeile" + zeile + "fehlerhaft");
+				} catch (BatchUpdateException e) {
+					try { conn.rollback();} catch (SQLException e2) {logger.error("SQLException",e2);}
+				} catch (SQLException e) {
+					logger.error("SQLException", e);
+				} finally {
+					try { conn.setAutoCommit(true);} catch (SQLException e) {logger.error("SQLException",e);}
+				}
+			}
+			pm.setProgress(c);
 		}
 		pm.close();
 	}

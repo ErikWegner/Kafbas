@@ -7,14 +7,23 @@
 <project basedir="." default="build" name="Kafbas">
     &buildfile;
     <property name="JRE_LIB" value="E:/Programme/Java/jre1.5.0_06/lib/rt.jar"/>
-    <property name="Kafbas.location" value="." />
+    <property name="Kafbas.location" value="E:/entwicklung/eclipse/Kafbas"/>
     <path id="project.classpath">
         <pathelement location="bin"/>
         <pathelement location="${JRE_LIB}"/>
         <pathelement location="${Kafbas.location}/lib/derby.jar"/>
         <pathelement location="${Kafbas.location}/lib/derbyLocale_de_DE.jar"/>
-        <pathelement location="${Kafbas.location}/lib/log4j.jar"/>
         <pathelement location="${Kafbas.location}/lib/junit.jar"/>
+        <pathelement location="${Kafbas.location}/lib/log4j.jar"/>
+        <pathelement location="${Kafbas.location}/lib/bsf-2.3.0.jar"/>
+        <pathelement location="${Kafbas.location}/lib/bsh-1.3.0.jar"/>
+        <pathelement location="${Kafbas.location}/lib/itext-1.3.6.jar"/>
+        <pathelement location="${Kafbas.location}/lib/jcommon-1.0.1.jar"/>
+        <pathelement location="${Kafbas.location}/lib/jcommon-xml-1.0.1.jar"/>
+        <pathelement location="${Kafbas.location}/lib/jfreereport-0.8.7.jar"/>
+        <pathelement location="${Kafbas.location}/lib/libfonts-0.1.4.jar"/>
+        <pathelement location="${Kafbas.location}/lib/pixie-0.8.4.jar"/>
+        <pathelement location="${Kafbas.location}/lib/poi-3.0-alpha1-20050704.jar"/>
     </path>
     <target name="init">
         <mkdir dir="bin"/>
