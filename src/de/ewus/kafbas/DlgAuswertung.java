@@ -180,27 +180,63 @@ public class DlgAuswertung extends JDialog {
 		 final JFreeReport report = new JFreeReport();
 	    report.setName("Kafbasreport");
 
-	    TextFieldElementFactory factory = new TextFieldElementFactory();
+	    TextFieldElementFactory factory;
+	    factory = new TextFieldElementFactory();
 	    factory.setName("T1");
 	    factory.setAbsolutePosition(new Point2D.Float(0, 0));
-	    factory.setMinimumSize(new FloatDimension(150, 12));
-	    factory.setColor(Color.black);
-	    factory.setHorizontalAlignment(ElementAlignment.RIGHT);
-	    factory.setVerticalAlignment(ElementAlignment.MIDDLE);
-	    factory.setNullString("-");
-	    factory.setFieldname("Column1");
-	    report.getItemBand().addElement(factory.createElement());
-
-	    factory = new TextFieldElementFactory();
-	    factory.setName("T2");
-	    factory.setAbsolutePosition(new Point2D.Float(200, 0));
-	    factory.setMinimumSize(new FloatDimension(150, 12));
+	    factory.setMinimumSize(new FloatDimension(45, 12));
 	    factory.setColor(Color.black);
 	    factory.setHorizontalAlignment(ElementAlignment.LEFT);
 	    factory.setVerticalAlignment(ElementAlignment.MIDDLE);
 	    factory.setNullString("-");
-	    factory.setFieldname("Column2");
+	    factory.setFieldname("Verkäufer");
 	    report.getItemBand().addElement(factory.createElement());
+
+	    factory = new TextFieldElementFactory();
+	    factory.setName("T2");
+	    factory.setAbsolutePosition(new Point2D.Float(50, 0));
+	    factory.setMinimumSize(new FloatDimension(60, 12));
+	    factory.setColor(Color.black);
+	    factory.setHorizontalAlignment(ElementAlignment.RIGHT);
+	    factory.setVerticalAlignment(ElementAlignment.MIDDLE);
+	    factory.setNullString("-");
+	    factory.setFieldname("Summe");
+	    report.getItemBand().addElement(factory.createElement());
+
+	    factory = new TextFieldElementFactory();
+	    factory.setName("T3");
+	    factory.setAbsolutePosition(new Point2D.Float(120, 0));
+	    factory.setMinimumSize(new FloatDimension(60, 12));
+	    factory.setColor(Color.black);
+	    factory.setHorizontalAlignment(ElementAlignment.RIGHT);
+	    factory.setVerticalAlignment(ElementAlignment.MIDDLE);
+	    factory.setNullString("-");
+	    factory.setFieldname("20%");
+	    report.getItemBand().addElement(factory.createElement());
+
+	    factory = new TextFieldElementFactory();
+	    factory.setName("T4");
+	    factory.setAbsolutePosition(new Point2D.Float(190, 0));
+	    factory.setMinimumSize(new FloatDimension(60, 12));
+	    factory.setColor(Color.black);
+	    factory.setHorizontalAlignment(ElementAlignment.RIGHT);
+	    factory.setVerticalAlignment(ElementAlignment.MIDDLE);
+	    factory.setNullString("-");
+	    factory.setFieldname("80%");
+	    report.getItemBand().addElement(factory.createElement());
+
+	    factory = new TextFieldElementFactory();
+	    factory.setName("T5");
+	    factory.setAbsolutePosition(new Point2D.Float(260, 0));
+	    factory.setMinimumSize(new FloatDimension(60, 12));
+	    factory.setColor(Color.black);
+	    factory.setHorizontalAlignment(ElementAlignment.RIGHT);
+	    factory.setVerticalAlignment(ElementAlignment.MIDDLE);
+	    factory.setNullString("-");
+	    factory.setFieldname("Kasse1");
+	    report.getItemBand().addElement(factory.createElement());
+
+	    
 	    return report;
 	}
 	
