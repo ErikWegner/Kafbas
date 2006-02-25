@@ -3,10 +3,7 @@
  */
 package de.ewus.kafbas;
 
-import java.awt.geom.Arc2D.Double;
-import java.awt.geom.Arc2D.Float;
 import java.text.NumberFormat;
-import java.util.Currency;
 
 import javax.swing.table.DefaultTableCellRenderer;
 

@@ -19,13 +19,14 @@
  */
 package de.ewus.kafbas;
 
-import org.apache.log4j.Logger;
-import javax.swing.table.AbstractTableModel;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.HashMap;
+
+import javax.swing.table.AbstractTableModel;
+
+import org.apache.log4j.Logger;
 
 /**
  * @author 364

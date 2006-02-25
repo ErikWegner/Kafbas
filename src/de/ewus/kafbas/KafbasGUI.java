@@ -20,39 +20,43 @@
  */
 package de.ewus.kafbas;
 
-import org.apache.log4j.DailyRollingFileAppender;
-import org.apache.log4j.Logger;
-import org.jfree.report.function.strings.SubStringExpression;
-
+import java.awt.BorderLayout;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.awt.BorderLayout;
-import java.awt.Font;
-import java.awt.Toolkit;
-import javax.swing.JPanel;
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
-import java.awt.GridLayout;
-import javax.swing.JLabel;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.FilenameFilter;
+import java.io.IOException;
 import java.sql.BatchUpdateException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Vector;
 import java.util.Properties;
+import java.util.Vector;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JMenuBar;
 import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.ProgressMonitor;
-
-import java.io.*;
+import org.apache.log4j.Logger;
 
 /**
  * @author Erik Wegner
@@ -888,7 +892,7 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 		for (int c=0; c<kdaliste.length; c++) {
 			kasse = zahlAusDateinamen(kdaliste[c]);
 			if (kasse != kassenID) {
-				int zeile = 0;
+				int zeilenzaehler = 0;
 				try {
 					Statement stmt = conn.createStatement();
 					String anweisung;
@@ -896,17 +900,20 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 					anweisung = "DELETE * FROM " + tabellen[TAB_Kassenposten] + " WHERE kassenid = " + kasse;
 					logger.debug("Anweisung: " + anweisung);
 					stmt.addBatch(anweisung);
-					
+					String zeile;
+					String[] teile = null;
 					BufferedReader in = new BufferedReader( new FileReader(new File(verzeichnis, kdaliste[c])) );
 					while (in.ready()) {
-						zeile++;
-						String[] teile = in.readLine().split(",");
-
-						anweisung = "INSERT INTO " + tabellen[TAB_Kassenposten] +
-						" (kassenid, verkaeufer, artikelpreis) VALUES (" +
-						kasse + ",'" + teile[0] + "'," + teile[1] + ")";
-						logger.debug("Anweisung: " + anweisung);
-						stmt.addBatch(anweisung);
+						zeilenzaehler++;
+						zeile = in.readLine();
+						if (zeile.matches("\\d{3},\\d{1," + LAENGEPREIS +"}")) {
+							teile = zeile.split(",");
+							anweisung = "INSERT INTO " + tabellen[TAB_Kassenposten] +
+							" (kassenid, verkaeufer, artikelpreis) VALUES (" +
+							kasse + ",'" + teile[0] + "'," + teile[1] + ")";
+							logger.debug("Anweisung: " + anweisung);
+							stmt.addBatch(anweisung);
+						} else logger.error("In der Datei " + kdaliste[c] + " ist die Zeile" + zeilenzaehler + "fehlerhaft");
 					}
 					in.close();
 					stmt.executeBatch();
@@ -915,7 +922,7 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 				} catch (IOException e) {
 					logger.error("IOException", e);
 				} catch (ArrayIndexOutOfBoundsException e) {
-					logger.error("In der Datei " + kdaliste[c] + " ist die Zeile" + zeile + "fehlerhaft");
+					logger.error("In der Datei " + kdaliste[c] + " ist die Zeile" + zeilenzaehler + "fehlerhaft");
 				} catch (BatchUpdateException e) {
 					try { conn.rollback();} catch (SQLException e2) {logger.error("SQLException",e2);}
 				} catch (SQLException e) {

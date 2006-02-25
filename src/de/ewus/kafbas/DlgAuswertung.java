@@ -21,13 +21,15 @@ package de.ewus.kafbas;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.geom.Rectangle2D;
+import java.awt.geom.Point2D;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+
 import org.apache.log4j.Logger;
 import org.jfree.report.ElementAlignment;
 import org.jfree.report.JFreeReport;
@@ -36,7 +38,6 @@ import org.jfree.report.ReportProcessingException;
 import org.jfree.report.elementfactory.TextFieldElementFactory;
 import org.jfree.report.modules.gui.base.PreviewDialog;
 import org.jfree.ui.FloatDimension;
-import java.awt.geom.Point2D;
 
 
 

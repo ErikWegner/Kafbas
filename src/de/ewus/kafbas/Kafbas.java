@@ -27,8 +27,6 @@ import org.apache.log4j.Logger;
  */
 public class Kafbas {
 
-	private static Logger logger;
-	
 	/**
 	 * @param args
 	 */
@@ -36,7 +34,6 @@ public class Kafbas {
 		org.apache.log4j.xml.DOMConfigurator.configure("log4j.xml");
 		Logger logger = Logger.getRootLogger();
 		logger.info("Anwendung gestartet");
-		// TODO Automatisch erstellter Methoden-Stub
 		KafbasGUI gui = new KafbasGUI();
 		if (gui.initOK()) gui.setVisible(true);
 	}
