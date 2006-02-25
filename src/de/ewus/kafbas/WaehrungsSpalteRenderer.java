@@ -12,6 +12,7 @@ import javax.swing.table.DefaultTableCellRenderer;
  * @author 364
  *
  */
+@SuppressWarnings("serial")
 public class WaehrungsSpalteRenderer extends DefaultTableCellRenderer {
 	
 	NumberFormat formatter;

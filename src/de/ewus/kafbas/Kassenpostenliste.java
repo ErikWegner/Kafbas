@@ -22,6 +22,7 @@ package de.ewus.kafbas;
 import java.util.Vector;
 
 
+@SuppressWarnings("serial")
 public class Kassenpostenliste extends Vector<Kassenposten> {
 	
 	public Vector getListData() {

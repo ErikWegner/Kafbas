@@ -21,9 +21,10 @@
 package de.ewus.kafbas;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
@@ -47,6 +48,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 import java.util.Vector;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -56,12 +58,14 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ProgressMonitor;
+
 import org.apache.log4j.Logger;
 
 /**
  * @author Erik Wegner
  *
  */
+@SuppressWarnings("serial")
 public class KafbasGUI extends JFrame implements WindowListener, KeyListener, FilenameFilter {
 
 	private static final Logger logger = Logger.getLogger(KafbasGUI.class
@@ -196,6 +200,10 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 		this.setContentPane(getJContentPane());
 		this.setTitle("Kafbas - EWUS");
 		this.pack();
+		setIconImage(Toolkit.getDefaultToolkit().getImage( "resource/appicon.png" ));
+		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+		Dimension frame = this.getSize();
+		this.setLocation((screen.width - frame.width) / 2,(screen.height - frame.height) / 2);
 		addKeyListener(this);
 		setFocusable(true);
 		requestFocus();
@@ -474,6 +482,8 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 
 	private JMenuItem jMenuItemAuswertung = null;
 
+	private JMenuItem jMenuItemUeber = null;
+
 	private void verarbeiteEnter() {
 		entercount++;
 		logger.debug("Entercount = " + entercount);
@@ -724,6 +734,7 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 			jMenu.setText("Programm");
 			jMenu.add(getJMenuAustausch());
 			jMenu.add(getJMenuItemAuswertung());
+			jMenu.add(getJMenuItemUeber());
 			jMenu.addSeparator();
 			jMenu.add(getJMenuItemBeenden());
 		}
@@ -945,6 +956,31 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 	 */
 	public boolean accept(File arg0, String arg1) {
 		return arg1.toLowerCase().matches(dateiPrefix + "\\d*\\." + dateiSuffix);
+	}
+
+	/**
+	 * This method initializes jMenuItemUeber	
+	 * 	
+	 * @return javax.swing.JMenuItem	
+	 */
+	private JMenuItem getJMenuItemUeber() {
+		if (jMenuItemUeber == null) {
+			jMenuItemUeber = new JMenuItem();
+			jMenuItemUeber.setText("Über");
+			jMenuItemUeber.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					zeigeDlgUeber();
+				}
+
+			});
+		}
+		return jMenuItemUeber;
+	}
+
+	private void zeigeDlgUeber() {
+		DlgUeber dlg = new DlgUeber(this);
+		dlg.setModal(true);
+		dlg.setVisible(true);
 	}
 
 } //  @jve:decl-index=0:visual-constraint="86,8"

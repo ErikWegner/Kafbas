@@ -32,6 +32,7 @@ import org.apache.log4j.Logger;
  * @author 364
  *
  */
+@SuppressWarnings("serial")
 public class Auswertung extends AbstractTableModel {
 
     private static final Logger logger = Logger.getLogger(KafbasGUI.class.getName());

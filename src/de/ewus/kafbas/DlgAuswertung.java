@@ -21,6 +21,8 @@ package de.ewus.kafbas;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.geom.Point2D;
 
 import javax.swing.JButton;
@@ -41,6 +43,7 @@ import org.jfree.ui.FloatDimension;
 
 
 
+@SuppressWarnings("serial")
 public class DlgAuswertung extends JDialog {
 
     private static final Logger logger = Logger.getLogger(KafbasGUI.class.getName());
@@ -66,9 +69,13 @@ public class DlgAuswertung extends JDialog {
 	 * @return void
 	 */
 	private void initialize() {
+		this.setContentPane(getJContentPane());
 		this.setSize(800, 500);
 		this.setTitle("Auswertung");
-		this.setContentPane(getJContentPane());
+		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+		Dimension frame = this.getSize();
+		this.setLocation((screen.width - frame.width) / 2,(screen.height - frame.height) / 2);
+
 	}
 
 	/**

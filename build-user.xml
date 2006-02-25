@@ -13,4 +13,8 @@
 		</fileset>
 	</jar>
 </target>
-
+<taskdef name="izpack" classpath="${izpack.dir}/lib/compiler.jar" classname="com.izforge.izpack.ant.IzPackTask" />
+<izpack input="kafbas-install.xml"
+	output="${dist.dir}/kafbas-install-${ver}.${rel}.jar"
+	installerType="standard" basedir="${dist.dir}"
+	izPackDir="${izpack.dir}/" />

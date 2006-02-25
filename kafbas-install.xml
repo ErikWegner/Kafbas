@@ -1,0 +1,40 @@
+<installation version="1.0">
+	<info>
+		<appname>Kafbas</appname>
+		<authors>
+			<author name="Erik Wegner" email="e-man@berlios.de" />
+		</authors>
+		<url>http://kafbas.berlios.de/</url>
+		<javaversion>1.5</javaversion>
+	</info>
+	<guiprefs height="600" resizable="yes" width="800"></guiprefs>
+	<locale>
+		<langpack iso3="eng"/>
+		<langpack iso3="fra"/>
+		<langpack iso3="deu"/>
+		<langpack iso3="ita"/>
+		<langpack iso3="jpn"/>
+		<langpack iso3="spa"/>
+	</locale>
+	<resources>
+	</resources>
+	<panels>
+		<panel classname="HelloPanel"/>
+		<panel classname="HTMLInfoPanel"/>
+		<panel classname="LicencePanel"/>
+		<panel classname="PacksPanel"/>
+		<panel classname="TargetPanel"/>
+		<panel classname="InstallPanel"/>
+		<panel classname="SimpleFinishPanel"/>
+	</panels>
+	<packs>
+		<pack name="Core" required="yes">
+			<description>Kafbasdateien</description>
+			<fileset dir="" targetdir="$INSTALL_PATH">
+				<include name="*.txt" />
+				<include name="bin/**/*" />
+				<include name="lib/**/*" />
+			</fileset>
+		</pack>
+	</packs>
+</installation>
