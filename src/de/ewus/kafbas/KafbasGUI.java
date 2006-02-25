@@ -200,7 +200,7 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 		this.setContentPane(getJContentPane());
 		this.setTitle("Kafbas - EWUS");
 		this.pack();
-		setIconImage(Toolkit.getDefaultToolkit().getImage( "resource/appicon.png" ));
+		setIconImage(Toolkit.getDefaultToolkit().getImage( "ressourcen/appicon.png" ));
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		Dimension frame = this.getSize();
 		this.setLocation((screen.width - frame.width) / 2,(screen.height - frame.height) / 2);
