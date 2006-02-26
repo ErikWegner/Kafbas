@@ -73,7 +73,7 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 
 	private Kassenpostenliste liste = new Kassenpostenliste();
 
-	private final String jdbccon = "jdbc:derby:kafbas/kafbasdb";
+	private final String jdbccon = "jdbc:derby:kafbasdb";
 	
 	private final String dateiPrefix = "kasse";
 	

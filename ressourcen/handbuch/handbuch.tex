@@ -1,0 +1,360 @@
+% Dokumentenklasse und Optionen
+\documentclass[
+  final,      % endgültige Fassung
+% draft,      % Vorschau
+  pdftex,     % bei Aufruf von pdflatex
+  idxtotoc,   % Index soll im Inhaltsverzeichnis stehen
+  tocleft,    % Inhaltsverzeichnis nicht einrücken
+  a4paper,    % Papiergröße A4
+  abstracton, % Zusammenfassung aktivieren
+%  titlepage,  % Eine Titelseite erstellen
+% twoside,    % zweiseitiges Layout
+  oneside,    % einseitiges Layout
+  halfparskip,
+  DIVcalc
+]{scrartcl}
+
+%% ==================================
+%% Pakete einbinden
+%% ==================================
+\usepackage{makeidx} % Paket zur Indexerzeugung
+\makeindex % Indexerzeugung aktivieren
+\usepackage[headsepline,footsepline]{scrpage2} % Kopf- und Fußzeile
+\usepackage[latin1]{inputenc} % Encoding der TeX-Dateien: latin1, ansi, utf8
+\usepackage[T1]{fontenc} % Aktiviert EC-Schriftarten
+\usepackage{ae} % Schöne Schriften für PDF-Dateien
+\usepackage{textcomp} % Text-Companion-Symbols (z. B. \texteuro)
+\usepackage{ngerman} % Deutsche Einstellungen
+\usepackage{lmodern}
+%Paket times ist veraltet, siehe
+% http://www.ctan.org/tex-archive/info/german/l2tabu/l2tabu.pdf
+% \usepackage{times} % Times-Schriftart auswählen
+
+%Auswahl der Schriftarten:
+%
+% -- Palatino --
+% Paket mathpazo akzeptiert diese Optionen:
+% leer    lieber nicht benutzen
+% [sc]    Palatino(pplx) mit echten Kapitälchen
+% [osf]   Palatino(pplj) mit echten Kapitälchen und
+%         Oldstyle-Zahlen im Text
+%\usepackage[sc,osf]{mathpazo}
+%\linespread{1.04} % Zeilenabstand passend zur Schriftart erhöen
+%\usepackage[scaled=.95]{helvet}
+%\usepackage{courier}
+%
+% -- Times --
+%\usepackage{mathptmx} % Times
+%\usepackage[scaled=.90]{helvet}
+%\usepackage{courier}
+%
+% -- Zapf Chancery --
+%\usepackage{chancery}
+%\usepackage[scaled=.90]{helvet}
+%\usepackage{courier}
+%
+% -- Bookman --
+%\usepackage{bookman}
+%\usepackage[scaled=.90]{helvet}
+%\usepackage{courier}
+%
+% -- New Century Schoolbook --
+%\usepackage{newcent}
+%\usepackage[scaled=.90]{helvet}
+%\usepackage{courier}
+%
+% -- Charter --
+%\usepackage{charter}
+%\usepackage[scaled=.90]{helvet}
+%\usepackage{courier}
+
+
+\usepackage{marvosym} % Symbole und das Euro-Zeichen \EUR
+\usepackage{eurosym} % Euro-Zeichen nach offz. Vorgaben, Geld durch \EUR{100,00}
+\usepackage{microtype} % Mikrotypographische Anpassungen für pdflatex
+\usepackage{fixltx2e} % korrigiert LaTeX-Fehler
+%\usepackage{mparhack} % wenn verfügbar, korrigiert Fehler bei marginpar-Befehl
+\usepackage[pdftex]{color,graphics,graphicx} % Unterstützung für Grafiken und Farben
+\usepackage{picins} % Text umfließt Grafiken
+%\usepackage{eso-pic} % nur falls Entwurf-Seitenhintergrund
+% \usepackage{url} % nur falls kein hyperref-Paket genutzt wird
+% \usepackage{longtable} % für Tabellen über mehrere Seiten
+\usepackage{fancyvrb} % für verbatiminput
+\usepackage{listings} % Quelltexte formatiert ausgeben
+\usepackage{booktabs} % Tabellenformatierungsbefehle top-/mid-/bottomrule
+\usepackage{keystroke} %Tastaturabbildung
+\usepackage{fixme}
+\usepackage[ngerman]{varioref} % variable Referenzen
+\usepackage[pdftex, draft=false, bookmarks=true, bookmarksnumbered=true, bookmarksopen=true, colorlinks, linkcolor=blue, urlcolor=blue, pdfauthor={Erik Wegner}, pdftitle={Kassenabrechnung für Bassare}, pdfsubject={Handbuch}, pdfpagemode=UseOutlines, pdfstartview=Fit, pdfview=FitBH, a4paper]{hyperref,,attachfile} % PDF-Optionen, PDF-Hyperlinks
+\usepackage[all]{hypcap} %Klicken auf Verweise rückt Ziel in den Mittelpunkt
+
+%veraltete Pakete, die nicht mehr benötigt werden
+%t1enc = ersetzt durch fontenc
+%times = ersetzt durch mathptmx
+%a4 = ersetzt durch Klassenoption a4paper
+
+%% ==================================
+%% Standardbefehle für \newcommand
+%% ==================================
+%%Dieses Kommando trennt die einzelnen Dokumentenabschnitte
+%%wahlweise eine neue Seite
+\newcommand{\ABSCHNITTSTRENNER}{\cleardoublepage }
+
+%%Dieses Kommando setzt einen Backslash,
+%%an dem ohne ein Trennzeichen getrennt werden kann
+\newcommand{\trennBS}{{\tt\char92}" "}
+
+%%Dieses Kommando setzt um den übergebenen Parameter
+%%deutsche doppelte Anführungszeichen
+\newcommand{\gdq}[1]{\glqq{}#1\grqq{}}
+
+%%Ein Platzhalter für Daten, die später ergänzt werden
+\newcommand{\weissnicht}{XX?\-XX?\-XX?\-XX\marginpar{\textcolor{red}{Hier fehlt was!}}}
+
+%%Der Parameter erscheint im Text und im Index
+\newcommand{\textindex}[1]{#1\index{#1}}
+
+\newcommand{\Server}[1]{\texttt{#1}}
+\newcommand{\Pfad}[1]{\lstinline!#1!}
+
+%% ==================================
+%% Standardfarben definieren
+%% ==================================
+\definecolor{gruen}{rgb}{0.0,1.0,0.0}
+\definecolor{gelb}{rgb}{1.0,1.0,0.0}
+\definecolor{weiss}{rgb}{1.0,1.0,1.0}
+\definecolor{schwarz}{rgb}{0.0,0.0,0.0}
+\definecolor{rot}{rgb}{1.0,0.0,0.0}
+
+%% ==================================
+%% Kopf- und Fußzeile definieren
+%% ==================================
+%\manualmark % Manuelle Einstellungen anschalten
+\automark[section]{section}
+\pagestyle{scrheadings}
+%\ihead{} \chead{} \ohead{\headmark}
+%\ifoot{\tiny Erik Wegner, \today} \cfoot{} \ofoot{\pagemark}
+
+% Eine Seite ohne Kopf- und Fußzeile
+\defpagestyle{plainwfl}{
+(0pt,0pt)
+{} {} {}
+(0pt,0pt)
+}{
+(0pt,0pt)
+{} {} {}
+(0pt,0pt)
+}
+\begin{document}
+\attachfilesetup{author={Erik Wegner},mimetype=text/plain,icon=Paperclip,print=true}
+\lstset{basicstyle=\small\ttfamily}
+\bibliographystyle{plain}
+%% ==================================
+%% Befehle für die Titelseite
+%% ==================================
+\subject{Handbuch}
+\title{
+  %\includegraphics[scale=0.333]{zusatz/logo_ksk}\\
+  Kassenabrechnung für Basare
+  %\includegraphics[draft=false,scale=0.333]{zusatz/logo_a}
+}
+\author{Erik Wegner}
+%Datum wird automatisch eingefügt
+\pdfbookmark[1]{Titelseite}{titel}
+\maketitle
+\thispagestyle{plainwfl}
+
+\mbox{}
+
+\vfill
+
+%% ==================================
+%% Die Zusammenfassung
+%% ==================================
+%\begin{abstract}
+%\pdfbookmark[1]{Zusammenfassung}{zus}
+%Dieses Dokument beschreibt die Server zur Bereitstellung der Anwendungen \alleDrei{}.
+%\end{abstract}
+
+%\markleft{}
+%\markright{Inhaltsverzeichnis}
+\ABSCHNITTSTRENNER
+\pdfbookmark[1]{\contentsname}{toc}
+\tableofcontents
+%\listoffigures
+%\listoftables
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ABSCHNITTSTRENNER
+\section{Allgemeines}
+Vielen Dank für Ihr Interesse am Programm Kafbas -- Kassenabrechnung für Basare.
+
+Dieses Programm entstand zur Unterstützung wohltätiger Basare. Alle Artikel werden mit einer Etikette ausgestattet, die eine Zahlenkombination enthält, dabei enthalten die ersten drei Ziffern die Verkäufernummer und die übrigen Ziffern geben den Preis an.
+
+\begin{figure}[]
+	\centering
+		\includegraphics[scale=0.5]{etikett}
+	\caption{Etikettenbeispiel}
+	\label{fig:etikett}
+\end{figure}
+
+Im Beispiel (Abbildung~\vref{fig:etikett}) bietet der Verkäufer mit der Nummer~104 diesen Artikel zum Preis von \EUR{2,30} an.
+
+Vom insgesamten Verkaufsergebnis behält der Veranstalter einen Anteil (20\%) ein, dies kann in der Auswertung des Programms abgelesen werden.
+
+Eine zusätzliche Anforderung bestand darin, dass an verschiedenen Kassen verkauft werden soll, ohne das die Plätze im Netzwerk verbunden sind. Daher implementiert dsa Programm eine Möglichkeit, die Verkaufsdaten zwischen den Kasseplätzen auszutauschen.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ABSCHNITTSTRENNER
+\section{Benutzerhandbuch}
+In diesem Teil der Dokumentation wird die Benutzung der Anwendung erläutert.
+
+\subsection{Ablauf der Eingabe}
+Nach dem Start ist die Anwendung bereit, die Eingaben zum Verkauf entgegenzunehmen. Es stehen zwei Eingabefelder zur Verfügung, die jedoch nicht direkt angewählt werden können, denn die Eingabereihenfolge ist fest vorgeschrieben. Welches Feld gerade die Eingabe entgegennimmt, ist an der vergrößerten Beschriftung ablesbar. Für die Eingabe stehen folgende Tasten zur Verfügung:
+
+\begin{tabular}{@{}lp{8cm}@{}}
+\toprule
+Taste & Bedeutung \\
+\midrule
+\keystroke{0}, \keystroke{1}, \dots, \keystroke{9} & Eingabe der Zahl \\
+\BSpace & Löschen der letzten (eingegebenen) Ziffer \\
+\keystroke{+} & nächsten Artikel für diesen Kunden \\
+\Enter & zweimaliges Drücken beendet den Verkaufsvorgang für den Kunden \\
+\Esc   & die Inhalte der Eingabefelder werden gelöscht \\
+\bottomrule
+\end{tabular}
+
+\minisec{Schritt 1: Eingabe der Verkäufernummer}
+Geben Sie die dreistellige Nummer des Verkäufers ein, anschließend Wechselt die Eingabe zum Feld \gdq{Artikelpreis}. Haben Sie sich vertippt, können Sie die letzte Ziffer mit der Rückschritttaste (Backspace) \BSpace löschen.
+
+\minisec{Schritt 2: Eingabe des Artikelpreises}
+Den Artikelpreis geben Sie als fortlaufende Zahl ohne Punkt oder Komma ein. Bspw.\ drücken Sie die Kombination \keystroke{1}\,\keystroke{2}\,\keystroke{5}\,\keystroke{0}, um den Preis von \EUR{12,50} einzugeben. Auch hier können Sie Ihre Eingaben korrigieren, indem Sie die Rückschritttaste benutzen.
+
+\minisec{Schritt 3: Übergang zum nächsten Artikel}
+Den Abschluss einer Artikeleingabe bildet \keystroke{+}. Die zwei Eingaben Verkäufer und Artikelpreis werden in die Liste übernommen und die neue Endsumme berechnet. Anschließend steht die Anwendung wieder bereit, die Verkäufernummer wie in Schritt 1 entgegenzunehmen. Stellen Sie fest, dass die Eingabe, die bereits in der Liste abgelegt ist, fehlerhaft ist oder gelöscht werden soll, betätigen Sie wieder die Rückschritttaste, um den letzten Listenposten in die aktive Eingabe zu übernehmen. Nun können Sie die Eingabe korrigieren oder mit der Taste \Esc löschen.
+
+\minisec{Schritt 4: Abschluss des Verkaufs}
+Sind alle Artikel des Kunden erfasst, kann die Gesamtsumme abgelesen und kassiert werden. Um die erfassten Verkäufe in die Datenbank zu übernehmen und die Anwendung für den nächsten Kunden einzustellen, betätigen Sie die Taste \Enter zweimal. Nach dem ersten Tastendruck erscheint in der Statuszeile des Fensters der Hinweis, die Taste ein zweites Mal zu drücken. Erst jetzt sind die eben eingegebenen Verkäufe in der Datenbank gespeichert, sodass der Datenaustausch erfolgen oder die Anwendung beendet werden kann.
+
+\subsection{Datenaustausch}
+Der Datenaustausch dient zum Synchronisieren der Kassen, dadurch funktionieren die Kassen ohne ein verbindendes Netzwerk. Der Datenaustausch ist nur für die Auswertung wichtig, d.~h.\,diese Vorgänge können nach dem Schließen der eigentlichen Basarveranstaltung durchgeführt werden.
+
+\emph{Hinweis:} Die Funktionen Datenaustausch erzeugen und einlesen können mehrmals aufgerufen werden.
+
+\subsubsection{Datenaustausch erzeugen}
+Durch Auswahl dieses Punktes wird eine Datei erzeugt, die alle Transaktionen dieser Kasse enthält. Diese Datei wird in einem zentralen Verzeichnis oder auf einem Wechselmedium (Diskette, USB-Stick o.~ä.) abgelegt. \fixme{Verweis auf Installationsanleitung}
+
+\emph{Diese Funktion muss für alle Kassenpunkte ausgeführt werden.}
+
+\subsubsection{Datenaustausch einlesen}
+An jedem Kassepunkt, an dem die Auswertung der Verkäufe und Erlöse erfolgen soll, muss die Funktion \gdq{Datenaustausch einlesen} aufgerufen werden. Dabei werden die Datenaustauschdateien der übrigen Kassen in die Datenbank der benutzten Kasse eingelesen und die Auswertungsfunktion kann aufgerufen werden.
+
+\subsection{Auswertung}
+Beim Aufrufen der Funktion Auswertung öffnet sich ein Dialog, der die Summen der Verkäufe auflistet. In der ersten Spalte steht die Verkäufernummer, die zweite Spalte beinhaltet die Summe aller Artikel dieses Verkäufers. An dritter Stelle steht der Anteil, den der Veranstalter von diesem Verkäufer einbehält. In der vierten Spalte befindet sich der tatsächliche Erlös, den dieser Verkäufer erzielt hat. Die nachfolgenden Spalten enthalten die umgesetzten Summen an den einzelnen Kassen für diesen Verkäufer.
+
+In der letzten Zeile befinden sich die Summen für die Werte der zweiten bis letzten Spalte. Die erste Spalte weist durch die Ausschrift \gdq{Summe} darauf hin, dass dies die Summenzeile ist. In der zweiten Spalte befindet sich die Summe aller Verkäufe, danach die Summe der Anteile für den Veranstalter, d.~h.\ hier steht der gesamte Erlös, den der Veranstalter erhält. In der vierten Spalte ist die Summe aller Erlöse der Verkäufer. Die nachfolgenden Zahlen stellen die Verkaufssummen der einzelnen Kassen dar.
+
+\emph{Hinweis:} Die Spalten für die Kassen enthalten die Summe der verkauften Artikel, der Anteil des Veranstalters ist in diesen Beträgen enthälten.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ABSCHNITTSTRENNER
+\section{Installationsanleitung}
+Im zukünftigen Installationspfad der Anwendung wird während des ersten Starts ein Verzeichnis \path{kafbasdb} angelegt. Darin werden die Datenbankdateien gespeichert. Für dieses Verzeichnis benötigt der Benutzer Schreib- und Ändernrechte.
+
+\subsection{Installation manuell}
+Kopieren Sie die Bibliotheken (siehe Anhang~\vref{sec:ListeDerBibliotheken}) und die Jar-Datei der Anwendung in den Ordner der Anwendung. Zusätzlich werden Programmeinstellungen in einer properies-Datei abgelegt, die Beschreibung finden Sie im Anhang~\vref{sec:propertiesDatei}.
+
+Um die Anwendung zu starten, müssen Sie alle Bibliotheken in den Klassenpfad der Java-VM aufnehmen.
+
+\subsection{per Installer}
+Liegt die Anwendung als \path{kafbas-installer.jar} vor, kann mit einem Doppelklick oder dem Aufruf \lstinline!java -jar kafbas-installer.jar! die Installation grafisch ausgeführt werden. Dabei werden die Einstellungen der properties-Datei abgefragt.
+
+\subsection{Anpassungen nachträglich}
+Änderungen der Programmparameter können in der properties-Datei (siehe Anhang~\vref{sec:propertiesDatei}) vorgenommen werden.
+
+\subsection{Löschen der Datenbank für neue Veranstaltung}
+Wird eine vorhandene Installation für eine neue Veranstaltung weiterbenutzt, so muss das Verzeichnis \path{kafbasdb} auf jedem Kassenplatz gelöscht werden. Beim nächsten Programmstart wird es neu angelegt und die Datenbank kann neu befüllt werden. Achten Sie darauf, die Berechtigungen des \path{kafbasdb}-Ordners ausreichend zu setzen, d.~h.\ Ändern- und Schreibrechte für den späteren Benutzer.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ABSCHNITTSTRENNER
+\section{Kurzübersicht}
+\subsection*{Bedienung Kassefunktionen}
+Geben Sie zuerst die \textbf{dreistellige Verkäufernummer} und anschließend den \textbf{Artikelpreis ohne Komma oder Punkt} ein. Korrigieren Sie Eingaben mit der \BSpace-Taste (Rückschritt).
+
+\minisec{Zahlen}
+\keystroke{0} \keystroke{1} \keystroke{2} \keystroke{3} \keystroke{4} \keystroke{5} \keystroke{6} \keystroke{7} \keystroke{8} \keystroke{9}
+
+\minisec{Plus}
+\keystroke{+} übernimmt Preis in die Liste für die Gesamtsummenberechnung
+
+\minisec{Enter}
+2x \Enter schließt den Einkauf dieses Kunden ab.
+
+\subsection*{Löschen}
+\BSpace löscht die letzte Ziffer der Eingabe. Ist keine Eingabe mehr vorhanden, wird das letzte Element der Liste aus der Liste gelöscht und als neue Werte für die Eingabefelder vorbelegt. Damit lassen sich falsche \keystroke{+}-Eingaben rückgängig machen.
+
+\subsection*{ESC}
+\Esc löscht die Belegung der Eingabefelder und setzt die Verkäufereingabe als nächstes Eingabefeld.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ABSCHNITTSTRENNER
+\appendix
+\section{Liste der Bibliotheken}
+\label{sec:ListeDerBibliotheken}
+\begin{tabular}{@{}lp{6cm}@{}}
+\toprule
+Dateiname, Version & Beschreibung \\
+\midrule
+bsf-2.3.0.jar & \\
+bsh-1.3.0.jar & \\
+derby.jar, 10.1.2 & Datenbanktreiber \\
+derbyLocale\_de\_DE.jar & deutsche Texte für den Datenbanktreiber \\
+(gnujaxp.jar) & nicht verwendet \\
+itext-1.3.6.jar & \\
+jcommon-1.0.1.jar & \\
+jcommon-xml-1.0.1.jar & \\
+jfreereport-0.8.7.jar & Auswertung drucken \\
+libfonts-0.1.4.jar & \\
+log4j.jar, 1.2.13 & Protokollierung der Programmmeldungen \\
+pixie-0.8.4.jar & \\
+poi-3.0-alpha1-20050704.jar & \\
+\bottomrule
+\end{tabular}
+
+\section{Beschreibung der properties-Datei}
+\label{sec:propertiesDatei}
+\begin{lstlisting}[language=XML,breaklines=true]
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<comment>
+		Kafbas - Konfigurationseinstellungen
+	</comment>
+	<entry key="KassenID">3</entry>
+	<entry key="AnzahlKassen">7</entry>
+	<entry key="Austauschpfad">E:\KAFBAS</entry>
+</properties>
+\end{lstlisting}
+
+\minisec{KassenID}
+Die Nummer dieser Kasse. Sie ist für die Veranstaltung einmalig und darf nicht größer sein als der Wert für \gdq{AnzahlKassen}.
+
+\minisec{AnzahlKassen}
+Die Anzahl der vorhandenen Kassen für die Veranstaltung. Dieser Wert dient als Grundlage für die Anzahl der Spalten in der Auswertung.
+
+\minisec{Austauschpfad}
+Der Pfad zu einem Verzeichnis, wo die Austauschdateien abgelegt werden können. Dies kann ein Disketten-, USB- oder Netzwerklaufwerk/""-pfad sein.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ABSCHNITTSTRENNER
+\markright{Index}
+\renewcommand*{\indexpagestyle}{scrheadings}
+\printindex
+
+%\markright{Literaturreferenzen}
+%\renewcommand{\refname}{Literaturreferenzen}
+%\pdfbookmark[1]{Literaturreferenzen}{literatur}
+%\begin{flushleft}
+%\bibliography{handbuch}
+%\end{flushleft}
+
+\end{document}

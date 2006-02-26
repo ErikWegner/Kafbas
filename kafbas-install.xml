@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <installation version="1.0">
 	<info>
 		<appname>Kafbas</appname>
@@ -6,23 +7,28 @@
 		</authors>
 		<url>http://kafbas.berlios.de/</url>
 		<javaversion>1.5</javaversion>
-	</info>
+	</info>^
+	<variables>
+		<variable name="KassenID" value=""/>
+		<variable name="AnzahlKassen" value="7"/>
+	</variables>
 	<guiprefs height="600" resizable="yes" width="800"></guiprefs>
 	<locale>
-		<langpack iso3="eng"/>
-		<langpack iso3="fra"/>
+		<!langpack iso3="eng"/>
+		<!langpack iso3="fra"/>
 		<langpack iso3="deu"/>
-		<langpack iso3="ita"/>
-		<langpack iso3="jpn"/>
-		<langpack iso3="spa"/>
+		<!langpack iso3="ita"/>
+		<!langpack iso3="jpn"/>
+		<!langpack iso3="spa"/>
 	</locale>
 	<resources>
+		<res id="HTMLLicencePanel.licence" src="ressourcen/gpl.html" parse="no"/>
 	</resources>
 	<panels>
 		<panel classname="HelloPanel"/>
-		<panel classname="HTMLInfoPanel"/>
-		<panel classname="LicencePanel"/>
-		<panel classname="PacksPanel"/>
+		<!panel classname="HTMLInfoPanel"/>
+		<panel classname="HTMLLicencePanel"/>
+		<!panel classname="PacksPanel"/>
 		<panel classname="TargetPanel"/>
 		<panel classname="InstallPanel"/>
 		<panel classname="SimpleFinishPanel"/>

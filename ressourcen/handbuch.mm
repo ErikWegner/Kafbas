@@ -1,0 +1,27 @@
+<map version="0.8.0">
+<!-- To view this file, download free mind mapping software FreeMind from http://freemind.sourceforge.net -->
+<node CREATED="1140963785593" ID="Freemind_Link_336738873" MODIFIED="1140963794875" TEXT="Handbuch">
+<node CREATED="1140963801593" ID="_" MODIFIED="1140963804312" POSITION="right" TEXT="Benutzer">
+<node CREATED="1140963994281" ID="Freemind_Link_850072669" MODIFIED="1140963999203" TEXT="Ablauf der Eingabe"/>
+<node CREATED="1140964001703" ID="Freemind_Link_1259969623" MODIFIED="1140964005171" TEXT="Datenaustausch"/>
+<node CREATED="1140964007718" ID="Freemind_Link_670849161" MODIFIED="1140964010390" TEXT="Auswertung"/>
+</node>
+<node CREATED="1140963805687" ID="Freemind_Link_1610707968" MODIFIED="1140963811234" POSITION="right" TEXT="Installationsanleitung">
+<node CREATED="1140963920406" ID="Freemind_Link_913940581" MODIFIED="1140963922796" TEXT="per Hand"/>
+<node CREATED="1140963924921" ID="Freemind_Link_1406322018" MODIFIED="1140963934296" TEXT="per Installer"/>
+<node CREATED="1140963936500" ID="Freemind_Link_1684519951" MODIFIED="1140963941687" TEXT="Anpassungen nachtr&#xe4;glich"/>
+<node CREATED="1140963943984" ID="Freemind_Link_553329284" MODIFIED="1140963952328" TEXT="L&#xf6;schen der DB f&#xfc;r neue Veranstaltung"/>
+</node>
+<node CREATED="1140963816515" ID="Freemind_Link_1470120814" MODIFIED="1140963819765" POSITION="right" TEXT="Kurz&#xfc;bersicht">
+<node CREATED="1140963821281" ID="Freemind_Link_614498473" MODIFIED="1140963838046" TEXT="Bedienung Kassefunktionen">
+<node CREATED="1140963839593" ID="Freemind_Link_199509920" MODIFIED="1140963843890" TEXT="Einfache Eingabe">
+<node CREATED="1140963884062" ID="Freemind_Link_582157190" MODIFIED="1140963886406" TEXT="Zahlen"/>
+<node CREATED="1140963886890" ID="Freemind_Link_1797458248" MODIFIED="1140963898343" TEXT="Plus"/>
+<node CREATED="1140963887937" ID="Freemind_Link_926735921" MODIFIED="1140963903359" TEXT="Enter"/>
+</node>
+<node CREATED="1140963844281" ID="Freemind_Link_1871140299" MODIFIED="1140963861109" TEXT="L&#xf6;schen"/>
+<node CREATED="1140963865781" ID="Freemind_Link_1110712523" MODIFIED="1140963878937" TEXT="ESC"/>
+</node>
+</node>
+</node>
+</map>
