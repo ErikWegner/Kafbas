@@ -6,11 +6,9 @@
 -->
 <project basedir="." default="build" name="Kafbas">
     &buildfile;
-    <property name="JRE_LIB" value="E:/Programme/Java/jre1.5.0_06/lib/rt.jar"/>
-    <property name="Kafbas.location" value="E:/entwicklung/eclipse/Kafbas"/>
+    <property name="Kafbas.location" value="${basedir}"/>
     <path id="project.classpath">
         <pathelement location="bin"/>
-        <pathelement location="${JRE_LIB}"/>
         <pathelement location="${Kafbas.location}/lib/derby.jar"/>
         <pathelement location="${Kafbas.location}/lib/derbyLocale_de_DE.jar"/>
         <pathelement location="${Kafbas.location}/lib/junit.jar"/>

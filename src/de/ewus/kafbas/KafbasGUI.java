@@ -834,8 +834,11 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 	}
 
 	private void zeigeAuswertung() {
-		DlgAuswertung dlg = new DlgAuswertung(this, new Auswertung(
-				anzahlKassen, conn));
+		DlgAuswertung dlg = 
+		    new DlgAuswertung(
+			this, 
+			new Auswertung(anzahlKassen, conn), 
+			properties.getProperty("Austauschpfad", "."));
 
 		dlg.setModal(true);
 		dlg.setVisible(true);

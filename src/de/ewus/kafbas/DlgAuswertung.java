@@ -24,6 +24,15 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.geom.Point2D;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.FilenameFilter;
+import java.io.IOException;
+import java.util.Date;
+import java.text.DateFormat;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -31,6 +40,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JOptionPane;
 
 import org.apache.log4j.Logger;
 import org.jfree.report.ElementAlignment;
@@ -46,7 +56,7 @@ import org.jfree.ui.FloatDimension;
 @SuppressWarnings("serial")
 public class DlgAuswertung extends JDialog {
 
-    private static final Logger logger = Logger.getLogger(KafbasGUI.class.getName());
+    private static final Logger logger = Logger.getLogger(DlgAuswertung.class.getName());
     private JPanel jContentPane = null;
 	private JScrollPane jScrollPane = null;
 	private JTable jTable = null;
@@ -54,12 +64,14 @@ public class DlgAuswertung extends JDialog {
 	private JButton jButtonDruck = null;
 	private JButton jButtonSchliessen = null;
 	private Auswertung datenquelle = null;
+    private String austauschpfad = null;
 	/**
 	 * This is the default constructor
 	 */
-	public DlgAuswertung(JFrame owner, Auswertung datenquelle) {
+	public DlgAuswertung(JFrame owner, Auswertung datenquelle, String austauschpfad) {
 		super(owner);
 		this.datenquelle = datenquelle;
+		this.austauschpfad = austauschpfad;
 		initialize();
 	}
 
@@ -141,10 +153,11 @@ public class DlgAuswertung extends JDialog {
 	private JButton getJButtonDruck() {
 		if (jButtonDruck == null) {
 			jButtonDruck = new JButton();
-			jButtonDruck.setText("Drucken");
+			jButtonDruck.setText("Export HTML");
 			jButtonDruck.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					drucken();
+				    //drucken();
+				    exportHTML();
 				}
 			});
 		}
@@ -166,6 +179,78 @@ public class DlgAuswertung extends JDialog {
 		{ logger.warn(e); }
 	}
 	
+    private void exportHTML() {
+	logger.debug("exportHTML");
+	String datei = austauschpfad + File.separator + "auswertung.html";
+	try {
+	    String export;
+	    logger.info("Austauschdatei=" + datei);
+	    BufferedWriter bw = new BufferedWriter(
+		new FileWriter(
+		    new File(datei)));
+	    //schreide Daten
+	    bw.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+	    bw.write("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" \"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">\n");
+	    bw.write("<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" >\n");
+	    bw.write(" <head>\n");
+	    bw.write("  <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n");
+	    bw.write("  <meta http-equiv=\"Content-Script-Type\" content=\"text/javascript\" />\n");
+	    bw.write("  <style type=\"text/css\">\n");
+	    bw.write("   .tdr {text-align:right;}\n");
+	    bw.write("   .tdsr {text-align:right;font-weight:bold;}\n");
+	    bw.write("   .tds  {font-weight:bold;}\n");
+	    bw.write("  </style>\n");
+	    bw.write("  <title>Auswertung Kafbas</title>\n");
+	    bw.write(" </head>\n");
+	    bw.write(" <body>\n");
+	    bw.write("  <h1>Abrechnung " + heute() + "</h1>");
+	    bw.write("  <table border=\"1\">\n");
+	    int spalten = datenquelle.getColumnCount();
+	    int zeilen = datenquelle.getRowCount();
+	    String zellinhalt = null;
+	    WaehrungsSpalteRenderer renderer = new WaehrungsSpalteRenderer();
+	    //Überschrift
+	    bw.write("   <tr>\n");
+	    for (int c1=0; c1<spalten; c1++)
+		bw.write("    <th>" + datenquelle.getColumnName(c1) + "</th>\n");
+	    bw.write("   </tr>\n");
+	    //Datenzeilen
+	    for (int c_row = 0; c_row < zeilen-1; c_row++) {
+		bw.write("   <tr>\n");
+		for (int c_col=0; c_col < spalten; c_col++) {
+		    zellinhalt = datenquelle.getValueAt(c_row, c_col).toString();
+		    if (c_col > 0) renderer.setValue(Double.parseDouble(zellinhalt));
+		    bw.write("    <td" + 
+			     ( c_col > 0 ? " class=\"tdr\"" : "") + ">" + 
+			     (c_col == 0 ? zellinhalt : renderer.getText()) + 
+			     "</td>\n");
+		}
+		bw.write("   </tr>\n");
+	    }
+	    //Summenzeile
+	    bw.write("   <tr>\n");
+	    for (int c_col=0; c_col < spalten; c_col++) {
+		zellinhalt = datenquelle.getValueAt(zeilen-1, c_col).toString();
+		if (c_col > 0) renderer.setValue(Double.parseDouble(zellinhalt));
+		bw.write("    <td class=\"" + 
+			 ( c_col > 0 ? "tdsr" : "tds") + "\">" +
+			 (c_col == 0 ? zellinhalt : renderer.getText()) + 
+			 "</td>\n");
+	    }
+	    bw.write("   </tr>\n");
+	    bw.write("   </tr>\n");
+	    bw.write("  </table>\n");
+	    bw.write(" </body>\n");
+	    bw.write("</html>");
+	    bw.close();
+	    JOptionPane.showMessageDialog(this, "Ausgabe in Datei " + datei + " erfolgreich.");
+	} catch (FileNotFoundException e) {
+	    logger.error("FileNotFoundException", e);
+	} catch (IOException e) {
+	    logger.error("IOException", e);
+	}
+    }
+
 	/**
 	 * This method initializes jButtonSchliessen	
 	 * 	
@@ -248,4 +333,11 @@ public class DlgAuswertung extends JDialog {
 	    return report;
 	}
 	
+    private String heute() {
+	DateFormat dateFormatter;
+
+	dateFormatter = DateFormat.getInstance();
+	return dateFormatter.format(new Date());
+    }
+
 }

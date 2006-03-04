@@ -3,6 +3,7 @@
 </target>
 <target name="release" description="Erstellt eine tagesaktuelle JAR-Datei" depends="build">
 	<tstamp />
+	<mkdir dir="dist" />
     <jar destfile="dist/kafbas.jar" >
 		<manifest>
 			<attribute name="Build-By" value="Erik Wegner"/>
@@ -15,6 +16,14 @@
 			<include name="appicon.png"/>
 		</fileset>
 	</jar>
+</target>
+<target name="runrelease" description="Führe die Release-Jar-Datei aus" depends="release">
+  <java classname="de.ewus.kafbas.Kafbas" fork="true">
+    <classpath refid="project.classpath"/>
+    <classpath>
+      <pathelement location="dist/kafbas.jar" />
+    </classpath>
+  </java>
 </target>
 <!--
 <taskdef name="izpack" classpath="${izpack.dir}/lib/compiler.jar" classname="com.izforge.izpack.ant.IzPackTask" />
