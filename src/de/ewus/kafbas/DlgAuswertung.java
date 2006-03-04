@@ -196,6 +196,7 @@ public class DlgAuswertung extends JDialog {
 	    bw.write("  <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n");
 	    bw.write("  <meta http-equiv=\"Content-Script-Type\" content=\"text/javascript\" />\n");
 	    bw.write("  <style type=\"text/css\">\n");
+	    bw.write("   h1 {font-family:sans-serif;}\n");
 	    bw.write("   .tdr {text-align:right;}\n");
 	    bw.write("   .tdsr {text-align:right;font-weight:bold;}\n");
 	    bw.write("   .tds  {font-weight:bold;}\n");
@@ -203,45 +204,57 @@ public class DlgAuswertung extends JDialog {
 	    bw.write("  <title>Auswertung Kafbas</title>\n");
 	    bw.write(" </head>\n");
 	    bw.write(" <body>\n");
-	    bw.write("  <h1>Abrechnung " + heute() + "</h1>");
+	    bw.write("  <h1>Abrechnung " + heute() + "</h1>\n");
 	    bw.write("  <table border=\"1\">\n");
 	    int spalten = datenquelle.getColumnCount();
 	    int zeilen = datenquelle.getRowCount();
 	    String zellinhalt = null;
 	    WaehrungsSpalteRenderer renderer = new WaehrungsSpalteRenderer();
 	    //Überschrift
-	    bw.write("   <tr>\n");
+	    bw.write("   <thead>\n");
+	    bw.write("    <tr>\n");
 	    for (int c1=0; c1<spalten; c1++)
-		bw.write("    <th>" + datenquelle.getColumnName(c1) + "</th>\n");
-	    bw.write("   </tr>\n");
-	    //Datenzeilen
-	    for (int c_row = 0; c_row < zeilen-1; c_row++) {
-		bw.write("   <tr>\n");
-		for (int c_col=0; c_col < spalten; c_col++) {
-		    zellinhalt = datenquelle.getValueAt(c_row, c_col).toString();
-		    if (c_col > 0) renderer.setValue(Double.parseDouble(zellinhalt));
-		    bw.write("    <td" + 
-			     ( c_col > 0 ? " class=\"tdr\"" : "") + ">" + 
-			     (c_col == 0 ? zellinhalt : renderer.getText()) + 
-			     "</td>\n");
-		}
-		bw.write("   </tr>\n");
-	    }
+		bw.write("     <th>" + datenquelle.getColumnName(c1) + "</th>\n");
+	    bw.write("    </tr>\n");
+	    bw.write("   </thead>\n");
 	    //Summenzeile
-	    bw.write("   <tr>\n");
+	    bw.write("   <tfoot>\n");
+	    bw.write("    <tr>\n");
 	    for (int c_col=0; c_col < spalten; c_col++) {
 		zellinhalt = datenquelle.getValueAt(zeilen-1, c_col).toString();
 		if (c_col > 0) renderer.setValue(Double.parseDouble(zellinhalt));
-		bw.write("    <td class=\"" + 
+		bw.write("     <td class=\"" + 
 			 ( c_col > 0 ? "tdsr" : "tds") + "\">" +
 			 (c_col == 0 ? zellinhalt : renderer.getText()) + 
 			 "</td>\n");
 	    }
-	    bw.write("   </tr>\n");
-	    bw.write("   </tr>\n");
+	    bw.write("    </tr>\n");
+	    bw.write("   </tfoot>\n");
+	    //Datenzeilen
+	    bw.write("   <tbody>\n");
+	    for (int c_row = 0; c_row < zeilen-1; c_row++) {
+		bw.write("    <tr>\n");
+		for (int c_col=0; c_col < spalten; c_col++) {
+		    zellinhalt = datenquelle.getValueAt(c_row, c_col).toString();
+		    if (c_col > 0) renderer.setValue(Double.parseDouble(zellinhalt));
+		    bw.write("     <td" + 
+			     ( c_col > 0 ? " class=\"tdr\"" : "") + ">" + 
+			     (c_col == 0 ? zellinhalt : renderer.getText()) + 
+			     "</td>\n");
+		}
+		bw.write("    </tr>\n");
+	    }
+	    bw.write("   </tbody>\n");
 	    bw.write("  </table>\n");
+	    bw.write("  <p>\n"+
+		     "   <a href=\"http://www.validome.org/referer\">" +
+		     "<img style=\"border:none\"\n" + 
+		     "     src=\"http://www.validome.org/images/set3/valid_xhtml_1_1.gif\"\n" + 
+		     "     alt=\"Valid XHTML 1.1\" width=\"80\" height=\"15\" />" +
+		     "</a>\n" + 
+		     "  </p>\n");
 	    bw.write(" </body>\n");
-	    bw.write("</html>");
+	    bw.write("</html>\n");
 	    bw.close();
 	    JOptionPane.showMessageDialog(this, "Ausgabe in Datei " + datei + " erfolgreich.");
 	} catch (FileNotFoundException e) {
