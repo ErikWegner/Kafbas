@@ -1,9 +1,9 @@
+<property name="izpack.dir" value="${basedir}/lib/IzPack"/>
 <target name="help">
     <echo message="Please run: $ ant -v -projecthelp"/>
 </target>
 <target name="release" description="Erstellt eine tagesaktuelle JAR-Datei" depends="build">
 	<tstamp />
-	<mkdir dir="dist" />
     <jar destfile="dist/kafbas.jar" >
 		<manifest>
 			<attribute name="Build-By" value="Erik Wegner"/>
@@ -25,10 +25,10 @@
     </classpath>
   </java>
 </target>
-<!--
-<taskdef name="izpack" classpath="${izpack.dir}/lib/compiler.jar" classname="com.izforge.izpack.ant.IzPackTask" />
-<izpack input="kafbas-install.xml"
-	output="${dist.dir}/kafbas-install-${ver}.${rel}.jar"
-	installerType="standard" basedir="${dist.dir}"
-	izPackDir="${izpack.dir}/" />
--->
+<taskdef name="izpack" classpath="${izpack.dir}/compiler.jar" classname="com.izforge.izpack.ant.IzPackTask" />
+<target name="installer" description="Erstelle einen Installer" depends="release">
+	<izpack input="kafbas-install.xml"
+		output="dist/kafbas-installer.jar"
+		installerType="standard" basedir="${basedir}"
+		izPackDir="${izpack.dir}" />
+</target>

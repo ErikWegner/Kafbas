@@ -2,45 +2,55 @@
 <installation version="1.0">
 	<info>
 		<appname>Kafbas</appname>
+		<appversion>1.0</appversion>
 		<authors>
 			<author name="Erik Wegner" email="e-man@berlios.de" />
 		</authors>
 		<url>http://kafbas.berlios.de/</url>
 		<javaversion>1.5</javaversion>
-	</info>^
+	</info>
 	<variables>
 		<variable name="KassenID" value=""/>
 		<variable name="AnzahlKassen" value="7"/>
 	</variables>
 	<guiprefs height="600" resizable="yes" width="800"></guiprefs>
 	<locale>
-		<!langpack iso3="eng"/>
-		<!langpack iso3="fra"/>
 		<langpack iso3="deu"/>
-		<!langpack iso3="ita"/>
-		<!langpack iso3="jpn"/>
-		<!langpack iso3="spa"/>
 	</locale>
 	<resources>
 		<res id="HTMLLicencePanel.licence" src="ressourcen/gpl.html" parse="no"/>
+		<res id="userInputSpec.xml" src="ressourcen/userInputSpec.xml" parse="no"/>
 	</resources>
 	<panels>
 		<panel classname="HelloPanel"/>
-		<!panel classname="HTMLInfoPanel"/>
 		<panel classname="HTMLLicencePanel"/>
-		<!panel classname="PacksPanel"/>
+		<panel classname="PacksPanel"/>
 		<panel classname="TargetPanel"/>
+		<panel classname="UserInputPanel"/>
 		<panel classname="InstallPanel"/>
 		<panel classname="SimpleFinishPanel"/>
 	</panels>
 	<packs>
-		<pack name="Core" required="yes">
-			<description>Kafbasdateien</description>
+		<pack name="Anwendung" required="yes">
+			<description>Dateien zur Ausführung von Kafbas</description>
 			<fileset dir="" targetdir="$INSTALL_PATH">
-				<include name="*.txt" />
-				<include name="bin/**/*" />
-				<include name="lib/**/*" />
+				<include name="gpl.txt" />
+				<include name="LIESMICH.txt" />
+				<include name="lib/log4j.jar" />
+				<include name="lib/derby.jar" />
+				<include name="lib/derbyLocale_de_DE.jar" />
+				<include name="log4j.xml" />
 			</fileset>
+			<file src="dist/kafbas.jar" targetdir="$INSTALL_PATH" />
+			<singlefile src="dist/dist.kafbas.properties" target="$INSTALL_PATH/kafbas.properties" override="asktrue"/>
+			<singlefile src="dist/run.cmd" target="$INSTALL_PATH/run.cmd" />
+			<file src="ressourcen/appicon.ico" targetdir="$INSTALL_PATH" />
+			<file src="ressourcen/appicon.png" targetdir="$INSTALL_PATH" />
+			<parsable targetfile="$INSTALL_PATH/kafbas.properties" type="plain" />
+		</pack>
+		<pack name="Handbuch" required="no" preselected="yes">
+			<description>Beschreibung der Anwendung</description>
+			<file src="ressourcen/handbuch/handbuch.pdf" targetdir="$INSTALL_PATH" />
 		</pack>
 	</packs>
 </installation>

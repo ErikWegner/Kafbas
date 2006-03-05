@@ -1,0 +1,25 @@
+<userInput>
+	<panel order="0">
+		<field type="rule" variable="varKassenID">
+			<description align="left" txt="Eindeutige Nummer dieser Kasse" id="description.KassenID" />
+			<spec txt="KassenID:" 
+				layout="N:4:4" 
+				resultFormat="plainString"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator"
+            	txt="Die KassenID muss eingeben werden!" />
+		</field>
+		<field type="rule" variable="varAnzahlKassen">
+			<description align="left" txt="Anzahl der Kassen" id="description.AnzahlKassen" />
+			<spec txt="Anzahl:" 
+				layout="N:4:4" 
+				resultFormat="plainString"
+				/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator"
+            	txt="Die Anzahl der Kassen muss eingeben werden!" />
+		</field>
+		<field type="search" variable="varAustauschpfad">
+			<description align="left" txt="Pfad für Datenaustausch" id="description.austauschpfad"/>
+			<spec txt="Austauschpfad:" type="directory" result="directory" />
+		</field>
+	</panel>
+</userInput>
