@@ -57,6 +57,7 @@ import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ProgressMonitor;
@@ -641,9 +642,11 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 		}
 		if (ergebnis)
 			logger.info("Datenbankverbindung erfolgreich initialisiert");
-		else
+		else {
 			logger
 					.error("Datenbankverbindung konnte nicht initialisiert werden.");
+			JOptionPane.showMessageDialog(this, "Datenbankverbindung konnte nicht aufgebaut werden.\n\nÜberprüfen Sie:\n- ob das Programm bereits aktiv ist und\n- ob Sie im Ordner \"kafbasdb\" schreiben dürfen.", "Fehler", JOptionPane.ERROR_MESSAGE);
+		}
 		if (ergebnis)
 			initDB();
 		return ergebnis;
