@@ -4,7 +4,7 @@
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
 
   <appender name="MeinAppender" class="org.apache.log4j.FileAppender">
-    <param name="file" value="bookbase.log" />
+    <param name="file" value="kafbas.log" />
     <param name="Append" value="true" />
     <layout class="org.apache.log4j.PatternLayout">
       <param name="ConversionPattern" value="%d{ISO8601} %-5p [%t] %c: %m%n" />

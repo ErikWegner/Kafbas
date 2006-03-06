@@ -20,36 +20,32 @@
 package de.ewus.kafbas;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.awt.geom.Point2D;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.FilenameFilter;
 import java.io.IOException;
-import java.util.Date;
 import java.text.DateFormat;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JOptionPane;
 
 import org.apache.log4j.Logger;
-import org.jfree.report.ElementAlignment;
-import org.jfree.report.JFreeReport;
-import org.jfree.report.JFreeReportBoot;
-import org.jfree.report.ReportProcessingException;
-import org.jfree.report.elementfactory.TextFieldElementFactory;
-import org.jfree.report.modules.gui.base.PreviewDialog;
-import org.jfree.ui.FloatDimension;
+//import org.jfree.report.ElementAlignment;
+//import org.jfree.report.JFreeReport;
+//import org.jfree.report.JFreeReportBoot;
+//import org.jfree.report.ReportProcessingException;
+//import org.jfree.report.elementfactory.TextFieldElementFactory;
+//import org.jfree.report.modules.gui.base.PreviewDialog;
+//import org.jfree.ui.FloatDimension;
 
 
 
@@ -164,26 +160,25 @@ public class DlgAuswertung extends JDialog {
 		return jButtonDruck;
 	}
 
-	private void drucken() {
-		JFreeReportBoot.getInstance().start();
-		JFreeReport report = createReportDefinition();
-		report.setData(datenquelle);
-		try {
-			PreviewDialog preview = new PreviewDialog(report);
-			preview.pack();
-			preview.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-			preview.setModal(true);
-			preview.setVisible(true);
-		}
-		catch (ReportProcessingException e)
-		{ logger.warn(e); }
-	}
+//	private void drucken() {
+//		JFreeReportBoot.getInstance().start();
+//		JFreeReport report = createReportDefinition();
+//		report.setData(datenquelle);
+//		try {
+//			PreviewDialog preview = new PreviewDialog(report);
+//			preview.pack();
+//			preview.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+//			preview.setModal(true);
+//			preview.setVisible(true);
+//		}
+//		catch (ReportProcessingException e)
+//		{ logger.warn(e); }
+//	}
 	
     private void exportHTML() {
 	logger.debug("exportHTML");
 	String datei = austauschpfad + File.separator + "auswertung.html";
 	try {
-	    String export;
 	    logger.info("Austauschdatei=" + datei);
 	    BufferedWriter bw = new BufferedWriter(
 		new FileWriter(
@@ -282,69 +277,69 @@ public class DlgAuswertung extends JDialog {
 		return jButtonSchliessen;
 	}
 
-	private JFreeReport createReportDefinition() {
-		 final JFreeReport report = new JFreeReport();
-	    report.setName("Kafbasreport");
-
-	    TextFieldElementFactory factory;
-	    factory = new TextFieldElementFactory();
-	    factory.setName("T1");
-	    factory.setAbsolutePosition(new Point2D.Float(0, 0));
-	    factory.setMinimumSize(new FloatDimension(45, 12));
-	    factory.setColor(Color.black);
-	    factory.setHorizontalAlignment(ElementAlignment.LEFT);
-	    factory.setVerticalAlignment(ElementAlignment.MIDDLE);
-	    factory.setNullString("-");
-	    factory.setFieldname("Verkäufer");
-	    report.getItemBand().addElement(factory.createElement());
-
-	    factory = new TextFieldElementFactory();
-	    factory.setName("T2");
-	    factory.setAbsolutePosition(new Point2D.Float(50, 0));
-	    factory.setMinimumSize(new FloatDimension(60, 12));
-	    factory.setColor(Color.black);
-	    factory.setHorizontalAlignment(ElementAlignment.RIGHT);
-	    factory.setVerticalAlignment(ElementAlignment.MIDDLE);
-	    factory.setNullString("-");
-	    factory.setFieldname("Summe");
-	    report.getItemBand().addElement(factory.createElement());
-
-	    factory = new TextFieldElementFactory();
-	    factory.setName("T3");
-	    factory.setAbsolutePosition(new Point2D.Float(120, 0));
-	    factory.setMinimumSize(new FloatDimension(60, 12));
-	    factory.setColor(Color.black);
-	    factory.setHorizontalAlignment(ElementAlignment.RIGHT);
-	    factory.setVerticalAlignment(ElementAlignment.MIDDLE);
-	    factory.setNullString("-");
-	    factory.setFieldname("20%");
-	    report.getItemBand().addElement(factory.createElement());
-
-	    factory = new TextFieldElementFactory();
-	    factory.setName("T4");
-	    factory.setAbsolutePosition(new Point2D.Float(190, 0));
-	    factory.setMinimumSize(new FloatDimension(60, 12));
-	    factory.setColor(Color.black);
-	    factory.setHorizontalAlignment(ElementAlignment.RIGHT);
-	    factory.setVerticalAlignment(ElementAlignment.MIDDLE);
-	    factory.setNullString("-");
-	    factory.setFieldname("80%");
-	    report.getItemBand().addElement(factory.createElement());
-
-	    factory = new TextFieldElementFactory();
-	    factory.setName("T5");
-	    factory.setAbsolutePosition(new Point2D.Float(260, 0));
-	    factory.setMinimumSize(new FloatDimension(60, 12));
-	    factory.setColor(Color.black);
-	    factory.setHorizontalAlignment(ElementAlignment.RIGHT);
-	    factory.setVerticalAlignment(ElementAlignment.MIDDLE);
-	    factory.setNullString("-");
-	    factory.setFieldname("Kasse1");
-	    report.getItemBand().addElement(factory.createElement());
-
-	    
-	    return report;
-	}
+//	private JFreeReport createReportDefinition() {
+//		 final JFreeReport report = new JFreeReport();
+//	    report.setName("Kafbasreport");
+//
+//	    TextFieldElementFactory factory;
+//	    factory = new TextFieldElementFactory();
+//	    factory.setName("T1");
+//	    factory.setAbsolutePosition(new Point2D.Float(0, 0));
+//	    factory.setMinimumSize(new FloatDimension(45, 12));
+//	    factory.setColor(Color.black);
+//	    factory.setHorizontalAlignment(ElementAlignment.LEFT);
+//	    factory.setVerticalAlignment(ElementAlignment.MIDDLE);
+//	    factory.setNullString("-");
+//	    factory.setFieldname("Verkäufer");
+//	    report.getItemBand().addElement(factory.createElement());
+//
+//	    factory = new TextFieldElementFactory();
+//	    factory.setName("T2");
+//	    factory.setAbsolutePosition(new Point2D.Float(50, 0));
+//	    factory.setMinimumSize(new FloatDimension(60, 12));
+//	    factory.setColor(Color.black);
+//	    factory.setHorizontalAlignment(ElementAlignment.RIGHT);
+//	    factory.setVerticalAlignment(ElementAlignment.MIDDLE);
+//	    factory.setNullString("-");
+//	    factory.setFieldname("Summe");
+//	    report.getItemBand().addElement(factory.createElement());
+//
+//	    factory = new TextFieldElementFactory();
+//	    factory.setName("T3");
+//	    factory.setAbsolutePosition(new Point2D.Float(120, 0));
+//	    factory.setMinimumSize(new FloatDimension(60, 12));
+//	    factory.setColor(Color.black);
+//	    factory.setHorizontalAlignment(ElementAlignment.RIGHT);
+//	    factory.setVerticalAlignment(ElementAlignment.MIDDLE);
+//	    factory.setNullString("-");
+//	    factory.setFieldname("20%");
+//	    report.getItemBand().addElement(factory.createElement());
+//
+//	    factory = new TextFieldElementFactory();
+//	    factory.setName("T4");
+//	    factory.setAbsolutePosition(new Point2D.Float(190, 0));
+//	    factory.setMinimumSize(new FloatDimension(60, 12));
+//	    factory.setColor(Color.black);
+//	    factory.setHorizontalAlignment(ElementAlignment.RIGHT);
+//	    factory.setVerticalAlignment(ElementAlignment.MIDDLE);
+//	    factory.setNullString("-");
+//	    factory.setFieldname("80%");
+//	    report.getItemBand().addElement(factory.createElement());
+//
+//	    factory = new TextFieldElementFactory();
+//	    factory.setName("T5");
+//	    factory.setAbsolutePosition(new Point2D.Float(260, 0));
+//	    factory.setMinimumSize(new FloatDimension(60, 12));
+//	    factory.setColor(Color.black);
+//	    factory.setHorizontalAlignment(ElementAlignment.RIGHT);
+//	    factory.setVerticalAlignment(ElementAlignment.MIDDLE);
+//	    factory.setNullString("-");
+//	    factory.setFieldname("Kasse1");
+//	    report.getItemBand().addElement(factory.createElement());
+//
+//	    
+//	    return report;
+//	}
 	
     private String heute() {
 	DateFormat dateFormatter;

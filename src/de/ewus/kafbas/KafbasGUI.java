@@ -40,6 +40,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.net.URL;
 import java.sql.BatchUpdateException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -49,6 +50,7 @@ import java.sql.Statement;
 import java.util.Properties;
 import java.util.Vector;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -200,7 +202,10 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 		this.setContentPane(getJContentPane());
 		this.setTitle("Kafbas - EWUS");
 		this.pack();
-		setIconImage(Toolkit.getDefaultToolkit().getImage( "ressourcen/appicon.png" ));
+		//setIconImage(Toolkit.getDefaultToolkit().getImage( "appicon.png" ));
+		URL imageURL = KafbasGUI.class.getResource("/appicon.png");
+        if (imageURL != null) setIconImage((new ImageIcon(imageURL)).getImage());
+        else logger.error("Laden des Icons aus " + imageURL + " funktioniert nicht.");
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		Dimension frame = this.getSize();
 		this.setLocation((screen.width - frame.width) / 2,(screen.height - frame.height) / 2);
@@ -897,7 +902,7 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 		//für alle dateien <> eigene_kassen_id
 		String[] kdaliste = verzeichnis.list(this);
 		ProgressMonitor pm = new ProgressMonitor(this,
-				"Austauschdatei erzeugen", null, 0, kdaliste.length);
+				"Austauschdatei einlesen", null, 0, kdaliste.length);
 		pm.setProgress(0);
 		pm.setMillisToDecideToPopup(1000);
 		//	delete where kassenid=kassenid_der_datei
@@ -911,9 +916,10 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 					Statement stmt = conn.createStatement();
 					String anweisung;
 					conn.setAutoCommit(false);
-					anweisung = "DELETE * FROM " + tabellen[TAB_Kassenposten] + " WHERE kassenid = " + kasse;
+					anweisung = "DELETE FROM " + tabellen[TAB_Kassenposten] + " WHERE kassenid = " + kasse;
 					logger.debug("Anweisung: " + anweisung);
-					stmt.addBatch(anweisung);
+					//stmt.addBatch(anweisung);
+					stmt.executeUpdate(anweisung);
 					String zeile;
 					String[] teile = null;
 					BufferedReader in = new BufferedReader( new FileReader(new File(verzeichnis, kdaliste[c])) );
@@ -926,11 +932,15 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 							" (kassenid, verkaeufer, artikelpreis) VALUES (" +
 							kasse + ",'" + teile[0] + "'," + teile[1] + ")";
 							logger.debug("Anweisung: " + anweisung);
-							stmt.addBatch(anweisung);
+							stmt.executeUpdate(anweisung);
+							//stmt.addBatch(anweisung);
 						} else logger.error("In der Datei " + kdaliste[c] + " ist die Zeile" + zeilenzaehler + "fehlerhaft");
 					}
 					in.close();
-					stmt.executeBatch();
+					//int updateCounts[] = stmt.executeBatch();
+					conn.commit();
+					conn.setAutoCommit(true);
+					//for (int c1=0; c1 < updateCounts.length; c1++) logger.debug("update = " + updateCounts[c1]);
 				} catch (FileNotFoundException e) {
 					logger.error("FileNotFoundException", e);
 				} catch (IOException e) {
@@ -938,7 +948,7 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 				} catch (ArrayIndexOutOfBoundsException e) {
 					logger.error("In der Datei " + kdaliste[c] + " ist die Zeile" + zeilenzaehler + "fehlerhaft");
 				} catch (BatchUpdateException e) {
-					try { conn.rollback();} catch (SQLException e2) {logger.error("SQLException",e2);}
+					try { conn.rollback();conn.setAutoCommit(true);} catch (SQLException e2) {logger.error("SQLException",e2);}
 				} catch (SQLException e) {
 					logger.error("SQLException", e);
 				} finally {
