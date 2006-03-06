@@ -43,7 +43,8 @@
 			</fileset>
 			<file src="dist/kafbas.jar" targetdir="$INSTALL_PATH" />
 			<singlefile src="dist/dist.kafbas.properties" target="$INSTALL_PATH/kafbas.properties" override="asktrue"/>
-			<singlefile src="dist/run.cmd" target="$INSTALL_PATH/run.cmd" />
+			<singlefile src="dist/run.cmd" os="windows" target="$INSTALL_PATH/run.cmd" />
+			<singlefile src="dist/run.sh" os="unix" target="$INSTALL_PATH/run.sh" />
 			<file src="ressourcen/appicon.ico" targetdir="$INSTALL_PATH" />
 			<file src="ressourcen/appicon.png" targetdir="$INSTALL_PATH" />
 			<parsable targetfile="$INSTALL_PATH/kafbas.properties" type="plain" />
