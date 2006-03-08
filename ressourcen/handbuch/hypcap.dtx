@@ -1,0 +1,347 @@
+% \iffalse meta-comment
+%
+% hypcap.dtx
+%
+% This file is part of the package `hypcap' for use with LaTeX2e.
+%
+% Function: Adjusting anchors of captions.
+%
+% Copyright (C) 1999-2001 Heiko Oberdiek.
+%
+% This program may be distributed and/or modified under
+% the conditions of the LaTeX Project Public License,
+% either version 1.2 of this license or (at your option)
+% any later version. The latest version of this license
+% is in
+%   http://www.latex-project.org/lppl.txt
+% and version 1.2 or later is part of all distributions
+% of LaTeX version 1999/12/01 or later.
+%
+% Please send error reports and suggestions for improvements to
+%   Heiko Oberdiek <oberdiek@uni-freiburg.de>.
+%
+%<*dtx>
+\ProvidesFile{hypcap.dtx}
+%</dtx>
+%<package>\ProvidesPackage{hypcap}
+%<driver>\ProvidesFile{hypcap.drv}
+% \fi
+% \ProvidesFile{hypcap.dtx}
+  [2001/08/27 v1.3 Adjusting anchors of captions (HO)]
+%
+% \GetFileInfo{hypcap.dtx}
+% \CheckSum{131}
+%
+%% \CharacterTable
+%%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
+%%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
+%%   Digits        \0\1\2\3\4\5\6\7\8\9
+%%   Exclamation   \!     Double quote  \"     Hash (number) \#
+%%   Dollar        \$     Percent       \%     Ampersand     \&
+%%   Acute accent  \'     Left paren    \(     Right paren   \)
+%%   Asterisk      \*     Plus          \+     Comma         \,
+%%   Minus         \-     Point         \.     Solidus       \/
+%%   Colon         \:     Semicolon     \;     Less than     \<
+%%   Equals        \=     Greater than  \>     Question mark \?
+%%   Commercial at \@     Left bracket  \[     Backslash     \\
+%%   Right bracket \]     Circumflex    \^     Underscore    \_
+%%   Grave accent  \`     Left brace    \{     Vertical bar  \|
+%%   Right brace   \}     Tilde         \~}
+%%
+% \iffalse
+%<*driver>
+\documentclass{ltxdoc}
+\usepackage{holtxdoc}
+\begin{document}
+   \DocInput{hypcap.dtx}
+\end{document}
+%</driver>
+% \fi
+%
+% \DoNotIndex{\else,\fi,\csname,\endcsname}
+% \DoNotIndex{\def,\edef,\long,\begingroup,\endgroup}
+% \DoNotIndex{\the,\relax,\expandafter}
+%
+% \SetupTitle{hyperref, caption, anchor, TeX}
+% \maketitle
+%
+% \begin{abstract}
+%    This package tries a solution of the problem with
+%    hyperref, that links to floats points below the
+%    caption and not at the beginning of the float.
+%    Therefore this package divides the task into two
+%    part, the link setting with \cmd{\capstart} or
+%    automatically at the beginning of a float and
+%    the rest in the \cmd{\caption} command.
+% \end{abstract}
+%
+% \tableofcontents
+%
+% \section{Usage}
+%    The package \Package{hypcap} requires that \Package{hyperref}
+%    is loaded first:
+%    \begin{quote}
+%      |\usepackage[...]{hyperref}|\\
+%      |\usepackage[...]{hypcap}|
+%    \end{quote}
+%
+% \subsection{Package options}
+%    The names of the four float environments |figure|, |figure*|,
+%    |table|, or |table*| can be used as option. Then the package
+%    overloads the environment in order to insert \cmd{\capstart}
+%    (see below) in the beginning of the environment automatically.
+%
+%    Option |all| enables the overloading of all four
+%    float environments. For other environments see
+%    the user command \cmd{\hypcapredef}.
+%
+% \subsection{User commands}
+%    \begin{description}
+%    \item[\cmd{\capstart}:]\DescribeMacro{\capstart}
+%      First it increments the counter (\cmd{\@captype}). Then it
+%      makes an anchor for package \Package{hyperref}.
+%      At last \cmd{\caption} is redefined to remove the
+%      anchor setting part from \Package{hyperref}'s \cmd{\caption}.
+%
+%      The package expects the following structure of a float
+%      environment:
+%      \begin{quote}
+%        |\begin{|\textit{|float|}|}...|\\
+%        |\capstart|\\
+%        |...|\\
+%        |\caption{...}|\\
+%        |...|\\
+%        |\end{|\textit{|float|}|}|
+%      \end{quote}
+%      There can be several \cmd{\caption} commands. For these
+%      you need \cmd{\capstart} again:
+%      \begin{quote}
+%        |\capstart ... \caption... \capstart ... \caption...|
+%      \end{quote}
+%      And the \cmd{\caption} command itself can be put in a group.
+%
+%      The options, described above, safe writing the
+%      first \cmd{\capstart} in the float environment.
+%      But also there must be a \cmd{\caption} in every
+%      environment of this type.
+%    \item[\cmd{\hypcapspace}:]\DescribeMacro{\hypcapspace}
+%      Because it looks poor, if the link points exactly at top of
+%      the figure, there is additional space: \cmd{\hypcapspace},
+%      the default is |0.5\baselineskip|, examples:
+%      \begin{quote}
+%        |\renewcommand{\hypcapspace}{0pt}| removes the space\\
+%        |\renewcommand{\hypcapspace}{1pt}| sets a fix value
+%      \end{quote}
+%    \item[\cmd{\hypcapredef}:]\DescribeMacro{\hypcapredef}
+%      If there are other float environments, that
+%      should automatically execute \cmd{\capstart}, then
+%      a redefinition with \cmd{\hypcapredef} can be tried:
+%      \begin{quote}
+%        |\hypcapredef{myfloat}|
+%      \end{quote}
+%      Only environments with one optional parameter are
+%      supported.
+%    \end{description}
+%
+% \subsection{Limitations}
+%    \begin{itemize}
+%    \item Package \Package{subfigure} does not work.
+%    \item Packages that redefine \cmd{\caption} or
+%          \cmd{\@caption}.
+%    \end{itemize}
+%
+% \Installation
+%
+% \StopEventually{}
+%
+% \section{Implementation}
+%    \begin{macrocode}
+%<*package>
+%    \end{macrocode}
+%    The package identification is done at the top of the |.dtx| file
+%    in order to use only one identification string.
+%
+%    For unique command names this package uses |hc@| as prefix
+%    for internal command names.
+%
+%    First we check, if package \Package{hyperref} is loaded:
+%    \begin{macrocode}
+\@ifundefined{hyper@@anchor}{%
+  \PackageError{hypcap}{You have to load 'hyperref' first}\@ehc
+  \endinput
+}{}
+%    \end{macrocode}
+%
+%    \begin{macro}{\hc@org@caption}
+%    Save the original meaning of \cmd{\caption}:
+%    \begin{macrocode}
+\newcommand*\hc@org@caption{}
+\let\hc@org@caption\caption
+%    \end{macrocode}
+%    \end{macro}
+%
+%    \newcommand*{\BeginMacro}[1]{\expandafter\DoBeginMacro\csname#1\endcsname}
+%    \newcommand*{\DoBeginMacro}[1]{\begin{macro}{#1}}
+%    \newcommand*{\Cmd}[1]{\expandafter\cmd\csname#1\endcsname}
+%    \BeginMacro{if@capstart}
+%     The switch \Cmd{if@capstart} helps to detect
+%     \cmd{\capstart} commands with missing \cmd{\caption} macros.
+%     Because \cmd{\caption} can occur inside a group, assignments
+%     to the switch have to be made global.
+%    \begin{macrocode}
+\newif\if@capstart
+%    \end{macrocode}
+%    \end{macro}
+%
+%    \begin{macro}{\hypcapspace}
+%    The anchor is raised.by \cmd{\hypcapspace}.
+%    \begin{macrocode}
+\newcommand*\hypcapspace{.5\baselineskip}
+%    \end{macrocode}
+%    \end{macro}
+%
+%    \begin{macro}{\capstart}
+%     The macro \cmd{\capstart} contains the first part of
+%     the \cmd{\caption} command: Incrementing the counter
+%     and setting the anchor.
+%    \begin{macrocode}
+\newcommand*\capstart{%
+  \H@refstepcounter\@captype % first part of caption
+  \hyper@makecurrent\@captype
+  \vspace*{-\hypcapspace}%
+  \begingroup
+    \let\leavevmode\relax
+    \hyper@@anchor\@currentHref\relax
+  \endgroup
+  \vspace*{\hypcapspace}%
+  \let\caption\hc@caption
+  \global\@capstarttrue
+}
+%    \end{macrocode}
+%    \end{macro}
+%
+%    \begin{macro}{\hc@caption}
+%    The new \cmd{\caption} command without the first part
+%    is defined in the macro \cmd{\hc@caption}.
+%    \begin{macrocode}
+\def\hc@caption{%
+  \@dblarg{\hc@@caption\@captype}%
+}
+%    \end{macrocode}
+%    \end{macro}
+%
+%    \begin{macro}{\hc@@caption}
+%    This is a copy of package \Package{hyperref}'s \cmd{\@caption}
+%    macro without making the anchor, because this is already done
+%    in \cmd{\capstart}.
+%    \begin{macrocode}
+\long\def\hc@@caption#1[#2]#3{%
+  \let\caption\hc@org@caption
+  \global\@capstartfalse
+  \hyper@makecurrent\@captype
+  \par\addcontentsline{%
+    \csname ext@#1\endcsname}{#1}{%
+    \protect\numberline{%
+      \csname the#1\endcsname
+    }{\ignorespaces #2}%
+  }%
+  \begingroup
+    \@parboxrestore
+    \normalsize
+    \@makecaption{\csname fnum@#1\endcsname}{%
+      \ignorespaces#3%
+    }%
+    \par
+  \endgroup
+}
+%    \end{macrocode}
+%    \end{macro}
+%
+%    \begin{macro}{\hypcapredef}
+%    The macro \cmd{\hypcapredef} prepares the call of
+%    \cmd{\hc@redef} that will redefine the environment
+%    that is given in the argument.
+%    \begin{macrocode}
+\def\hypcapredef#1{%
+  \expandafter\hc@redef\csname hc@org#1\expandafter\endcsname
+                       \csname hc@orgend#1\expandafter\endcsname
+                       \expandafter{#1}%
+}
+%    \end{macrocode}
+%    \end{macro}
+%    \begin{macro}{\hc@redef}
+%    The old meaning of the environment is saved. Then
+%    \cmd{\capstart} is appended in the begin part.
+%    The end part contains a check
+%    that produces an error message in case of \cmd{\capstart}
+%    without \cmd{\capstart} (\cmd{\capstart} has incremented
+%    the counter).
+%    \begin{macrocode}
+\def\hc@redef#1#2#3{%
+  \newcommand#1{}%
+  \expandafter\let\expandafter#1\csname#3\endcsname
+  \expandafter\let\expandafter#2\csname end#3\endcsname
+  \renewenvironment*{#3}[1][]{%
+    \ifx\\##1\\%
+      #1\relax
+    \else
+      #1[##1]%
+    \fi
+    \capstart
+  }{%
+    \if@capstart
+      \PackageError{hypcap}{You have forgotten to use \string\caption}%
+      \global\@capstartfalse
+    \else
+    \fi
+    #2%
+  }%
+}
+%    \end{macrocode}
+%    \end{macro}
+%
+%     At last the options are defined and processed.
+%    \begin{macrocode}
+\DeclareOption{figure}{\hypcapredef{\CurrentOption}}
+\DeclareOption{figure*}{\hypcapredef{\CurrentOption}}
+\DeclareOption{table}{\hypcapredef{\CurrentOption}}
+\DeclareOption{table*}{\hypcapredef{\CurrentOption}}
+\DeclareOption{all}{%
+  \hypcapredef{figure}%
+  \hypcapredef{figure*}%
+  \hypcapredef{table}%
+  \hypcapredef{table*}%
+}
+\ProcessOptions\relax
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+%</package>
+%    \end{macrocode}
+%
+%  \StartHistory
+%  \HistVersion{1999/02/13 v1.0}
+%     \begin{itemize}
+%     \item A beginning version.
+%     \end{itemize}
+%  \HistVersion{2000/08/14 v1.1}
+%    \begin{itemize}
+%    \item Global assignments of |\if@capstart|
+%          in order to allow |\caption| in groups.
+%    \item Option |all| added.
+%    \end{itemize}
+%  \HistVersion{2000/09/07 v1.2}
+%    \begin{itemize}
+%    \item Package in dtx format.
+%    \end{itemize}
+%  \HistVersion{2001/08/27 v1.3}
+%    \begin{itemize}
+%    \item Bug fix with hyperref's pdfmark driver\\
+%          (\verb|\leavevmode| in
+%          \verb|\hyper@@anchor|/\verb|\pdf@rect|).
+%    \end{itemize}
+%
+% \PrintIndex
+%
+% \Finale
+\endinput

@@ -1,0 +1,79 @@
+% File:    hypcap.ins
+% Version: 2001/08/27
+%
+% This file is part of the package `hypcap' for use with LaTeX2e.
+%
+% Function: Adjusting anchors of captions.
+%
+% Copyright (C) 1999-2001 Heiko Oberdiek.
+%
+% This program may be distributed and/or modified under
+% the conditions of the LaTeX Project Public License,
+% either version 1.2 of this license or (at your option)
+% any later version. The latest version of this license
+% is in
+%   http://www.latex-project.org/lppl.txt
+% and version 1.2 or later is part of all distributions
+% of LaTeX version 1999/12/01 or later.
+%
+% Please send error reports and suggestions for improvements to
+%   Heiko Oberdiek <oberdiek@uni-freiburg.de>.
+%
+
+\def\batchfile{hypcap.ins}
+\input docstrip.tex
+{\ifx\generate\undefined
+\Msg{**********************************************}
+\Msg{*}
+\Msg{* This installation requires docstrip}
+\Msg{* version 2.3c or later.}
+\Msg{*}
+\Msg{* An older version of docstrip has been input}
+\Msg{*}
+\Msg{**********************************************}
+\errhelp{Move or rename old `docstrip.tex'.}
+\errmessage{Old docstrip in input path}
+\batchmode
+\csname @@end\endcsname
+\fi}
+
+\keepsilent
+
+\preamble
+
+This file is part of the package `hypcap' for use with LaTeX2e.
+
+Function: Adjusting anchors of captions.
+
+Copyright (C) 1999-2001 Heiko Oberdiek.
+
+This program may be distributed and/or modified under
+the conditions of the LaTeX Project Public License,
+either version 1.2 of this license or (at your option)
+any later version. The latest version of this license
+is in
+  http://www.latex-project.org/lppl.txt
+and version 1.2 or later is part of all distributions
+of LaTeX version 1999/12/01 or later.
+
+Please send error reports and suggestions for improvements to
+  Heiko Oberdiek <oberdiek@uni-freiburg.de>.
+
+\endpreamble
+
+\generateFile{hypcap.sty}{f}{\from{hypcap.dtx}{package}}
+%\generateFile{hypcap.drv}{f}{\from{hypcap.dtx}{driver}}
+
+\Msg{***********************************************************}
+\Msg{* To finish the installation you have to move the following}
+\Msg{* file into a directory searched by TeX:}
+\Msg{*}
+\Msg{* \space\space hypcap.sty}
+\Msg{*}
+\Msg{* To produce the documentation run the file `hypcap.dtx'}
+\Msg{* through LaTeX.}
+\Msg{*}
+\Msg{* Happy TeXing}
+\Msg{***********************************************************}
+
+\endinput
