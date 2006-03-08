@@ -204,7 +204,7 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 		this.setTitle("Kafbas - EWUS");
 		this.pack();
 		//setIconImage(Toolkit.getDefaultToolkit().getImage( "appicon.png" ));
-		URL imageURL = KafbasGUI.class.getResource("/appicon.png");
+		URL imageURL = getClass().getResource("/appicon.png");
         if (imageURL != null) setIconImage((new ImageIcon(imageURL)).getImage());
         else logger.error("Laden des Icons aus " + imageURL + " funktioniert nicht.");
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
