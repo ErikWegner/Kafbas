@@ -12,7 +12,6 @@ import javax.swing.table.DefaultTableCellRenderer;
  * @author 364
  *
  */
-@SuppressWarnings("serial")
 public class WaehrungsSpalteRenderer extends DefaultTableCellRenderer {
 	
 	NumberFormat formatter;
@@ -28,7 +27,6 @@ public class WaehrungsSpalteRenderer extends DefaultTableCellRenderer {
 	/* (Kein Javadoc)
 	 * @see javax.swing.table.DefaultTableCellRenderer#setValue(java.lang.Object)
 	 */
-	@Override
 	protected void setValue(Object value) {
 		// TODO Automatisch erstellter Methoden-Stub
 	  if (formatter==null) {

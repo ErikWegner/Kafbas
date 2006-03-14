@@ -25,8 +25,10 @@ import java.awt.Toolkit;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.text.DateFormat;
 import java.util.Date;
 
@@ -49,7 +51,6 @@ import org.apache.log4j.Logger;
 
 
 
-@SuppressWarnings("serial")
 public class DlgAuswertung extends JDialog {
 
     private static final Logger logger = Logger.getLogger(DlgAuswertung.class.getName());
@@ -175,14 +176,21 @@ public class DlgAuswertung extends JDialog {
 //		{ logger.warn(e); }
 //	}
 	
+    /**
+     * 
+     */
     private void exportHTML() {
 	logger.debug("exportHTML");
 	String datei = austauschpfad + File.separator + "auswertung.html";
 	try {
 	    logger.info("Austauschdatei=" + datei);
-	    BufferedWriter bw = new BufferedWriter(
-		new FileWriter(
-		    new File(datei)));
+//	    BufferedWriter bw = new BufferedWriter(
+//	    		new FileWriter(
+//	    				new File(datei)));
+	    BufferedWriter bw = new BufferedWriter
+	    	(new OutputStreamWriter
+	    			(new FileOutputStream(datei),
+	    				"UTF-8" ) );
 	    //schreide Daten
 	    bw.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 	    bw.write("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" \"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">\n");
@@ -217,7 +225,7 @@ public class DlgAuswertung extends JDialog {
 	    bw.write("    <tr>\n");
 	    for (int c_col=0; c_col < spalten; c_col++) {
 		zellinhalt = datenquelle.getValueAt(zeilen-1, c_col).toString();
-		if (c_col > 0) renderer.setValue(Double.parseDouble(zellinhalt));
+		if (c_col > 0) renderer.setValue(new Double(zellinhalt));
 		bw.write("     <td class=\"" + 
 			 ( c_col > 0 ? "tdsr" : "tds") + "\">" +
 			 (c_col == 0 ? zellinhalt : renderer.getText()) + 
@@ -231,7 +239,7 @@ public class DlgAuswertung extends JDialog {
 		bw.write("    <tr>\n");
 		for (int c_col=0; c_col < spalten; c_col++) {
 		    zellinhalt = datenquelle.getValueAt(c_row, c_col).toString();
-		    if (c_col > 0) renderer.setValue(Double.parseDouble(zellinhalt));
+		    if (c_col > 0) renderer.setValue(new Double(zellinhalt));
 		    bw.write("     <td" + 
 			     ( c_col > 0 ? " class=\"tdr\"" : "") + ">" + 
 			     (c_col == 0 ? zellinhalt : renderer.getText()) + 
@@ -241,13 +249,13 @@ public class DlgAuswertung extends JDialog {
 	    }
 	    bw.write("   </tbody>\n");
 	    bw.write("  </table>\n");
-	    bw.write("  <p>\n"+
-		     "   <a href=\"http://www.validome.org/referer\">" +
-		     "<img style=\"border:none\"\n" + 
-		     "     src=\"http://www.validome.org/images/set3/valid_xhtml_1_1.gif\"\n" + 
-		     "     alt=\"Valid XHTML 1.1\" width=\"80\" height=\"15\" />" +
-		     "</a>\n" + 
-		     "  </p>\n");
+//	    bw.write("  <p>\n"+
+//		     "   <a href=\"http://www.validome.org/referer\">" +
+//		     "<img style=\"border:none\"\n" + 
+//		     "     src=\"http://www.validome.org/images/set3/valid_xhtml_1_1.gif\"\n" + 
+//		     "     alt=\"Valid XHTML 1.1\" width=\"80\" height=\"15\" />" +
+//		     "</a>\n" + 
+//		     "  </p>\n");
 	    bw.write(" </body>\n");
 	    bw.write("</html>\n");
 	    bw.close();

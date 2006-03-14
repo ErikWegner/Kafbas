@@ -68,7 +68,6 @@ import org.apache.log4j.Logger;
  * @author Erik Wegner
  *
  */
-@SuppressWarnings("serial")
 public class KafbasGUI extends JFrame implements WindowListener, KeyListener, FilenameFilter {
 
 	private static final Logger logger = Logger.getLogger(KafbasGUI.class
@@ -153,7 +152,7 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 							+ "\" ist nicht lesbar.");
 				else {
 					FileInputStream in = new FileInputStream(cfgFile);
-					properties.loadFromXML(in);
+					properties.load(in);
 					in.close();
 				}
 			}
@@ -500,13 +499,13 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 			if (entercount == 2) {
 				logger.debug("Eintrag in DB ablegen");
 				//FIXME: Kassen-ID einlesen lassen
-				Vector<String> v = liste.dbbefehle(tabellen[TAB_Kassenposten],
+				Vector v = liste.dbbefehle(tabellen[TAB_Kassenposten],
 						kassenID);
 				try {
 					Statement stmt = conn.createStatement();
 					for (int i = 0; i < v.size(); i++) {
 						logger.debug("Statement " + v.elementAt(i));
-						stmt.executeUpdate(v.elementAt(i));
+						stmt.executeUpdate((String)v.elementAt(i));
 					}
 					liste.removeAllElements();
 					aktualisiereListe();
@@ -560,7 +559,7 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 		if (artikelpreis.length() == 0 && verkaeuferText.length() == 0
 				&& liste.size() > 0) {
 			//Hole den letzten Datensatz aus der Liste, wenn es einen gibt
-			Kassenposten kb = liste.remove(liste.size() - 1);
+			Kassenposten kb = (Kassenposten)liste.remove(liste.size() - 1);
 			artikelpreis.append(kb.getArtikelpreis());
 			verkaeuferText.append(kb.getVerkaeufer());
 			eingabefeld = FELD_ARTIKELPREIS;

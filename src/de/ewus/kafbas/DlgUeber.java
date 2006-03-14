@@ -36,7 +36,6 @@ import javax.swing.JScrollPane;
  * @author 364
  *
  */
-@SuppressWarnings("serial")
 public class DlgUeber extends JDialog {
 
 	private JPanel jContentPane = null;

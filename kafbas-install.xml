@@ -7,7 +7,7 @@
 			<author name="Erik Wegner" email="e-man@berlios.de" />
 		</authors>
 		<url>http://kafbas.berlios.de/</url>
-		<javaversion>1.5</javaversion>
+		<javaversion>1.4</javaversion>
 	</info>
 	<variables>
 		<variable name="KassenID" value=""/>

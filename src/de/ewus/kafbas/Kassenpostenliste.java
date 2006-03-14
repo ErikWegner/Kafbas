@@ -22,12 +22,11 @@ package de.ewus.kafbas;
 import java.util.Vector;
 
 
-@SuppressWarnings("serial")
-public class Kassenpostenliste extends Vector<Kassenposten> {
+public class Kassenpostenliste extends Vector {
 	
 	public Vector getListData() {
 		int size = size();
-		Vector<String> v = new Vector<String>(size);
+		Vector v = new Vector(size);
 		for (int i = 0; i < size; i++) v.addElement(elementAt(i).toString());
 		return v;
 	}
@@ -37,10 +36,10 @@ public class Kassenpostenliste extends Vector<Kassenposten> {
 		add(kp);
 	}
 	
-	public Vector<String> dbbefehle(String tabelle, int kassenid) {
+	public Vector dbbefehle(String tabelle, int kassenid) {
 		int size = size();
-		Vector<String> v = new Vector<String>(size);
-		for (int i = 0; i < size; i++) v.addElement(elementAt(i).toDBString(tabelle, kassenid));
+		Vector v = new Vector(size);
+		for (int i = 0; i < size; i++) v.addElement(((Kassenposten)elementAt(i)).toDBString(tabelle, kassenid));
 		return v;
 	}
 }

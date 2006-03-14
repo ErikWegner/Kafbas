@@ -28,7 +28,7 @@ import javax.swing.table.AbstractTableModel;
 
 import org.apache.log4j.Logger;
 
-@SuppressWarnings("serial")
+//@SuppressWarnings("serial")
 public class Auswertung extends AbstractTableModel {
 
     private static final Logger logger = Logger.getLogger(Auswertung.class.getName());
@@ -38,7 +38,7 @@ public class Auswertung extends AbstractTableModel {
     private int[] ksums;
     private int[][] vsums;
     private int ergebniszeilen = 0;
-    private HashMap<Integer,Integer> vmap = new HashMap<Integer,Integer>();
+    private HashMap vmap = new HashMap();
     private final static int AnteilK = 20;
     private final String[] spaltennamen = {"Verkäufer", "Summe", AnteilK + "%", (100-AnteilK) + "%"};
     private final int permSpalten = spaltennamen.length;
@@ -101,14 +101,14 @@ public class Auswertung extends AbstractTableModel {
 			    logger.debug("Query KASSENID=" + tkassenid);
 			    logger.debug("Query VERKAEUFER=" + vid);
 			    logger.debug("Query VSUM=" + rs.getInt("VSUM"));
-			    if (!vmap.containsKey(vid)) {
+			    if (!vmap.containsKey(new Integer(vid))) {
 				logger.debug("Neuer Hashmapeintrag: " + vid + " => " + arraycounter);
-				vmap.put(vid, arraycounter);
+				vmap.put(new Integer(vid), new Integer(arraycounter));
 				vsums[arraycounter][0] = vid;
 				arraycounter++;
 			    }
-			    logger.debug("Zugriff auf Zeile " + vmap.get(vid));
-			    if (tkassenid <= anzahlKassen && tkassenid > 0) vsums[vmap.get(vid)][tkassenid] = rs.getInt("VSUM");
+			    logger.debug("Zugriff auf Zeile " + vmap.get(new Integer(vid)));
+			    if (tkassenid <= anzahlKassen && tkassenid > 0) vsums[((Integer)vmap.get(new Integer(vid))).intValue()][tkassenid] = rs.getInt("VSUM");
 			    else logger.error("In der Datenbank befinden sich Datensaetze mit einer KassenID groesser als AnzahlKassen. (KASSENID=" + tkassenid + ", AnzahlKassen="+anzahlKassen+")");
 			}
 		    }
@@ -178,14 +178,14 @@ public class Auswertung extends AbstractTableModel {
 			default :
 			    d = ((double)vsums[row][col-permSpalten+1])/100;
 		    }
-		
-		return (col > 0 ? d : r);
+		Double objd = new Double(d);
+		if (col > 0) return objd;
+		else return r;
     }
 
     /* (Kein Javadoc)
      * @see javax.swing.table.AbstractTableModel#getColumnName(int)
      */
-    @Override
     public String getColumnName(int arg0) {
     	return (arg0 < permSpalten ? spaltennamen[arg0] : "Kasse" + (1 + arg0 - permSpalten));
     }
@@ -193,7 +193,6 @@ public class Auswertung extends AbstractTableModel {
     /* (Kein Javadoc)
      * @see javax.swing.table.AbstractTableModel#isCellEditable(int, int)
      */
-    @Override
     public boolean isCellEditable(int arg0, int arg1) {
     	return false;
     }
@@ -201,15 +200,13 @@ public class Auswertung extends AbstractTableModel {
     /* (Kein Javadoc)
      * @see javax.swing.table.AbstractTableModel#getColumnClass(int)
      */
-    @Override
-    public Class<?> getColumnClass(int col) {
+    public Class getColumnClass(int col) {
 	return (col > 0 ? Double.class : String.class);
     }
 
 	/* (Kein Javadoc)
 	 * @see javax.swing.table.AbstractTableModel#findColumn(java.lang.String)
 	 */
-	@Override
 	public int findColumn(String arg0) {
 		// return super.findColumn(arg0);
 		int i = -1;
