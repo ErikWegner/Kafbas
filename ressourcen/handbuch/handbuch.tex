@@ -1,11 +1,11 @@
 % Dokumentenklasse und Optionen
 \documentclass[
-  final,      % endgültige Fassung
-% draft,      % Vorschau
+%  final,      % endgültige Fassung
+ draft,      % Vorschau
   pdftex,     % bei Aufruf von pdflatex
   idxtotoc,   % Index soll im Inhaltsverzeichnis stehen
   tocleft,    % Inhaltsverzeichnis nicht einrücken
-  a4paper,    % Papiergröße A4
+  a5paper,    % Papiergröße A4
   abstracton, % Zusammenfassung aktivieren
 %  titlepage,  % Eine Titelseite erstellen
 % twoside,    % zweiseitiges Layout
@@ -228,7 +228,7 @@ Eingabereihenfolge\index{Eingabe!Reihenfolge} ist fest vorgeschrieben. Welches
 Feld gerade die Eingabe entgegennimmt, ist an der vergrößerten Beschriftung
 ablesbar. Für die Eingabe stehen folgende Tasten\index{Tastatur|see{Eingabe,~Tasten}}\index{Tasten|see{Eingabe,~Tasten}}\index{Eingabe!Tasten} zur Verfügung:
 
-\begin{tabular}{@{}lp{8cm}@{}}
+\begin{tabular}{@{}lp{7cm}@{}}
 \toprule
 Taste & Bedeutung \\
 \midrule
@@ -308,9 +308,7 @@ Artikel, der Anteil des Veranstalters ist in diesen Beträgen enthälten.
 Im zukünftigen Installationspfad der Anwendung wird während des ersten Starts
 ein Verzeichnis \path{kafbasdb} angelegt. Darin werden die Datenbankdateien
 gespeichert. Für dieses Verzeichnis benötigt der Benutzer Schreib- und
-Ändernrechte.\index{Rechte|see{Berechtigungen}} \index{Berechtigung}
-\index{Schreibrechte|see{Berechtigungen}}
-\index{Ändernrechte|see{Berechtigungen}}
+Ändernrechte.\index{Rechte} \index{Berechtigung} \index{Schreibrechte} \index{Ändernrechte}
 
 \subsection{Installation manuell}
 Kopieren Sie die Bibliotheken (siehe Anhang~\vref{sec:ListeDerBibliotheken}) und die Jar-Datei der Anwendung in den Ordner der Anwendung. Zusätzlich werden Programmeinstellungen in einer properies-Datei abgelegt, die Beschreibung finden Sie im Anhang~\vref{sec:propertiesDatei}.
@@ -360,19 +358,19 @@ Geben Sie zuerst die \textbf{dreistellige Verkäufernummer} und anschließend den 
 \appendix
 \section{Liste der Bibliotheken}
 \label{sec:ListeDerBibliotheken}
-\begin{tabular}{@{}ll@{}}
+\begin{tabular}{@{}lp{6.7cm}@{}}
 \toprule
 Dateiname, Version & Beschreibung \\
 \midrule
 derby.jar, 10.1.2 & Datenbanktreiber \\
-derbyLocale\_de\_DE.jar & deutsche Texte für den Datenbank\-treiber \\
-log4j.jar, 1.2.13 & Protokollierung der Programm\-meldungen \\
+derbyLocale\_de\_DE.jar & deutsche Texte für den Datenbank\-trei"-ber \\
+log4j.jar, 1.2.13 & Protokollierung der Programm\-meld"-ungen \\
 \bottomrule
 \end{tabular}
 
-Als Datenbank wird die komplett in Java programmierte
-\href{http://db.apache.org/derby}{Derby-Datenbank} aus dem
-\href{http://www.apache.org}{Apache-Projekt} eingesetzt.
+Als Datenbank wird die komplett in Java programmierte Datenbank
+\flqq{}\textindex{Derby}\frqq{} (\href{http://db.apache.org/derby}{Homepage}) aus dem Apache-Projekt
+(\href{http://www.apache.org}{Homepage}) eingesetzt.
 
 \section{Beschreibung der properties-Datei}
 \label{sec:propertiesDatei}

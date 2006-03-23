@@ -552,7 +552,7 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 
 	private void verarbeiteEscape() {
 		resetEingabefelder();
-		summe = 0;
+		//summe = 0;
 	}
 
 	private void verarbeiteRueckschritt() {

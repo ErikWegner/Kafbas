@@ -1,22 +1,23 @@
 \begin{theindex}
 
-  \item \"Andernrechte, \see{Berechtigungen}{7}
+  \item \"Andernrechte, \hyperpage{8}
 
   \indexspace
 
-  \item Abschluss, \hyperpage{4}
+  \item Abschluss, \hyperpage{5}
   \item Anteil, \hyperpage{3}
-  \item AnzahlKassen, \hyperpage{9}
-  \item Austauschpfad, \hyperpage{9}
+  \item AnzahlKassen, \hyperpage{11}
+  \item Austauschpfad, \hyperpage{11}
   \item Auswertung, \hyperpage{5, 6}
 
   \indexspace
 
-  \item Berechtigung, \hyperpage{7}
+  \item Berechtigung, \hyperpage{8}
 
   \indexspace
 
-  \item Datenbank, \hyperpage{7}
+  \item Datenbank, \hyperpage{9}
+  \item Derby, \hyperpage{11}
 
   \indexspace
 
@@ -27,12 +28,12 @@
 
   \indexspace
 
-  \item KassenID, \hyperpage{9}
-  \item Klassenpfad, \hyperpage{7}
+  \item KassenID, \hyperpage{11}
+  \item Klassenpfad, \hyperpage{8}
 
   \indexspace
 
-  \item L\"oschen, \hyperpage{7}
+  \item L\"oschen, \hyperpage{9}
 
   \indexspace
 
@@ -44,11 +45,11 @@
 
   \indexspace
 
-  \item Rechte, \see{Berechtigungen}{7}
+  \item Rechte, \hyperpage{8}
 
   \indexspace
 
-  \item Schreibrechte, \see{Berechtigungen}{7}
+  \item Schreibrechte, \hyperpage{8}
   \item Summen, \hyperpage{6}
   \item Synchronisieren, \hyperpage{5}
 
