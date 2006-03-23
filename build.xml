@@ -24,13 +24,19 @@
         <pathelement location="${Kafbas.location}/lib/poi-3.0-alpha1-20050704.jar"/>
     </path>
     <target name="init">
-        <mkdir dir="bin"/>
+		<mkdir dir="bin"/>
+    	    	<buildnumber />
+  		<echo message="Build-Number: ${build.number}" />
     </target>
     <target name="clean">
         <delete dir="bin"/>
     </target>
     <target depends="init" name="build">
         <echo message="${ant.project.name}: ${ant.file}"/>
+    		<replace 
+    			file="src/de/ewus/kafbas/Kafbas.java" 
+    			token="@TokenBuildNumber@"
+    			value="${build.number}"/>
         <javac destdir="bin" target="1.4" source="1.4">
             <src path="src"/>
             <classpath refid="project.classpath"/>

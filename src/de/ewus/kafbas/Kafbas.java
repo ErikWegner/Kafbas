@@ -33,7 +33,7 @@ public class Kafbas {
 	public static void main(String[] args) {
 		org.apache.log4j.xml.DOMConfigurator.configure("log4j.xml");
 		Logger logger = Logger.getRootLogger();
-		logger.info("Anwendung gestartet");
+		logger.info("Anwendung gestartet, Build 2");
 		KafbasGUI gui = new KafbasGUI();
 		if (gui.initOK()) gui.setVisible(true);
 	}
