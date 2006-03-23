@@ -33,11 +33,15 @@
     </target>
     <target depends="init" name="build">
         <echo message="${ant.project.name}: ${ant.file}"/>
-    		<replace 
-    			file="src/de/ewus/kafbas/Kafbas.java" 
+    		<!--replace 
+    			encoding="UTF-8"
+    			dir="src/de/ewus/kafbas/"
     			token="@TokenBuildNumber@"
-    			value="${build.number}"/>
-        <javac destdir="bin" target="1.4" source="1.4">
+    			value="${build.number}">
+    			<include name="Kafbas.java"/>
+    			<include name="DlgUeber.java"/>
+    		</replace-->
+        <javac destdir="bin" target="1.4" source="1.4" encoding="UTF-8">
             <src path="src"/>
             <classpath refid="project.classpath"/>
         </javac>
