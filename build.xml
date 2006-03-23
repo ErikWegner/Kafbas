@@ -25,8 +25,13 @@
     </path>
     <target name="init">
 		<mkdir dir="bin"/>
-    	    	<buildnumber />
+		<buildnumber />
   		<echo message="Build-Number: ${build.number}" />
+    	<delete>
+    		<fileset file="dist/kafbas-installer-*.jar" />
+    		<fileset file="dist/kafbas-*.jar" />
+    		<fileset file="dist/handbuch-*.pdf" />
+    	</delete>
     </target>
     <target name="clean">
         <delete dir="bin"/>

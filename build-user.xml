@@ -1,4 +1,6 @@
 <property name="izpack.dir" value="${basedir}/lib/IzPack"/>
+<property name="version" value="1" />
+<property name="revision" value="0" />
 <target name="help">
     <echo message="Please run: $ ant -v -projecthelp"/>
 </target>
@@ -16,6 +18,8 @@
 			<include name="appicon.png"/>
 		</fileset>
 	</jar>
+	<copy file="dist/kafbas.jar" tofile="dist/kafbas-${version}.${revision}.${build.number}.jar" />
+	<copy file="ressourcen/handbuch/handbuch.pdf" tofile="dist/handbuch-${version}.${revision}.${build.number}.pdf" />
 </target>
 <target name="runrelease" description="Führe die Release-Jar-Datei aus" depends="release">
   <java classname="de.ewus.kafbas.Kafbas" fork="true">
@@ -31,4 +35,5 @@
 		output="dist/kafbas-installer.jar"
 		installerType="standard" basedir="${basedir}"
 		izPackDir="${izpack.dir}" />
+	<copy file="dist/kafbas-installer.jar" tofile="dist/kafbas-installer-${version}.${revision}.${build.number}.jar" />
 </target>
