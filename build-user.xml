@@ -18,8 +18,6 @@
 			<include name="appicon.png"/>
 		</fileset>
 	</jar>
-	<copy file="dist/kafbas.jar" tofile="dist/kafbas-${version}.${revision}.${build.number}.jar" />
-	<copy file="ressourcen/handbuch/handbuch.pdf" tofile="dist/handbuch-${version}.${revision}.${build.number}.pdf" />
 </target>
 <target name="runrelease" description="Führe die Release-Jar-Datei aus" depends="release">
   <java classname="de.ewus.kafbas.Kafbas" fork="true">
@@ -31,9 +29,18 @@
 </target>
 <taskdef name="izpack" classpath="${izpack.dir}/compiler.jar" classname="com.izforge.izpack.ant.IzPackTask" />
 <target name="installer" description="Erstelle einen Installer" depends="release">
+	<buildnumber />
+	<echo message="Build-Number: ${build.number}" />
+    	<delete>
+    		<fileset file="dist/kafbas-installer-*.jar" />
+    		<fileset file="dist/kafbas-*.jar" />
+    		<fileset file="dist/handbuch-*.pdf" />
+    	</delete>
 	<izpack input="kafbas-install.xml"
 		output="dist/kafbas-installer.jar"
 		installerType="standard" basedir="${basedir}"
 		izPackDir="${izpack.dir}" />
 	<copy file="dist/kafbas-installer.jar" tofile="dist/kafbas-installer-${version}.${revision}.${build.number}.jar" />
+	<copy file="dist/kafbas.jar" tofile="dist/kafbas-${version}.${revision}.${build.number}.jar" />
+ 	<copy file="ressourcen/handbuch/handbuch.pdf" tofile="dist/handbuch-${version}.${revision}.${build.number}.pdf" />
 </target>
