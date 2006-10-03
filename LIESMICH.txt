@@ -19,3 +19,14 @@ Im Einsatz befindet sich die Version 10.1.2.1
 
 http://logging.apache.org/log4j
 getestet mit Version 1.2.13
+
+## Fehlende Funktionen ##
+ o Einstellbarer Prozentsatz der Provision
+ o Einstellbarer Ort (URL) und Treiber der Datenbank
+ o Datenaustausch
+    - Meldung vor Beginn mit Ok/Abbrechen
+    - Skript/Befehl vor Funktionsausführung
+    - Skript nach Befehlsausführung
+    - Meldung nach Datenaustausch mit Ok
+
+## Neue Funktionen ##

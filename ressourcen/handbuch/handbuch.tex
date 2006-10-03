@@ -5,7 +5,7 @@
   pdftex,     % bei Aufruf von pdflatex
   idxtotoc,   % Index soll im Inhaltsverzeichnis stehen
   tocleft,    % Inhaltsverzeichnis nicht einrücken
-  a5paper,    % Papiergröße A4
+  a5paper,    % Papiergröße A5
   abstracton, % Zusammenfassung aktivieren
 %  titlepage,  % Eine Titelseite erstellen
 % twoside,    % zweiseitiges Layout
@@ -83,6 +83,7 @@
 \usepackage{listings} % Quelltexte formatiert ausgeben
 \usepackage{booktabs} % Tabellenformatierungsbefehle top-/mid-/bottomrule
 \usepackage{keystroke} %Tastaturabbildung
+%\usepackage{marginnote}
 \usepackage{fixme}
 \usepackage[ngerman]{varioref} % variable Referenzen
 \usepackage[pdftex, draft=false, bookmarks=true, bookmarksnumbered=true, bookmarksopen=true, colorlinks, linkcolor=blue, urlcolor=blue, pdfauthor={Erik Wegner}, pdftitle={Kassenabrechnung für Bassare}, pdfsubject={Handbuch}, pdfpagemode=UseOutlines, pdfstartview=Fit, pdfview=FitBH, a4paper]{hyperref,attachfile} % PDF-Optionen, PDF-Hyperlinks
@@ -107,6 +108,14 @@
 %%Dieses Kommando setzt um den übergebenen Parameter
 %%deutsche doppelte Anführungszeichen
 \newcommand{\gdq}[1]{\glqq{}#1\grqq{}}
+%%Dieses Kommando setzt um den übergebenen Parameter
+%%französische Anführungszeichen (innen, außen, einfach, doppelt)
+\newcommand{\fqi}[1]{\frq{}#1\flq{}}                 % Anführungsz. einfach
+\newcommand{\fqqi}[1]{\frqq{}#1{}\flqq{}}              % Anführungsz. doppelt
+\newcommand{\fqa}[1]{\flq{}#1\frq{}}                 % Anführungsz. einfach
+\newcommand{\fqqa}[1]{\flqq{}#1\frqq{}}              % Anführungsz. doppelt
+
+\newcommand{\enquote}[1]{\fqqi{#1}}
 
 %%Ein Platzhalter für Daten, die später ergänzt werden
 \newcommand{\weissnicht}{XX?\-XX?\-XX?\-XX\marginpar{\textcolor{red}{Hier fehlt was!}}}
@@ -152,7 +161,7 @@
 %% ==================================
 %% Befehle für die Titelseite
 %% ==================================
-\subject{Handbuch}
+\subject{Handbuch zur Version 1.1}
 \title{
   %\includegraphics[scale=0.333]{zusatz/logo_ksk}\\
   Kassenabrechnung für Basare
@@ -242,7 +251,7 @@ Taste & Bedeutung \\
 
 \minisec{Schritt 1: Eingabe der Verkäufernummer}
 Geben Sie die dreistellige Nummer des Verkäufers ein, anschließend wechselt
-die Eingabe zum Feld \gdq{Artikelpreis}. Haben Sie sich vertippt, können Sie
+die Eingabe zum Feld \enquote{Artikelpreis}. Haben Sie sich vertippt, können Sie
 die letzte Ziffer mit der Rückschritttaste (Backspace) \BSpace löschen.
 
 \minisec{Schritt 2: Eingabe des Artikelpreises}
@@ -276,7 +285,7 @@ Anhang~\vref{sec:propertiesDatei}).
 
 \subsubsection{Datenaustausch einlesen}
 An jedem Kassepunkt, an dem die Auswertung der Verkäufe und Erlöse erfolgen
-soll, muss die Funktion \gdq{Datenaustausch einlesen} aufgerufen werden. Dabei
+soll, muss die Funktion \enquote{Datenaustausch einlesen} aufgerufen werden. Dabei
 werden die Datenaustauschdateien der übrigen Kassen in die Datenbank der
 benutzten Kasse eingelesen und die Auswertungsfunktion kann aufgerufen
 werden.
@@ -292,7 +301,7 @@ Spalten enthalten die umgesetzten Summen an den einzelnen Kassen für diesen
 Verkäufer.
 
 In der letzten Zeile befinden sich die Summen für die Werte der zweiten bis
-letzten Spalte. Die erste Spalte weist durch die Ausschrift \gdq{Summe} darauf
+letzten Spalte. Die erste Spalte weist durch die Ausschrift \enquote{Summe} darauf
 hin, dass dies die Summenzeile ist. In der zweiten Spalte befindet sich die
 Summe aller Verkäufe, danach die Summe der Anteile für den Veranstalter,
 d.~h.\ hier steht der gesamte Erlös, den der Veranstalter erhält. In der
@@ -374,15 +383,23 @@ Als Datenbank wird die komplett in Java programmierte Datenbank
 
 \section{Beschreibung der properties-Datei}
 \label{sec:propertiesDatei}
-\begin{lstlisting}
-KassenID=1
-AnzahlKassen=3
-Austauschpfad=a:\
-\end{lstlisting}
+\lstdefinestyle{properties}{%
+  basicstyle=\footnotesize\ttfamily,%
+  language=Clean,%
+  breaklines=true,%
+  postbreak=\space,%
+  showspaces=true%
+}
+\lstinputlisting[style=properties]{../../kafbas.properties}
+\attachfile[%
+  author={Erik Wegner},%
+  mimetype={text/plain},%
+  icon=Paperclip,%
+  description={Beispieldatei kafbas.properties}]{../../kafbas.properties}
 
 \minisec{KassenID}\index{KassenID}
 Die Nummer dieser Kasse. Sie ist für die Veranstaltung einmalig und darf nicht
-größer sein als der Wert für \gdq{AnzahlKassen}.
+größer sein als der Wert für \enquote{AnzahlKassen}.
 
 \minisec{AnzahlKassen}\index{AnzahlKassen}
 Die Anzahl der vorhandenen Kassen für die Veranstaltung. Dieser Wert dient als
@@ -391,6 +408,27 @@ Grundlage für die Anzahl der Spalten in der Auswertung.
 \minisec{Austauschpfad}\index{Austauschpfad}
 Der Pfad zu einem Verzeichnis, wo die Austauschdateien abgelegt werden
 können. Dies kann ein Disketten-, USB- oder Netzwerklaufwerk/""-pfad sein.
+
+\minisec{Datenbanktreiber}\index{Datenbanktreiber}
+Dieser Klassenname wird verwendet, um den Datenbanktreiber zu laden.
+
+Für den mitgelieferten Apache-Derby-Treiber\marginpar{Derby} lautet der
+Eintrag:
+
+\texttt{org.apache.derby.jdbc.EmbeddedDriver}
+
+\minisec{Datenbankpfad}\index{Datenbankpfad}
+Die Verbindung zur Datenbank wird mit dem hier angegebenen Eintrag
+hergestellt. 
+
+Für die mitgelieferte Apache-Derby-Datenbank\marginpar{Derby} lautet der
+Eintrag:
+
+\texttt{jdbc:derby:kafbasdb;create=true}
+
+Der Zielordner der Datenbank lautet dabei \enquote{kafbasdb}, der Zusatz
+\enquote{;create=true} legt den Ordner an, wenn er noch nicht existiert und
+der Benutzer die Berechtigung dazu besitzt.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \ABSCHNITTSTRENNER
