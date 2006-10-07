@@ -409,6 +409,12 @@ Grundlage für die Anzahl der Spalten in der Auswertung.
 Der Pfad zu einem Verzeichnis, wo die Austauschdateien abgelegt werden
 können. Dies kann ein Disketten-, USB- oder Netzwerklaufwerk/""-pfad sein.
 
+\minisec{AnteilProzent}\index{AnteilProzent}
+Dieser Prozentteil wird in der Auswertung ausgegeben. Die Angabe erfolgt als
+Zahl:
+
+\texttt{AnteilProzent=10}
+
 \minisec{Datenbanktreiber}\index{Datenbanktreiber}
 Dieser Klassenname wird verwendet, um den Datenbanktreiber zu laden.
 
@@ -429,6 +435,28 @@ Eintrag:
 Der Zielordner der Datenbank lautet dabei \enquote{kafbasdb}, der Zusatz
 \enquote{;create=true} legt den Ordner an, wenn er noch nicht existiert und
 der Benutzer die Berechtigung dazu besitzt.
+
+\minisec{Meldung.Austausch.FrageVorBeginn}
+Diese Meldung wird dem Benutzer vor Ausführung des Datenaustauschs
+angezeigt. Sie dient dazu, den Benutzer zum Einlegen einer Diskette oder zum
+Anschließen eines USB-Datenträgers aufzufordern.
+
+Der Benutzer hat hier noch die Möglichkeit, den Datenaustausch abzubrechen,
+die Meldung wird mit einer \quotes{Ok} und einer
+\quotes{Abbrechen}-Schaltfläche angezeigt.
+
+\minisec{Meldung.Austausch.Beendet}
+Nach dem Beenden des Datenaustauschs erscheint diese Meldung, sie kann nur mit
+\quotes{Ok} bestätigt werden.
+
+\minisec{Script.Austausch.Beginn}
+Dieser Befehl wird ausgeführt, wenn der Benutzer die Meldung
+\quotes{Meldung.Austausch.FrageVorBeginn} mit \quotes{Ok} beantwortet
+hat. Damit kann bswp.~ein \textindex{mount}-Befehl abgesetzt werden.
+
+\minisec{Script.Austausch.Beendet}
+Nach dem Datenaustausch wird dieser Befehl aufgerufen, anschließend wird die
+Meldung \quotes{Meldung.Austausch.Beendet} abgezeigt.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \ABSCHNITTSTRENNER

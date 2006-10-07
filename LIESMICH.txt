@@ -21,7 +21,6 @@ http://logging.apache.org/log4j
 getestet mit Version 1.2.13
 
 ## Fehlende Funktionen ##
- o Einstellbarer Prozentsatz der Provision
  o Einstellbarer Ort (URL) und Treiber der Datenbank
  o Datenaustausch
     - Meldung vor Beginn mit Ok/Abbrechen
@@ -30,3 +29,4 @@ getestet mit Version 1.2.13
     - Meldung nach Datenaustausch mit Ok
 
 ## Neue Funktionen ##
+ o Einstellbarer Prozentsatz der Provision

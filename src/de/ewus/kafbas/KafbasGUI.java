@@ -92,7 +92,7 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 
 	private String propertiesdatei = "kafbas.properties";
 
-	private int kassenID = -1, anzahlKassen = -1;
+	private int kassenID = -1, anzahlKassen = -1, anteilProzent = -1;
 
 	private boolean initOK = false;
 
@@ -167,21 +167,24 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 		}
 		String skassenid = properties.getProperty("KassenID");
 		String sanzahlkassen = properties.getProperty("AnzahlKassen");
+		String sAnteilProzent = properties.getProperty("AnteilProzent");
 		logger.debug("KassenID=" + skassenid);
 		logger.debug("AnzahlKassen=" + sanzahlkassen);
+		logger.debug("AnteilProzent=" + sAnteilProzent);
 		if (skassenid != null) {
 			kassenID = Integer.parseInt(skassenid);
 		}
 		if (sanzahlkassen != null) {
 			anzahlKassen = Integer.parseInt(sanzahlkassen);
 		}
-		r = kassenID > 0 && anzahlKassen > 0;
+		if (sAnteilProzent != null) {
+			anteilProzent = Integer.parseInt(sAnteilProzent);
+		}
+		r = kassenID > 0 && anzahlKassen > 0 && anteilProzent > 0;
 		if (!r) {
-			if (kassenID < 1)
-				logger
-						.fatal("Die KassenID fuer diesen Platz ist nicht festgelegt.");
-			if (anzahlKassen < 1)
-				logger.fatal("Die Anzahl der Kassen ist nicht festgelegt.");
+			if (kassenID < 1) logger.fatal("Die KassenID fuer diesen Platz ist nicht festgelegt.");
+			if (anzahlKassen < 1) logger.fatal("Die Anzahl der Kassen ist nicht festgelegt.");
+			if (anteilProzent < 1) logger.fatal("Der Prozentanteil für die Berechnung der Auswertung ist nicht festgelegt.");
 			logger.fatal("Bitte sorgen Sie fuer die Eintraege in der Datei "
 					+ propertiesdatei + ".");
 			logger.fatal("Weiterhin muss diese Datei lesbar sein.");
@@ -844,7 +847,7 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 		DlgAuswertung dlg = 
 		    new DlgAuswertung(
 			this, 
-			new Auswertung(anzahlKassen, conn), 
+			new Auswertung(anzahlKassen, conn, anteilProzent), 
 			properties.getProperty("Austauschpfad", "."));
 
 		dlg.setModal(true);

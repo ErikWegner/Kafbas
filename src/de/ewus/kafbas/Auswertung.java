@@ -34,14 +34,14 @@ public class Auswertung extends AbstractTableModel {
     private static final Logger logger = Logger.getLogger(Auswertung.class.getName());
     private int anzahlKassen = 4;
     private Connection conn;
-    /** Anzahl permanenter Spalten */
     private int[] ksums;
     private int[][] vsums;
     private int ergebniszeilen = 0;
     private HashMap vmap = new HashMap();
-    private final static int AnteilK = 20;
-    private final String[] spaltennamen = {"Verkäufer", "Summe", AnteilK + "%", (100-AnteilK) + "%"};
-    private final int permSpalten = spaltennamen.length;
+    private int anteilK = -1;
+    private String[] spaltennamen;
+    /** Anzahl permanenter Spalten */
+    private int permSpalten = 0;
     /** Summe aller Verkäufe */
     private int summe;
     /** Summe des Kirchenanteils */
@@ -51,11 +51,17 @@ public class Auswertung extends AbstractTableModel {
     /**
      * 
      */
-    public Auswertung(int anzahlKassen, Connection conn) {
+    public Auswertung(int anzahlKassen, Connection conn, int anteilProzent) {
 		super();
 		this.anzahlKassen = anzahlKassen;
 		this.conn = conn;
+		this.anteilK = anteilProzent;
 		ksums = new int[anzahlKassen];
+		spaltennamen = new String[4];
+		spaltennamen[permSpalten++] = "Verkäufer";
+		spaltennamen[permSpalten++] = "Summe";
+		spaltennamen[permSpalten++] = anteilK + "%";
+		spaltennamen[permSpalten++] = (100-anteilK) + "%";
 		for (int i = 0; i < anzahlKassen; i++) ksums[i] = 0;
 		auswerten();
     }
@@ -121,7 +127,7 @@ public class Auswertung extends AbstractTableModel {
 		    vsums[i1][anzahlKassen+1] = 0;
 		    for (int i2 = 0; i2 < anzahlKassen; i2++) vsums[i1][anzahlKassen+1] += vsums[i1][i2+1];
 		    summe += vsums[i1][anzahlKassen+1];
-		    summeV += (100-AnteilK)*vsums[i1][anzahlKassen+1]/100;
+		    summeV += (100-anteilK)*vsums[i1][anzahlKassen+1]/100;
 		}
 		summeK = summe-summeV;
     }
@@ -167,12 +173,12 @@ public class Auswertung extends AbstractTableModel {
 			case 2 :
 			    d = ((double)(
 				     vsums[row][anzahlKassen+1]-
-				     (100-AnteilK)*vsums[row][anzahlKassen+1]/100)
+				     (100-anteilK)*vsums[row][anzahlKassen+1]/100)
 				)/100;
 			    break;
 			case 3 :
 			    d = ((double)(
-				     (100-AnteilK)*vsums[row][anzahlKassen+1]/100)
+				     (100-anteilK)*vsums[row][anzahlKassen+1]/100)
 				)/100; 
 			    break;
 			default :
