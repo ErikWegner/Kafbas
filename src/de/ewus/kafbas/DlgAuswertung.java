@@ -40,34 +40,47 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import org.apache.log4j.Logger;
-//import org.jfree.report.ElementAlignment;
-//import org.jfree.report.JFreeReport;
-//import org.jfree.report.JFreeReportBoot;
-//import org.jfree.report.ReportProcessingException;
-//import org.jfree.report.elementfactory.TextFieldElementFactory;
-//import org.jfree.report.modules.gui.base.PreviewDialog;
-//import org.jfree.ui.FloatDimension;
 
-
+// import org.jfree.report.ElementAlignment;
+// import org.jfree.report.JFreeReport;
+// import org.jfree.report.JFreeReportBoot;
+// import org.jfree.report.ReportProcessingException;
+// import org.jfree.report.elementfactory.TextFieldElementFactory;
+// import org.jfree.report.modules.gui.base.PreviewDialog;
+// import org.jfree.ui.FloatDimension;
 
 public class DlgAuswertung extends JDialog {
 
-    private static final Logger logger = Logger.getLogger(DlgAuswertung.class.getName());
-    private JPanel jContentPane = null;
+	private static final Logger logger = Logger.getLogger(DlgAuswertung.class
+			.getName());
+
+	private JPanel jContentPane = null;
+
 	private JScrollPane jScrollPane = null;
+
 	private JTable jTable = null;
+
 	private JPanel jPanel = null;
+
 	private JButton jButtonDruck = null;
+
 	private JButton jButtonSchliessen = null;
+
 	private Auswertung datenquelle = null;
-    private String austauschpfad = null;
+
+	private String austauschpfad = null;
+
+	private DTAmessage dtam;
+
 	/**
 	 * This is the default constructor
 	 */
-	public DlgAuswertung(JFrame owner, Auswertung datenquelle, String austauschpfad) {
+	public DlgAuswertung(JFrame owner, Auswertung datenquelle,
+			String austauschpfad, DTAmessage dtam) {
 		super(owner);
 		this.datenquelle = datenquelle;
 		this.austauschpfad = austauschpfad;
+		this.dtam = dtam;
 		initialize();
 	}
 
@@ -82,7 +95,8 @@ public class DlgAuswertung extends JDialog {
 		this.setTitle("Auswertung");
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		Dimension frame = this.getSize();
-		this.setLocation((screen.width - frame.width) / 2,(screen.height - frame.height) / 2);
+		this.setLocation((screen.width - frame.width) / 2,
+				(screen.height - frame.height) / 2);
 
 	}
 
@@ -102,9 +116,9 @@ public class DlgAuswertung extends JDialog {
 	}
 
 	/**
-	 * This method initializes jScrollPane	
-	 * 	
-	 * @return javax.swing.JScrollPane	
+	 * This method initializes jScrollPane
+	 * 
+	 * @return javax.swing.JScrollPane
 	 */
 	private JScrollPane getJScrollPane() {
 		if (jScrollPane == null) {
@@ -115,9 +129,9 @@ public class DlgAuswertung extends JDialog {
 	}
 
 	/**
-	 * This method initializes jTable	
-	 * 	
-	 * @return javax.swing.JTable	
+	 * This method initializes jTable
+	 * 
+	 * @return javax.swing.JTable
 	 */
 	private JTable getJTable() {
 		if (jTable == null) {
@@ -128,9 +142,9 @@ public class DlgAuswertung extends JDialog {
 	}
 
 	/**
-	 * This method initializes jPanel	
-	 * 	
-	 * @return javax.swing.JPanel	
+	 * This method initializes jPanel
+	 * 
+	 * @return javax.swing.JPanel
 	 */
 	private JPanel getJPanel() {
 		if (jPanel == null) {
@@ -142,9 +156,9 @@ public class DlgAuswertung extends JDialog {
 	}
 
 	/**
-	 * This method initializes jButtonDruck	
-	 * 	
-	 * @return javax.swing.JButton	
+	 * This method initializes jButtonDruck
+	 * 
+	 * @return javax.swing.JButton
 	 */
 	private JButton getJButtonDruck() {
 		if (jButtonDruck == null) {
@@ -152,207 +166,224 @@ public class DlgAuswertung extends JDialog {
 			jButtonDruck.setText("Export HTML");
 			jButtonDruck.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-				    //drucken();
-				    exportHTML();
+					// drucken();
+					exportHTML();
 				}
 			});
 		}
 		return jButtonDruck;
 	}
 
-//	private void drucken() {
-//		JFreeReportBoot.getInstance().start();
-//		JFreeReport report = createReportDefinition();
-//		report.setData(datenquelle);
-//		try {
-//			PreviewDialog preview = new PreviewDialog(report);
-//			preview.pack();
-//			preview.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-//			preview.setModal(true);
-//			preview.setVisible(true);
-//		}
-//		catch (ReportProcessingException e)
-//		{ logger.warn(e); }
-//	}
-	
-    /**
-     * 
-     */
-    private void exportHTML() {
-	logger.debug("exportHTML");
-	String datei = austauschpfad + File.separator + "auswertung.html";
-	try {
-	    logger.info("Austauschdatei=" + datei);
-//	    BufferedWriter bw = new BufferedWriter(
-//	    		new FileWriter(
-//	    				new File(datei)));
-	    BufferedWriter bw = new BufferedWriter
-	    	(new OutputStreamWriter
-	    			(new FileOutputStream(datei),
-	    				"UTF-8" ) );
-	    //schreide Daten
-	    bw.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-	    bw.write("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" \"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">\n");
-	    bw.write("<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" >\n");
-	    bw.write(" <head>\n");
-	    bw.write("  <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n");
-	    bw.write("  <meta http-equiv=\"Content-Script-Type\" content=\"text/javascript\" />\n");
-	    bw.write("  <style type=\"text/css\">\n");
-	    bw.write("   h1 {font-family:sans-serif;}\n");
-	    bw.write("   .tdr {text-align:right;}\n");
-	    bw.write("   .tdsr {text-align:right;font-weight:bold;}\n");
-	    bw.write("   .tds  {font-weight:bold;}\n");
-	    bw.write("  </style>\n");
-	    bw.write("  <title>Auswertung Kafbas</title>\n");
-	    bw.write(" </head>\n");
-	    bw.write(" <body>\n");
-	    bw.write("  <h1>Abrechnung " + heute() + "</h1>\n");
-	    bw.write("  <table border=\"1\">\n");
-	    int spalten = datenquelle.getColumnCount();
-	    int zeilen = datenquelle.getRowCount();
-	    String zellinhalt = null;
-	    WaehrungsSpalteRenderer renderer = new WaehrungsSpalteRenderer();
-	    //Überschrift
-	    bw.write("   <thead>\n");
-	    bw.write("    <tr>\n");
-	    for (int c1=0; c1<spalten; c1++)
-		bw.write("     <th>" + datenquelle.getColumnName(c1) + "</th>\n");
-	    bw.write("    </tr>\n");
-	    bw.write("   </thead>\n");
-	    //Summenzeile
-	    bw.write("   <tfoot>\n");
-	    bw.write("    <tr>\n");
-	    for (int c_col=0; c_col < spalten; c_col++) {
-		zellinhalt = datenquelle.getValueAt(zeilen-1, c_col).toString();
-		if (c_col > 0) renderer.setValue(new Double(zellinhalt));
-		bw.write("     <td class=\"" + 
-			 ( c_col > 0 ? "tdsr" : "tds") + "\">" +
-			 (c_col == 0 ? zellinhalt : renderer.getText()) + 
-			 "</td>\n");
-	    }
-	    bw.write("    </tr>\n");
-	    bw.write("   </tfoot>\n");
-	    //Datenzeilen
-	    bw.write("   <tbody>\n");
-	    for (int c_row = 0; c_row < zeilen-1; c_row++) {
-		bw.write("    <tr>\n");
-		for (int c_col=0; c_col < spalten; c_col++) {
-		    zellinhalt = datenquelle.getValueAt(c_row, c_col).toString();
-		    if (c_col > 0) renderer.setValue(new Double(zellinhalt));
-		    bw.write("     <td" + 
-			     ( c_col > 0 ? " class=\"tdr\"" : "") + ">" + 
-			     (c_col == 0 ? zellinhalt : renderer.getText()) + 
-			     "</td>\n");
-		}
-		bw.write("    </tr>\n");
-	    }
-	    bw.write("   </tbody>\n");
-	    bw.write("  </table>\n");
-//	    bw.write("  <p>\n"+
-//		     "   <a href=\"http://www.validome.org/referer\">" +
-//		     "<img style=\"border:none\"\n" + 
-//		     "     src=\"http://www.validome.org/images/set3/valid_xhtml_1_1.gif\"\n" + 
-//		     "     alt=\"Valid XHTML 1.1\" width=\"80\" height=\"15\" />" +
-//		     "</a>\n" + 
-//		     "  </p>\n");
-	    bw.write(" </body>\n");
-	    bw.write("</html>\n");
-	    bw.close();
-	    JOptionPane.showMessageDialog(this, "Ausgabe in Datei " + datei + " erfolgreich.");
-	} catch (FileNotFoundException e) {
-	    logger.error("FileNotFoundException", e);
-	} catch (IOException e) {
-	    logger.error("IOException", e);
-	}
-    }
+	// private void drucken() {
+	// JFreeReportBoot.getInstance().start();
+	// JFreeReport report = createReportDefinition();
+	// report.setData(datenquelle);
+	// try {
+	// PreviewDialog preview = new PreviewDialog(report);
+	// preview.pack();
+	// preview.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+	// preview.setModal(true);
+	// preview.setVisible(true);
+	// }
+	// catch (ReportProcessingException e)
+	// { logger.warn(e); }
+	// }
 
 	/**
-	 * This method initializes jButtonSchliessen	
-	 * 	
-	 * @return javax.swing.JButton	
+	 * 
+	 */
+	private void exportHTML() {
+		logger.debug("exportHTML");
+		String datei = austauschpfad + File.separator + "auswertung.html";
+		if (dtam.frageDTAbeginnen(this)) {
+			dtam.scriptDTAstart();
+			try {
+				logger.info("Austauschdatei=" + datei);
+				// BufferedWriter bw = new BufferedWriter(
+				// new FileWriter(
+				// new File(datei)));
+				BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(
+						new FileOutputStream(datei), "UTF-8"));
+				// schreide Daten
+				// bw.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+				bw
+						.write("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" \"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">\n");
+				bw
+						.write("<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" >\n");
+				bw.write(" <head>\n");
+				bw
+						.write("  <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n");
+				bw
+						.write("  <meta http-equiv=\"Content-Script-Type\" content=\"text/javascript\" />\n");
+				bw.write("  <style type=\"text/css\">\n");
+				bw.write("   h1 {font-family:sans-serif;}\n");
+				bw.write("   .tdr {text-align:right;}\n");
+				bw.write("   .tdsr {text-align:right;font-weight:bold;}\n");
+				bw.write("   .tds  {font-weight:bold;}\n");
+				bw.write("  </style>\n");
+				bw.write("  <title>Auswertung Kafbas</title>\n");
+				bw.write(" </head>\n");
+				bw.write(" <body>\n");
+				bw.write("  <h1>Abrechnung " + heute() + "</h1>\n");
+				bw.write("  <table border=\"1\">\n");
+				int spalten = datenquelle.getColumnCount();
+				int zeilen = datenquelle.getRowCount();
+				String zellinhalt = null;
+				WaehrungsSpalteRenderer renderer = new WaehrungsSpalteRenderer();
+				// Überschrift
+				bw.write("   <thead>\n");
+				bw.write("    <tr>\n");
+				for (int c1 = 0; c1 < spalten; c1++)
+					bw.write("     <th>" + datenquelle.getColumnName(c1)
+							+ "</th>\n");
+				bw.write("    </tr>\n");
+				bw.write("   </thead>\n");
+				// Summenzeile
+				bw.write("   <tfoot>\n");
+				bw.write("    <tr>\n");
+				for (int c_col = 0; c_col < spalten; c_col++) {
+					zellinhalt = datenquelle.getValueAt(zeilen - 1, c_col)
+							.toString();
+					if (c_col > 0)
+						renderer.setValue(new Double(zellinhalt));
+					bw.write("     <td class=\"" + (c_col > 0 ? "tdsr" : "tds")
+							+ "\">"
+							+ (c_col == 0 ? zellinhalt : renderer.getText())
+							+ "</td>\n");
+				}
+				bw.write("    </tr>\n");
+				bw.write("   </tfoot>\n");
+				// Datenzeilen
+				bw.write("   <tbody>\n");
+				for (int c_row = 0; c_row < zeilen - 1; c_row++) {
+					bw.write("    <tr>\n");
+					for (int c_col = 0; c_col < spalten; c_col++) {
+						zellinhalt = datenquelle.getValueAt(c_row, c_col)
+								.toString();
+						if (c_col > 0)
+							renderer.setValue(new Double(zellinhalt));
+						bw
+								.write("     <td"
+										+ (c_col > 0 ? " class=\"tdr\"" : "")
+										+ ">"
+										+ (c_col == 0 ? zellinhalt : renderer
+												.getText()) + "</td>\n");
+					}
+					bw.write("    </tr>\n");
+				}
+				bw.write("   </tbody>\n");
+				bw.write("  </table>\n");
+				// bw.write(" <p>\n"+
+				// " <a href=\"http://www.validome.org/referer\">" +
+				// "<img style=\"border:none\"\n" +
+				// "
+				// src=\"http://www.validome.org/images/set3/valid_xhtml_1_1.gif\"\n"
+				// +
+				// " alt=\"Valid XHTML 1.1\" width=\"80\" height=\"15\" />" +
+				// "</a>\n" +
+				// " </p>\n");
+				bw.write(" </body>\n");
+				bw.write("</html>\n");
+				bw.close();
+				dtam.scriptDTAende();
+				JOptionPane.showMessageDialog(this, "Ausgabe in Datei " + datei
+						+ " erfolgreich.");
+			} catch (FileNotFoundException e) {
+				logger.error("FileNotFoundException", e);
+			} catch (IOException e) {
+				logger.error("IOException", e);
+			}
+		} else logger.debug("Export durch Benutzer abgebrochen");
+	}
+
+	/**
+	 * This method initializes jButtonSchliessen
+	 * 
+	 * @return javax.swing.JButton
 	 */
 	private JButton getJButtonSchliessen() {
 		if (jButtonSchliessen == null) {
 			jButtonSchliessen = new JButton();
 			jButtonSchliessen.setText("Schließen");
-			jButtonSchliessen.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent e) {
-					setVisible(false);
-				}
-			});
+			jButtonSchliessen
+					.addActionListener(new java.awt.event.ActionListener() {
+						public void actionPerformed(java.awt.event.ActionEvent e) {
+							setVisible(false);
+						}
+					});
 		}
 		return jButtonSchliessen;
 	}
 
-//	private JFreeReport createReportDefinition() {
-//		 final JFreeReport report = new JFreeReport();
-//	    report.setName("Kafbasreport");
-//
-//	    TextFieldElementFactory factory;
-//	    factory = new TextFieldElementFactory();
-//	    factory.setName("T1");
-//	    factory.setAbsolutePosition(new Point2D.Float(0, 0));
-//	    factory.setMinimumSize(new FloatDimension(45, 12));
-//	    factory.setColor(Color.black);
-//	    factory.setHorizontalAlignment(ElementAlignment.LEFT);
-//	    factory.setVerticalAlignment(ElementAlignment.MIDDLE);
-//	    factory.setNullString("-");
-//	    factory.setFieldname("Verkäufer");
-//	    report.getItemBand().addElement(factory.createElement());
-//
-//	    factory = new TextFieldElementFactory();
-//	    factory.setName("T2");
-//	    factory.setAbsolutePosition(new Point2D.Float(50, 0));
-//	    factory.setMinimumSize(new FloatDimension(60, 12));
-//	    factory.setColor(Color.black);
-//	    factory.setHorizontalAlignment(ElementAlignment.RIGHT);
-//	    factory.setVerticalAlignment(ElementAlignment.MIDDLE);
-//	    factory.setNullString("-");
-//	    factory.setFieldname("Summe");
-//	    report.getItemBand().addElement(factory.createElement());
-//
-//	    factory = new TextFieldElementFactory();
-//	    factory.setName("T3");
-//	    factory.setAbsolutePosition(new Point2D.Float(120, 0));
-//	    factory.setMinimumSize(new FloatDimension(60, 12));
-//	    factory.setColor(Color.black);
-//	    factory.setHorizontalAlignment(ElementAlignment.RIGHT);
-//	    factory.setVerticalAlignment(ElementAlignment.MIDDLE);
-//	    factory.setNullString("-");
-//	    factory.setFieldname("20%");
-//	    report.getItemBand().addElement(factory.createElement());
-//
-//	    factory = new TextFieldElementFactory();
-//	    factory.setName("T4");
-//	    factory.setAbsolutePosition(new Point2D.Float(190, 0));
-//	    factory.setMinimumSize(new FloatDimension(60, 12));
-//	    factory.setColor(Color.black);
-//	    factory.setHorizontalAlignment(ElementAlignment.RIGHT);
-//	    factory.setVerticalAlignment(ElementAlignment.MIDDLE);
-//	    factory.setNullString("-");
-//	    factory.setFieldname("80%");
-//	    report.getItemBand().addElement(factory.createElement());
-//
-//	    factory = new TextFieldElementFactory();
-//	    factory.setName("T5");
-//	    factory.setAbsolutePosition(new Point2D.Float(260, 0));
-//	    factory.setMinimumSize(new FloatDimension(60, 12));
-//	    factory.setColor(Color.black);
-//	    factory.setHorizontalAlignment(ElementAlignment.RIGHT);
-//	    factory.setVerticalAlignment(ElementAlignment.MIDDLE);
-//	    factory.setNullString("-");
-//	    factory.setFieldname("Kasse1");
-//	    report.getItemBand().addElement(factory.createElement());
-//
-//	    
-//	    return report;
-//	}
-	
-    private String heute() {
-	DateFormat dateFormatter;
+	// private JFreeReport createReportDefinition() {
+	// final JFreeReport report = new JFreeReport();
+	// report.setName("Kafbasreport");
+	//
+	// TextFieldElementFactory factory;
+	// factory = new TextFieldElementFactory();
+	// factory.setName("T1");
+	// factory.setAbsolutePosition(new Point2D.Float(0, 0));
+	// factory.setMinimumSize(new FloatDimension(45, 12));
+	// factory.setColor(Color.black);
+	// factory.setHorizontalAlignment(ElementAlignment.LEFT);
+	// factory.setVerticalAlignment(ElementAlignment.MIDDLE);
+	// factory.setNullString("-");
+	// factory.setFieldname("Verkäufer");
+	// report.getItemBand().addElement(factory.createElement());
+	//
+	// factory = new TextFieldElementFactory();
+	// factory.setName("T2");
+	// factory.setAbsolutePosition(new Point2D.Float(50, 0));
+	// factory.setMinimumSize(new FloatDimension(60, 12));
+	// factory.setColor(Color.black);
+	// factory.setHorizontalAlignment(ElementAlignment.RIGHT);
+	// factory.setVerticalAlignment(ElementAlignment.MIDDLE);
+	// factory.setNullString("-");
+	// factory.setFieldname("Summe");
+	// report.getItemBand().addElement(factory.createElement());
+	//
+	// factory = new TextFieldElementFactory();
+	// factory.setName("T3");
+	// factory.setAbsolutePosition(new Point2D.Float(120, 0));
+	// factory.setMinimumSize(new FloatDimension(60, 12));
+	// factory.setColor(Color.black);
+	// factory.setHorizontalAlignment(ElementAlignment.RIGHT);
+	// factory.setVerticalAlignment(ElementAlignment.MIDDLE);
+	// factory.setNullString("-");
+	// factory.setFieldname("20%");
+	// report.getItemBand().addElement(factory.createElement());
+	//
+	// factory = new TextFieldElementFactory();
+	// factory.setName("T4");
+	// factory.setAbsolutePosition(new Point2D.Float(190, 0));
+	// factory.setMinimumSize(new FloatDimension(60, 12));
+	// factory.setColor(Color.black);
+	// factory.setHorizontalAlignment(ElementAlignment.RIGHT);
+	// factory.setVerticalAlignment(ElementAlignment.MIDDLE);
+	// factory.setNullString("-");
+	// factory.setFieldname("80%");
+	// report.getItemBand().addElement(factory.createElement());
+	//
+	// factory = new TextFieldElementFactory();
+	// factory.setName("T5");
+	// factory.setAbsolutePosition(new Point2D.Float(260, 0));
+	// factory.setMinimumSize(new FloatDimension(60, 12));
+	// factory.setColor(Color.black);
+	// factory.setHorizontalAlignment(ElementAlignment.RIGHT);
+	// factory.setVerticalAlignment(ElementAlignment.MIDDLE);
+	// factory.setNullString("-");
+	// factory.setFieldname("Kasse1");
+	// report.getItemBand().addElement(factory.createElement());
+	//
+	//	    
+	// return report;
+	// }
 
-	dateFormatter = DateFormat.getInstance();
-	return dateFormatter.format(new Date());
-    }
+	private String heute() {
+		DateFormat dateFormatter;
+
+		dateFormatter = DateFormat.getInstance();
+		return dateFormatter.format(new Date());
+	}
 
 }

@@ -216,7 +216,7 @@ Im Beispiel (Abbildung~\vref{fig:etikett}) bietet der Verkäufer mit der
 Nummer~104 diesen Artikel zum Preis von \EUR{2,30} an.
 
 Vom insgesamten Verkaufsergebnis behält der Veranstalter einen
-\textindex{Anteil} (20\%) ein, dies kann in der Auswertung des Programms
+\textindex{Anteil} (bspw.~20\%) ein, dies kann in der Auswertung des Programms
 abgelesen werden.
 
 Eine zusätzliche Anforderung bestand darin, dass an verschiedenen Kassen
@@ -285,10 +285,10 @@ Anhang~\vref{sec:propertiesDatei}).
 
 \subsubsection{Datenaustausch einlesen}
 An jedem Kassepunkt, an dem die Auswertung der Verkäufe und Erlöse erfolgen
-soll, muss die Funktion \enquote{Datenaustausch einlesen} aufgerufen werden. Dabei
-werden die Datenaustauschdateien der übrigen Kassen in die Datenbank der
-benutzten Kasse eingelesen und die Auswertungsfunktion kann aufgerufen
-werden.
+soll, muss die Funktion \enquote{Datenaustausch einlesen} aufgerufen
+werden. Dabei werden die Datenaustauschdateien der übrigen Kassen in die
+Datenbank der benutzten Kasse eingelesen und die Auswertungsfunktion kann
+aufgerufen werden.
 
 \subsection{Auswertung}\index{Auswertung}
 Beim Aufrufen der Funktion Auswertung öffnet sich ein Dialog, der die
@@ -301,9 +301,9 @@ Spalten enthalten die umgesetzten Summen an den einzelnen Kassen für diesen
 Verkäufer.
 
 In der letzten Zeile befinden sich die Summen für die Werte der zweiten bis
-letzten Spalte. Die erste Spalte weist durch die Ausschrift \enquote{Summe} darauf
-hin, dass dies die Summenzeile ist. In der zweiten Spalte befindet sich die
-Summe aller Verkäufe, danach die Summe der Anteile für den Veranstalter,
+letzten Spalte. Die erste Spalte weist durch die Ausschrift \enquote{Summe}
+darauf hin, dass dies die Summenzeile ist. In der zweiten Spalte befindet sich
+die Summe aller Verkäufe, danach die Summe der Anteile für den Veranstalter,
 d.~h.\ hier steht der gesamte Erlös, den der Veranstalter erhält. In der
 vierten Spalte ist die Summe aller Erlöse der Verkäufer. Die nachfolgenden
 Zahlen stellen die Verkaufssummen der einzelnen Kassen dar.
@@ -430,7 +430,7 @@ hergestellt.
 Für die mitgelieferte Apache-Derby-Datenbank\marginpar{Derby} lautet der
 Eintrag:
 
-\texttt{jdbc:derby:kafbasdb;create=true}
+\texttt{jdbc:derby:db/kafbasdb;create=true}
 
 Der Zielordner der Datenbank lautet dabei \enquote{kafbasdb}, der Zusatz
 \enquote{;create=true} legt den Ordner an, wenn er noch nicht existiert und
@@ -442,21 +442,33 @@ angezeigt. Sie dient dazu, den Benutzer zum Einlegen einer Diskette oder zum
 Anschließen eines USB-Datenträgers aufzufordern.
 
 Der Benutzer hat hier noch die Möglichkeit, den Datenaustausch abzubrechen,
-die Meldung wird mit einer \quotes{Ok} und einer
-\quotes{Abbrechen}-Schaltfläche angezeigt.
+die Meldung wird mit einer \enquote{Ok} und einer
+\enquote{Abbrechen}-Schaltfläche angezeigt.
 
 \minisec{Meldung.Austausch.Beendet}
 Nach dem Beenden des Datenaustauschs erscheint diese Meldung, sie kann nur mit
-\quotes{Ok} bestätigt werden.
+\enquote{Ok} bestätigt werden.
 
 \minisec{Script.Austausch.Beginn}
 Dieser Befehl wird ausgeführt, wenn der Benutzer die Meldung
-\quotes{Meldung.Austausch.FrageVorBeginn} mit \quotes{Ok} beantwortet
+\enquote{Meldung.Austausch.FrageVorBeginn} mit \enquote{Ok} beantwortet
 hat. Damit kann bswp.~ein \textindex{mount}-Befehl abgesetzt werden.
+
+\attachfile[%
+  author={Erik Wegner},%
+  mimetype={text/plain},%
+  icon=Paperclip,%
+  description={Beispieldatei mountdisk.sh}]{../../mountdisk.sh}
 
 \minisec{Script.Austausch.Beendet}
 Nach dem Datenaustausch wird dieser Befehl aufgerufen, anschließend wird die
-Meldung \quotes{Meldung.Austausch.Beendet} abgezeigt.
+Meldung \enquote{Meldung.Austausch.Beendet} abgezeigt.
+
+\attachfile[%
+  author={Erik Wegner},%
+  mimetype={text/plain},%
+  icon=Paperclip,%
+  description={Beispieldatei unmountdisk.sh}]{../../unmountdisk.sh}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \ABSCHNITTSTRENNER

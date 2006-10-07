@@ -21,13 +21,17 @@ http://logging.apache.org/log4j
 getestet mit Version 1.2.13
 
 ## Fehlende Funktionen ##
+derzeit keine :-)
+
+## Neue Funktionen ##
+### Version 1.1 ###
+ o Einstellbarer Prozentsatz der Provision
+ o Einstellbarer Ort (URL) und Treiber der Datenbank
+ o Datenaustausch
  o Datenaustausch
     - Meldung vor Beginn mit Ok/Abbrechen
     - Skript/Befehl vor Funktionsausführung
     - Skript nach Befehlsausführung
     - Meldung nach Datenaustausch mit Ok
 
-## Neue Funktionen ##
- o Einstellbarer Prozentsatz der Provision
- o Einstellbarer Ort (URL) und Treiber der Datenbank
  

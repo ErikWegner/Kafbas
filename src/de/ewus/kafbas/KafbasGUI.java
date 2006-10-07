@@ -70,6 +70,8 @@ import org.apache.log4j.Logger;
  */
 public class KafbasGUI extends JFrame implements WindowListener, KeyListener, FilenameFilter {
 
+	private DTAmessage dtam = new DTAmessage();
+	
 	private static final Logger logger = Logger.getLogger(KafbasGUI.class
 			.getName());
 
@@ -170,8 +172,12 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 		String skassenid = properties.getProperty("KassenID");
 		String sanzahlkassen = properties.getProperty("AnzahlKassen");
 		String sAnteilProzent = properties.getProperty("AnteilProzent");
-		String jdbcdrvprop = properties.getProperty("Datenbanktreiber");
-		String jdbcconprop = properties.getProperty("Datenbankpfad");
+		jdbcdrv = properties.getProperty("Datenbanktreiber", jdbcdrv);
+		jdbccon = properties.getProperty("Datenbankpfad", jdbccon);
+		dtam.setMeldungAustauschFrageVorBeginn(properties.getProperty("Meldung.Austausch.FrageVorBeginn", ""));
+		dtam.setMeldungAustauschBeendet(properties.getProperty("Meldung.Austausch.Beendet", ""));
+		dtam.setScriptAustauschBeginn(properties.getProperty("Script.Austausch.Beginn", ""));
+		dtam.setScriptAustauschBeendet(properties.getProperty("Script.Austausch.Beendet", ""));
 		
 		logger.debug("KassenID=" + skassenid);
 		logger.debug("AnzahlKassen=" + sanzahlkassen);
@@ -186,18 +192,8 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 		if (sAnteilProzent != null) {
 			anteilProzent = Integer.parseInt(sAnteilProzent);
 		}
-		if (jdbcdrvprop != null) {
-			if (!jdbcdrvprop.equals("")) {
-				jdbcdrv = jdbcdrvprop;
-				logger.debug("Datenbanktreiber="+jdbcdrv);
-			}
-		}
-		if (jdbcconprop != null) {
-			if (!jdbcconprop.equals("")) {
-				jdbccon = jdbcconprop;
-				logger.debug("Datenbankpfad="+jdbccon);
-			}
-		}
+		logger.debug("Datenbanktreiber="+jdbcdrv);
+		logger.debug("Datenbankpfad="+jdbccon);
 		
 		r = kassenID > 0 && anzahlKassen > 0 && anteilProzent > 0;
 		if (!r) {
@@ -648,8 +644,8 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 		boolean ergebnis = false;
 		try {
 			Class.forName(jdbcdrv).newInstance();
-			logger.debug("getConnection(\"" + jdbccon + ";create=true\")");
-			conn = DriverManager.getConnection(jdbccon + ";create=true", "sa",
+			logger.debug("getConnection(\"" + jdbccon + "\")");
+			conn = DriverManager.getConnection(jdbccon, "sa",
 					"");
 			ergebnis = true;
 		} catch (InstantiationException e) {
@@ -867,121 +863,133 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 		    new DlgAuswertung(
 			this, 
 			new Auswertung(anzahlKassen, conn, anteilProzent), 
-			properties.getProperty("Austauschpfad", "."));
+			properties.getProperty("Austauschpfad", "."), dtam);
 
 		dlg.setModal(true);
 		dlg.setVisible(true);
 	}
 
+
 	private void machDTAerzeugen() {
 		logger.debug("DTA erzeugen");
-		ProgressMonitor pm = new ProgressMonitor(this,
-				"Austauschdatei erzeugen", null, 0, 100);
-		pm.setProgress(0);
-		pm.setMillisToDecideToPopup(1000);
-		int cprogress = 0;
-		String datei = properties.getProperty("Austauschpfad", ".")
-				+ File.separator + dateiPrefix + kassenID
-				+ "." + dateiSuffix;
-		try {
-			Statement stmt = conn.createStatement(
-					ResultSet.TYPE_SCROLL_INSENSITIVE,
-					ResultSet.CONCUR_READ_ONLY);
-			String query = "SELECT * FROM " + tabellen[TAB_Kassenposten]
-					+ " WHERE kassenid = " + kassenID;
-			logger.debug(query);
-			ResultSet rs = stmt.executeQuery(query);
-			rs.last();
-			pm.setMaximum(rs.getRow() + 1);
-			rs.beforeFirst();
-			String export;
-			logger.info("Austauschdatei=" + datei);
-			BufferedWriter bw = new BufferedWriter(new FileWriter(new File(
-					datei)));
-			while (rs.next()) {
-				export = rs.getString("verkaeufer") + ","
-						+ rs.getInt("artikelpreis");
-				bw.write(export);
-				bw.newLine();
-				logger.debug("Export: " + export);
-				pm.setProgress(++cprogress);
+		if (dtam.frageDTAbeginnen(this)) {
+			dtam.scriptDTAstart();
+			
+			ProgressMonitor pm = new ProgressMonitor(this,
+					"Austauschdatei erzeugen", null, 0, 100);
+			pm.setProgress(0);
+			pm.setMillisToDecideToPopup(1000);
+			int cprogress = 0;
+			String datei = properties.getProperty("Austauschpfad", ".")
+					+ File.separator + dateiPrefix + kassenID
+					+ "." + dateiSuffix;
+			try {
+				Statement stmt = conn.createStatement(
+						ResultSet.TYPE_SCROLL_INSENSITIVE,
+						ResultSet.CONCUR_READ_ONLY);
+				String query = "SELECT * FROM " + tabellen[TAB_Kassenposten]
+						+ " WHERE kassenid = " + kassenID;
+				logger.debug(query);
+				ResultSet rs = stmt.executeQuery(query);
+				rs.last();
+				pm.setMaximum(rs.getRow() + 1);
+				rs.beforeFirst();
+				String export;
+				logger.info("Austauschdatei=" + datei);
+				BufferedWriter bw = new BufferedWriter(new FileWriter(new File(
+						datei)));
+				while (rs.next()) {
+					export = rs.getString("verkaeufer") + ","
+							+ rs.getInt("artikelpreis");
+					bw.write(export);
+					bw.newLine();
+					logger.debug("Export: " + export);
+					pm.setProgress(++cprogress);
+				}
+				bw.close();
+			} catch (SQLException e) {
+				logger.error("SQLException", e);
+			} catch (FileNotFoundException e) {
+				logger.error("FileNotFoundException", e);
+			} catch (IOException e) {
+				logger.error("IOException", e);
 			}
-			bw.close();
-		} catch (SQLException e) {
-			logger.error("SQLException", e);
-		} catch (FileNotFoundException e) {
-			logger.error("FileNotFoundException", e);
-		} catch (IOException e) {
-			logger.error("IOException", e);
-		}
-		pm.close();
-		statuszeile = "Datei geschrieben: " + datei;
-		aktualisiereFelder();
+			pm.close();
+			dtam.scriptDTAende();
+			dtam.meldungDTAende(this);
+			statuszeile = "Datei geschrieben: " + datei;
+			aktualisiereFelder();
+		} else logger.debug("DTA durch Benutzer abgebrochen.");	
 	}
 
 	private void machDTAeinlesen() {
 		logger.debug("DTA einlesen");
-		//Finde alle kasse???.k
-		File verzeichnis = new File(properties.getProperty("Austauschpfad", "."));
-		//für alle dateien <> eigene_kassen_id
-		String[] kdaliste = verzeichnis.list(this);
-		ProgressMonitor pm = new ProgressMonitor(this,
-				"Austauschdatei einlesen", null, 0, kdaliste.length);
-		pm.setProgress(0);
-		pm.setMillisToDecideToPopup(1000);
-		//	delete where kassenid=kassenid_der_datei
-		//	insert (datensätze aus datei)
-		int kasse;
-		for (int c=0; c<kdaliste.length; c++) {
-			kasse = zahlAusDateinamen(kdaliste[c]);
-			if (kasse != kassenID) {
-				int zeilenzaehler = 0;
-				try {
-					Statement stmt = conn.createStatement();
-					String anweisung;
-					conn.setAutoCommit(false);
-					anweisung = "DELETE FROM " + tabellen[TAB_Kassenposten] + " WHERE kassenid = " + kasse;
-					logger.debug("Anweisung: " + anweisung);
-					//stmt.addBatch(anweisung);
-					stmt.executeUpdate(anweisung);
-					String zeile;
-					String[] teile = null;
-					BufferedReader in = new BufferedReader( new FileReader(new File(verzeichnis, kdaliste[c])) );
-					while (in.ready()) {
-						zeilenzaehler++;
-						zeile = in.readLine();
-						if (zeile.matches("\\d{3},\\d{1," + LAENGEPREIS +"}")) {
-							teile = zeile.split(",");
-							anweisung = "INSERT INTO " + tabellen[TAB_Kassenposten] +
-							" (kassenid, verkaeufer, artikelpreis) VALUES (" +
-							kasse + ",'" + teile[0] + "'," + teile[1] + ")";
-							logger.debug("Anweisung: " + anweisung);
-							stmt.executeUpdate(anweisung);
-							//stmt.addBatch(anweisung);
-						} else logger.error("In der Datei " + kdaliste[c] + " ist die Zeile" + zeilenzaehler + "fehlerhaft");
+		if (dtam.frageDTAbeginnen(this)) {
+			dtam.scriptDTAstart();
+			//Finde alle kasse???.k
+			File verzeichnis = new File(properties.getProperty("Austauschpfad", "."));
+			//für alle dateien <> eigene_kassen_id
+			String[] kdaliste = verzeichnis.list(this);
+			ProgressMonitor pm = new ProgressMonitor(this,
+					"Austauschdatei einlesen", null, 0, kdaliste.length);
+			pm.setProgress(0);
+			pm.setMillisToDecideToPopup(1000);
+			//	delete where kassenid=kassenid_der_datei
+			//	insert (datensätze aus datei)
+			int kasse;
+			for (int c=0; c<kdaliste.length; c++) {
+				kasse = zahlAusDateinamen(kdaliste[c]);
+				if (kasse != kassenID) {
+					int zeilenzaehler = 0;
+					try {
+						Statement stmt = conn.createStatement();
+						String anweisung;
+						conn.setAutoCommit(false);
+						anweisung = "DELETE FROM " + tabellen[TAB_Kassenposten] + " WHERE kassenid = " + kasse;
+						logger.debug("Anweisung: " + anweisung);
+						//stmt.addBatch(anweisung);
+						stmt.executeUpdate(anweisung);
+						String zeile;
+						String[] teile = null;
+						BufferedReader in = new BufferedReader( new FileReader(new File(verzeichnis, kdaliste[c])) );
+						while (in.ready()) {
+							zeilenzaehler++;
+							zeile = in.readLine();
+							if (zeile.matches("\\d{3},\\d{1," + LAENGEPREIS +"}")) {
+								teile = zeile.split(",");
+								anweisung = "INSERT INTO " + tabellen[TAB_Kassenposten] +
+								" (kassenid, verkaeufer, artikelpreis) VALUES (" +
+								kasse + ",'" + teile[0] + "'," + teile[1] + ")";
+								logger.debug("Anweisung: " + anweisung);
+								stmt.executeUpdate(anweisung);
+								//stmt.addBatch(anweisung);
+							} else logger.error("In der Datei " + kdaliste[c] + " ist die Zeile" + zeilenzaehler + "fehlerhaft");
+						}
+						in.close();
+						//int updateCounts[] = stmt.executeBatch();
+						conn.commit();
+						conn.setAutoCommit(true);
+						//for (int c1=0; c1 < updateCounts.length; c1++) logger.debug("update = " + updateCounts[c1]);
+					} catch (FileNotFoundException e) {
+						logger.error("FileNotFoundException", e);
+					} catch (IOException e) {
+						logger.error("IOException", e);
+					} catch (ArrayIndexOutOfBoundsException e) {
+						logger.error("In der Datei " + kdaliste[c] + " ist die Zeile" + zeilenzaehler + "fehlerhaft");
+					} catch (BatchUpdateException e) {
+						try { conn.rollback();conn.setAutoCommit(true);} catch (SQLException e2) {logger.error("SQLException",e2);}
+					} catch (SQLException e) {
+						logger.error("SQLException", e);
+					} finally {
+						try { conn.setAutoCommit(true);} catch (SQLException e) {logger.error("SQLException",e);}
 					}
-					in.close();
-					//int updateCounts[] = stmt.executeBatch();
-					conn.commit();
-					conn.setAutoCommit(true);
-					//for (int c1=0; c1 < updateCounts.length; c1++) logger.debug("update = " + updateCounts[c1]);
-				} catch (FileNotFoundException e) {
-					logger.error("FileNotFoundException", e);
-				} catch (IOException e) {
-					logger.error("IOException", e);
-				} catch (ArrayIndexOutOfBoundsException e) {
-					logger.error("In der Datei " + kdaliste[c] + " ist die Zeile" + zeilenzaehler + "fehlerhaft");
-				} catch (BatchUpdateException e) {
-					try { conn.rollback();conn.setAutoCommit(true);} catch (SQLException e2) {logger.error("SQLException",e2);}
-				} catch (SQLException e) {
-					logger.error("SQLException", e);
-				} finally {
-					try { conn.setAutoCommit(true);} catch (SQLException e) {logger.error("SQLException",e);}
 				}
+				pm.setProgress(c);
 			}
-			pm.setProgress(c);
-		}
-		pm.close();
+			pm.close();
+			dtam.scriptDTAende();
+			dtam.meldungDTAende(this);
+		} else logger.debug("DTA einlesen durch Benutzer abgebrochen");
 	}
 	
 	private int zahlAusDateinamen(String dateiname) {
