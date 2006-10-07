@@ -108,7 +108,7 @@ public class DlgUeber extends JDialog {
 			gridLayout.setVgap(3);
 			gridLayout.setRows(-1);
 			jLabel = new JLabel();
-			jLabel.setText("Kafbas Version 1.0");
+			jLabel.setText("Kafbas Version 1.1");
 			jLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 			jPanelN = new JPanel();
 			jPanelN.setLayout(gridLayout);

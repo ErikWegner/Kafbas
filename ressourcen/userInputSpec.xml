@@ -21,5 +21,14 @@
 			<description align="left" txt="Pfad für Datenaustausch" id="description.austauschpfad"/>
 			<spec txt="Austauschpfad:" type="directory" result="directory" />
 		</field>
+		<field type="rule" variable="varAnteilProzent">
+			<description align="left" txt="Anteil der Provision" id="description.AnteilProzent" />
+			<spec txt="Anteil:" 
+				layout="N:2:2" 
+				resultFormat="plainString"
+				/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator"
+            	txt="Der Anteil muss eingeben werden!" />
+		</field>
 	</panel>
 </userInput>

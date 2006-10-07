@@ -75,7 +75,8 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 
 	private Kassenpostenliste liste = new Kassenpostenliste();
 
-	private final String jdbccon = "jdbc:derby:kafbasdb";
+	private String jdbccon = "jdbc:derby:db/kafbasdb";
+	private String jdbcdrv = "org.apache.derby.jdbc.EmbeddedDriver";
 	
 	private final String dateiPrefix = "kasse";
 	
@@ -165,12 +166,17 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 		} catch (NullPointerException e) {
 			logger.error(e);
 		}
+		
 		String skassenid = properties.getProperty("KassenID");
 		String sanzahlkassen = properties.getProperty("AnzahlKassen");
 		String sAnteilProzent = properties.getProperty("AnteilProzent");
+		String jdbcdrvprop = properties.getProperty("Datenbanktreiber");
+		String jdbcconprop = properties.getProperty("Datenbankpfad");
+		
 		logger.debug("KassenID=" + skassenid);
 		logger.debug("AnzahlKassen=" + sanzahlkassen);
 		logger.debug("AnteilProzent=" + sAnteilProzent);
+
 		if (skassenid != null) {
 			kassenID = Integer.parseInt(skassenid);
 		}
@@ -180,6 +186,19 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 		if (sAnteilProzent != null) {
 			anteilProzent = Integer.parseInt(sAnteilProzent);
 		}
+		if (jdbcdrvprop != null) {
+			if (!jdbcdrvprop.equals("")) {
+				jdbcdrv = jdbcdrvprop;
+				logger.debug("Datenbanktreiber="+jdbcdrv);
+			}
+		}
+		if (jdbcconprop != null) {
+			if (!jdbcconprop.equals("")) {
+				jdbccon = jdbcconprop;
+				logger.debug("Datenbankpfad="+jdbccon);
+			}
+		}
+		
 		r = kassenID > 0 && anzahlKassen > 0 && anteilProzent > 0;
 		if (!r) {
 			if (kassenID < 1) logger.fatal("Die KassenID fuer diesen Platz ist nicht festgelegt.");
@@ -203,7 +222,7 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 		this.addWindowListener(this);
 		//this.setSize(442, 319);
 		this.setContentPane(getJContentPane());
-		this.setTitle("Kafbas - EWUS");
+		this.setTitle("EWUS Kafbas Version 1.1");
 		this.pack();
 		//setIconImage(Toolkit.getDefaultToolkit().getImage( "appicon.png" ));
 		URL imageURL = getClass().getResource("/appicon.png");
@@ -628,7 +647,7 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 		logger.info("Datenbankverbindung wird initialisiert");
 		boolean ergebnis = false;
 		try {
-			Class.forName("org.apache.derby.jdbc.EmbeddedDriver").newInstance();
+			Class.forName(jdbcdrv).newInstance();
 			logger.debug("getConnection(\"" + jdbccon + ";create=true\")");
 			conn = DriverManager.getConnection(jdbccon + ";create=true", "sa",
 					"");
