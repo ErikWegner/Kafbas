@@ -79,13 +79,15 @@ public class DTAmessage {
 		try {
 			if (!script.equals("")) {
 				logger.debug("Runtime.exec " + script);
-				Runtime.getRuntime().exec(script);
+				Process p = Runtime.getRuntime().exec(script);
+				p.waitFor(); //Wichtig für langsame Medien (z.B. Disketten)
 			}
 		}
 		catch (SecurityException e) {logger.error(e);} 
 		catch (IOException e) {logger.error(e);}
 		catch (NullPointerException e) {logger.error(e);}
-		catch (IllegalArgumentException e) {logger.error(e);}
+		catch (IllegalArgumentException e) {logger.error(e);} 
+		catch (InterruptedException e) {logger.error(e);}
 	}
 	
 }

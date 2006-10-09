@@ -4,7 +4,8 @@
 			<description align="left" txt="Eindeutige Nummer dieser Kasse" id="description.KassenID" />
 			<spec txt="KassenID:" 
 				layout="N:4:4" 
-				resultFormat="plainString"/>
+				resultFormat="plainString"
+				/>
 			<validator class="com.izforge.izpack.util.NotEmptyValidator"
             	txt="Die KassenID muss eingeben werden!" />
 		</field>
@@ -26,6 +27,7 @@
 			<spec txt="Anteil:" 
 				layout="N:2:2" 
 				resultFormat="plainString"
+				set="0:20"
 				/>
 			<validator class="com.izforge.izpack.util.NotEmptyValidator"
             	txt="Der Anteil muss eingeben werden!" />

@@ -10,8 +10,10 @@
 		<javaversion>1.4</javaversion>
 	</info>
 	<variables>
-		<variable name="KassenID" value=""/>
-		<variable name="AnzahlKassen" value="7"/>
+		<variable name="varKassenID" value=""/>
+		<variable name="varAnzahlKassen" value="7"/>
+		<variable name="varAnteilProzent" value="20"/>
+		<variable name="varAustauschpfad" value="/media/floppy" />
 	</variables>
 	<guiprefs height="600" resizable="yes" width="800"></guiprefs>
 	<locale>
