@@ -31,6 +31,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -40,6 +41,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.RandomAccessFile;
 import java.net.URL;
 import java.sql.BatchUpdateException;
 import java.sql.Connection;
@@ -61,6 +64,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ProgressMonitor;
+import javax.swing.SwingUtilities;
 
 import org.apache.log4j.Logger;
 
@@ -71,7 +75,7 @@ import org.apache.log4j.Logger;
 public class KafbasGUI extends JFrame implements WindowListener, KeyListener, FilenameFilter {
 
 	private DTAmessage dtam = new DTAmessage();
-	
+
 	private static final Logger logger = Logger.getLogger(KafbasGUI.class
 			.getName());
 
@@ -79,9 +83,9 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 
 	private String jdbccon = "jdbc:derby:db/kafbasdb";
 	private String jdbcdrv = "org.apache.derby.jdbc.EmbeddedDriver";
-	
+
 	private final String dateiPrefix = "kasse";
-	
+
 	private final String dateiSuffix = "kda";
 
 	private Connection conn;
@@ -95,7 +99,7 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 
 	private String propertiesdatei = "kafbas.properties";
 
-	private int kassenID = -1, anzahlKassen = -1, anteilProzent = -1;
+	private int kassenID = -1, anzahlKassen = -1;
 
 	private boolean initOK = false;
 
@@ -168,20 +172,19 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 		} catch (NullPointerException e) {
 			logger.error(e);
 		}
-		
+
 		String skassenid = properties.getProperty("KassenID");
 		String sanzahlkassen = properties.getProperty("AnzahlKassen");
-		String sAnteilProzent = properties.getProperty("AnteilProzent");
+
 		jdbcdrv = properties.getProperty("Datenbanktreiber", jdbcdrv);
 		jdbccon = properties.getProperty("Datenbankpfad", jdbccon);
 		dtam.setMeldungAustauschFrageVorBeginn(properties.getProperty("Meldung.Austausch.FrageVorBeginn", ""));
 		dtam.setMeldungAustauschBeendet(properties.getProperty("Meldung.Austausch.Beendet", ""));
 		dtam.setScriptAustauschBeginn(properties.getProperty("Script.Austausch.Beginn", ""));
 		dtam.setScriptAustauschBeendet(properties.getProperty("Script.Austausch.Beendet", ""));
-		
+
 		logger.debug("KassenID=" + skassenid);
 		logger.debug("AnzahlKassen=" + sanzahlkassen);
-		logger.debug("AnteilProzent=" + sAnteilProzent);
 
 		if (skassenid != null) {
 			kassenID = Integer.parseInt(skassenid);
@@ -189,17 +192,19 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 		if (sanzahlkassen != null) {
 			anzahlKassen = Integer.parseInt(sanzahlkassen);
 		}
-		if (sAnteilProzent != null) {
-			anteilProzent = Integer.parseInt(sAnteilProzent);
-		}
+
 		logger.debug("Datenbanktreiber="+jdbcdrv);
 		logger.debug("Datenbankpfad="+jdbccon);
-		
-		r = kassenID > 0 && anzahlKassen > 0 && anteilProzent > 0;
+
+		r = kassenID > 0 && anzahlKassen > 0;
+
+		AnteilBerechner anteilB = AnteilBerechner.getInstance();
+
+		r = r && anteilB.init(properties);
+
 		if (!r) {
 			if (kassenID < 1) logger.fatal("Die KassenID fuer diesen Platz ist nicht festgelegt.");
 			if (anzahlKassen < 1) logger.fatal("Die Anzahl der Kassen ist nicht festgelegt.");
-			if (anteilProzent < 1) logger.fatal("Der Prozentanteil für die Berechnung der Auswertung ist nicht festgelegt.");
 			logger.fatal("Bitte sorgen Sie fuer die Eintraege in der Datei "
 					+ propertiesdatei + ".");
 			logger.fatal("Weiterhin muss diese Datei lesbar sein.");
@@ -218,12 +223,12 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 		this.addWindowListener(this);
 		//this.setSize(442, 319);
 		this.setContentPane(getJContentPane());
-		this.setTitle("EWUS Kafbas Version 1.1");
+		this.setTitle("EWUS Kafbas Version 1.2");
 		this.pack();
 		//setIconImage(Toolkit.getDefaultToolkit().getImage( "appicon.png" ));
 		URL imageURL = getClass().getResource("/appicon.png");
-        if (imageURL != null) setIconImage((new ImageIcon(imageURL)).getImage());
-        else logger.error("Laden des Icons aus " + imageURL + " funktioniert nicht.");
+		if (imageURL != null) setIconImage((new ImageIcon(imageURL)).getImage());
+		else logger.error("Laden des Icons aus " + imageURL + " funktioniert nicht.");
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		Dimension frame = this.getSize();
 		this.setLocation((screen.width - frame.width) / 2,(screen.height - frame.height) / 2);
@@ -272,7 +277,7 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 			jLArtikelpreis = new JLabel();
 			jLArtikelpreis.setText("0,00");
 			jLArtikelpreis
-					.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+			.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 			jLArtikelpreis.setFont(new java.awt.Font("DialogInput",
 					java.awt.Font.BOLD, 36));
 			jLTextArtikelpreis = new JLabel();
@@ -281,7 +286,7 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 			jLVerkaeufer = new JLabel();
 			jLVerkaeufer.setText("000");
 			jLVerkaeufer
-					.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+			.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 			jLVerkaeufer.setFont(new java.awt.Font("DialogInput",
 					java.awt.Font.BOLD, 36));
 			jLTextVerkaeufer = new JLabel();
@@ -332,11 +337,11 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 			jLGesamtsumme.setFont(new java.awt.Font("DialogInput",
 					java.awt.Font.BOLD, 36));
 			jLGesamtsumme
-					.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+			.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 			jLGesamtsumme.setText("0,00");
 			jLabel4 = new JLabel();
 			jLabel4
-					.setFont(new java.awt.Font("Dialog", java.awt.Font.BOLD, 24));
+			.setFont(new java.awt.Font("Dialog", java.awt.Font.BOLD, 24));
 			jLabel4.setText("Summe");
 			jPanelSued = new JPanel();
 			jPanelSued.setLayout(new GridBagLayout());
@@ -627,8 +632,9 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 		if (jList == null) {
 			jList = new JList(liste);
 			jList
-					.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+			.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 			jList.setVisibleRowCount(12);
+			jList.setFont(normalFont);
 			jList.setFocusable(false);
 		}
 		return jList;
@@ -646,7 +652,7 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 			Class.forName(jdbcdrv).newInstance();
 			logger.debug("getConnection(\"" + jdbccon + "\")");
 			conn = DriverManager.getConnection(jdbccon, "sa",
-					"");
+			"");
 			ergebnis = true;
 		} catch (InstantiationException e) {
 			logger.fatal("InstantiationException", e);
@@ -661,7 +667,7 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 			logger.info("Datenbankverbindung erfolgreich initialisiert");
 		else {
 			logger
-					.error("Datenbankverbindung konnte nicht initialisiert werden.");
+			.error("Datenbankverbindung konnte nicht initialisiert werden.");
 			JOptionPane.showMessageDialog(this, "Datenbankverbindung konnte nicht aufgebaut werden.\n\nÜberprüfen Sie:\n- ob das Programm bereits aktiv ist und\n- ob Sie im Ordner \"kafbasdb\" schreiben dürfen.", "Fehler", JOptionPane.ERROR_MESSAGE);
 		}
 		if (ergebnis)
@@ -698,8 +704,8 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 		//Erzeuge Tabelle lokale Kasse
 		tabellen[TAB_Kassenposten] = "kassenposten";
 		tabSQLStatement[TAB_Kassenposten] = "CREATE TABLE "
-				+ tabellen[TAB_Kassenposten] + " (" + "kassenid int, "
-				+ "verkaeufer varchar(3)," + "artikelpreis int" + ")";
+			+ tabellen[TAB_Kassenposten] + " (" + "kassenid int, "
+			+ "verkaeufer varchar(3)," + "artikelpreis int" + ")";
 
 		try {
 			String[] names = { "TABLE" };
@@ -722,7 +728,7 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 				logger.debug("Tabelle " + tabellen[i]);
 				if (tabellenVorhanden[i])
 					logger.debug(" -> Tabelle " + tabellen[i]
-							+ " ist vorhanden.");
+					                                       + " ist vorhanden.");
 				else {
 					logger.info(tabSQLStatement[i]);
 					stmt.executeUpdate(tabSQLStatement[i]);
@@ -776,11 +782,11 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 			jMenuItemBeenden = new JMenuItem();
 			jMenuItemBeenden.setText("Beenden");
 			jMenuItemBeenden
-					.addActionListener(new java.awt.event.ActionListener() {
-						public void actionPerformed(java.awt.event.ActionEvent e) {
-							beenden();
-						}
-					});
+			.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					beenden();
+				}
+			});
 		}
 		return jMenuItemBeenden;
 	}
@@ -796,11 +802,11 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 			jMenuItemDTAerzeugen.setText("erzeugen");
 			jMenuItemDTAerzeugen.setActionCommand("erzeugen");
 			jMenuItemDTAerzeugen
-					.addActionListener(new java.awt.event.ActionListener() {
-						public void actionPerformed(java.awt.event.ActionEvent e) {
-							machDTAerzeugen();
-						}
-					});
+			.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					machDTAerzeugen();
+				}
+			});
 		}
 		return jMenuItemDTAerzeugen;
 	}
@@ -830,11 +836,11 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 			jMenuItemDTAeinlesen = new JMenuItem();
 			jMenuItemDTAeinlesen.setText("einlesen");
 			jMenuItemDTAeinlesen
-					.addActionListener(new java.awt.event.ActionListener() {
-						public void actionPerformed(java.awt.event.ActionEvent e) {
-							machDTAeinlesen();
-						}
-					});
+			.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					machDTAeinlesen();
+				}
+			});
 		}
 		return jMenuItemDTAeinlesen;
 	}
@@ -849,21 +855,21 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 			jMenuItemAuswertung = new JMenuItem();
 			jMenuItemAuswertung.setText("Auswertung");
 			jMenuItemAuswertung
-					.addActionListener(new java.awt.event.ActionListener() {
-						public void actionPerformed(java.awt.event.ActionEvent e) {
-							zeigeAuswertung();
-						}
-					});
+			.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					zeigeAuswertung();
+				}
+			});
 		}
 		return jMenuItemAuswertung;
 	}
 
 	private void zeigeAuswertung() {
 		DlgAuswertung dlg = 
-		    new DlgAuswertung(
-			this, 
-			new Auswertung(anzahlKassen, conn, anteilProzent), 
-			properties.getProperty("Austauschpfad", "."), dtam);
+			new DlgAuswertung(
+					this, 
+					new Auswertung(anzahlKassen, conn), 
+					properties.getProperty("Austauschpfad", "."), dtam);
 
 		dlg.setModal(true);
 		dlg.setVisible(true);
@@ -874,21 +880,21 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 		logger.debug("DTA erzeugen");
 		if (dtam.frageDTAbeginnen(this)) {
 			dtam.scriptDTAstart();
-			
+
 			ProgressMonitor pm = new ProgressMonitor(this,
 					"Austauschdatei erzeugen", null, 0, 100);
 			pm.setProgress(0);
 			pm.setMillisToDecideToPopup(1000);
 			int cprogress = 0;
 			String datei = properties.getProperty("Austauschpfad", ".")
-					+ File.separator + dateiPrefix + kassenID
-					+ "." + dateiSuffix;
+			+ File.separator + dateiPrefix + kassenID
+			+ "." + dateiSuffix;
 			try {
 				Statement stmt = conn.createStatement(
 						ResultSet.TYPE_SCROLL_INSENSITIVE,
 						ResultSet.CONCUR_READ_ONLY);
 				String query = "SELECT * FROM " + tabellen[TAB_Kassenposten]
-						+ " WHERE kassenid = " + kassenID;
+				                                           + " WHERE kassenid = " + kassenID;
 				logger.debug(query);
 				ResultSet rs = stmt.executeQuery(query);
 				rs.last();
@@ -900,7 +906,7 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 						datei)));
 				while (rs.next()) {
 					export = rs.getString("verkaeufer") + ","
-							+ rs.getInt("artikelpreis");
+					+ rs.getInt("artikelpreis");
 					bw.write(export);
 					bw.newLine();
 					logger.debug("Export: " + export);
@@ -923,6 +929,9 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 	}
 
 	private void machDTAeinlesen() {
+		//Jede Datei enthält durchschnittlich 1000 Datensätze
+		final int datensaetzeJeDatei = 1000;
+
 		logger.debug("DTA einlesen");
 		if (dtam.frageDTAbeginnen(this)) {
 			dtam.scriptDTAstart();
@@ -930,10 +939,11 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 			File verzeichnis = new File(properties.getProperty("Austauschpfad", "."));
 			//für alle dateien <> eigene_kassen_id
 			String[] kdaliste = verzeichnis.list(this);
-			ProgressMonitor pm = new ProgressMonitor(this,
-					"Austauschdatei einlesen", null, 0, kdaliste.length);
-			pm.setProgress(0);
-			pm.setMillisToDecideToPopup(1000);
+			
+			PMThread pmthread = new PMThread();
+			pmthread.prepare(this, kdaliste.length * datensaetzeJeDatei);
+			pmthread.start();
+			pmthread.setProgress(1);
 			//	delete where kassenid=kassenid_der_datei
 			//	insert (datensätze aus datei)
 			int kasse;
@@ -951,10 +961,11 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 						stmt.executeUpdate(anweisung);
 						String zeile;
 						String[] teile = null;
-						BufferedReader in = new BufferedReader( new FileReader(new File(verzeichnis, kdaliste[c])) );
-						while (in.ready()) {
+						//FileReader fr = new FileReader(new File(verzeichnis, kdaliste[c]));
+						//BufferedReader in = new BufferedReader( fis );
+						RandomAccessFile in = new RandomAccessFile(new File(verzeichnis, kdaliste[c]), "r");
+						while ((zeile = in.readLine()) != null) {
 							zeilenzaehler++;
-							zeile = in.readLine();
 							if (zeile.matches("\\d{3},\\d{1," + LAENGEPREIS +"}")) {
 								teile = zeile.split(",");
 								anweisung = "INSERT INTO " + tabellen[TAB_Kassenposten] +
@@ -964,6 +975,8 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 								stmt.executeUpdate(anweisung);
 								//stmt.addBatch(anweisung);
 							} else logger.error("In der Datei " + kdaliste[c] + " ist die Zeile" + zeilenzaehler + "fehlerhaft");
+							pmthread.setProgress((int) (c*datensaetzeJeDatei + (long)datensaetzeJeDatei * in.getFilePointer()/in.length()));
+							logger.debug("Progress:"+(int) (c*datensaetzeJeDatei + (long)datensaetzeJeDatei * in.getFilePointer()/in.length()));
 						}
 						in.close();
 						//int updateCounts[] = stmt.executeBatch();
@@ -984,14 +997,14 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 						try { conn.setAutoCommit(true);} catch (SQLException e) {logger.error("SQLException",e);}
 					}
 				}
-				pm.setProgress(c);
+				pmthread.setProgress((c+1)*datensaetzeJeDatei);
 			}
-			pm.close();
+			pmthread.close();
 			dtam.scriptDTAende();
 			dtam.meldungDTAende(this);
 		} else logger.debug("DTA einlesen durch Benutzer abgebrochen");
 	}
-	
+
 	private int zahlAusDateinamen(String dateiname) {
 		return Integer.parseInt(dateiname.substring(dateiPrefix.length(), dateiname.length() - dateiSuffix.length()-1));
 	}

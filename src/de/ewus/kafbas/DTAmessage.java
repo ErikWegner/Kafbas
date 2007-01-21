@@ -33,6 +33,7 @@ public class DTAmessage {
 	private String meldungAustauschBeendet = "";
 	private String scriptAustauschBeginn = "";
 	private String scriptAustauschBeendet = "";
+
 	public void setMeldungAustauschBeendet(String meldungAustauschBeendet) {
 		this.meldungAustauschBeendet = meldungAustauschBeendet;
 	}

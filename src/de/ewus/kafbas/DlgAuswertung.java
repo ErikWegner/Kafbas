@@ -41,6 +41,8 @@ import javax.swing.JTable;
 
 import org.apache.log4j.Logger;
 
+import com.centerkey.utils.BareBonesBrowserLaunch;
+
 // import org.jfree.report.ElementAlignment;
 // import org.jfree.report.JFreeReport;
 // import org.jfree.report.JFreeReportBoot;
@@ -244,11 +246,11 @@ public class DlgAuswertung extends JDialog {
 				for (int c_col = 0; c_col < spalten; c_col++) {
 					zellinhalt = datenquelle.getValueAt(zeilen - 1, c_col)
 							.toString();
-					if (c_col > 0)
+					if (c_col > 1)
 						renderer.setValue(new Double(zellinhalt));
-					bw.write("     <td class=\"" + (c_col > 0 ? "tdsr" : "tds")
+					bw.write("     <td class=\"" + (c_col > 1 ? "tdsr" : "tds")
 							+ "\">"
-							+ (c_col == 0 ? zellinhalt : renderer.getText())
+							+ (c_col <= 1 ? zellinhalt : renderer.getText())
 							+ "</td>\n");
 				}
 				bw.write("    </tr>\n");
@@ -260,34 +262,39 @@ public class DlgAuswertung extends JDialog {
 					for (int c_col = 0; c_col < spalten; c_col++) {
 						zellinhalt = datenquelle.getValueAt(c_row, c_col)
 								.toString();
-						if (c_col > 0)
+						if (c_col > 1)
 							renderer.setValue(new Double(zellinhalt));
 						bw
 								.write("     <td"
-										+ (c_col > 0 ? " class=\"tdr\"" : "")
+										+ (c_col > 1 ? " class=\"tdr\"" : "")
 										+ ">"
-										+ (c_col == 0 ? zellinhalt : renderer
+										+ (c_col <= 1 ? zellinhalt : renderer
 												.getText()) + "</td>\n");
 					}
 					bw.write("    </tr>\n");
 				}
 				bw.write("   </tbody>\n");
 				bw.write("  </table>\n");
-				// bw.write(" <p>\n"+
-				// " <a href=\"http://www.validome.org/referer\">" +
-				// "<img style=\"border:none\"\n" +
-				// "
-				// src=\"http://www.validome.org/images/set3/valid_xhtml_1_1.gif\"\n"
-				// +
-				// " alt=\"Valid XHTML 1.1\" width=\"80\" height=\"15\" />" +
-				// "</a>\n" +
-				// " </p>\n");
+				bw.write(" <p>\n" + 
+						"  Erstellt mit "+
+						"<a href=\"http://developer.berlios.de/projects/kafbas/\">Kafbas</a> "+
+						"Version 1.2\n" +
+						"  </p>\n");
 				bw.write(" </body>\n");
 				bw.write("</html>\n");
 				bw.close();
 				dtam.scriptDTAende();
-				JOptionPane.showMessageDialog(this, "Ausgabe in Datei " + datei
-						+ " erfolgreich.");
+				if (JOptionPane.showOptionDialog(this, 
+						"Ausgabe in Datei " + datei
+						+ " erfolgreich. Jetzt öffnen?", 
+						"Exportierte Auswertung anzeigen?", 
+						JOptionPane.YES_NO_OPTION, 
+						JOptionPane.QUESTION_MESSAGE,
+						null, null, null) == JOptionPane.YES_OPTION) {
+					BareBonesBrowserLaunch.openURL(datei);
+				}
+				//JOptionPane.showMessageDialog(this, "Ausgabe in Datei " + datei
+				///		+ " erfolgreich.");
 			} catch (FileNotFoundException e) {
 				logger.error("FileNotFoundException", e);
 			} catch (IOException e) {

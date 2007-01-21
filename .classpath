@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry sourcepath="JRE_SRC" kind="var" path="JRE_LIB"/>
+	<classpathentry kind="var" path="JRE_LIB" sourcepath="JRE_SRC"/>
 	<classpathentry exported="true" kind="lib" path="lib/derby.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/derbyLocale_de_DE.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/junit.jar"/>
@@ -15,5 +15,10 @@
 	<classpathentry kind="lib" path="lib/libfonts-0.1.4.jar"/>
 	<classpathentry kind="lib" path="lib/pixie-0.8.4.jar"/>
 	<classpathentry kind="lib" path="lib/poi-3.0-alpha1-20050704.jar"/>
+	<classpathentry kind="lib" path="/home/e-man/daten/prog/kafbas/lib/BareBonesBrowserLaunch.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/home/e-man/daten/prog/kafbas/lib/BareBonesBrowserLaunch.jar!/doc"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

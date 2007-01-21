@@ -399,7 +399,7 @@ Als Datenbank wird die komplett in Java programmierte Datenbank
 
 \minisec{KassenID}\index{KassenID}
 Die Nummer dieser Kasse. Sie ist für die Veranstaltung einmalig und darf nicht
-größer sein als der Wert für \enquote{AnzahlKassen}.
+größer sein als der Wert für \enquote{AnzahlKassen}. Die Zählung beginnt bei 1.
 
 \minisec{AnzahlKassen}\index{AnzahlKassen}
 Die Anzahl der vorhandenen Kassen für die Veranstaltung. Dieser Wert dient als
@@ -410,10 +410,71 @@ Der Pfad zu einem Verzeichnis, wo die Austauschdateien abgelegt werden
 können. Dies kann ein Disketten-, USB- oder Netzwerklaufwerk/""-pfad sein.
 
 \minisec{AnteilProzent}\index{AnteilProzent}
-Dieser Prozentteil wird in der Auswertung ausgegeben. Die Angabe erfolgt als
-Zahl:
+Dieser Prozentteil wird in der Auswertung als Standard genutzt. Die Angabe
+erfolgt als Zahl:
 
 \texttt{AnteilProzent=10}
+
+\minisec{AnteilSpezial?}\index{AnteilSpezial}
+Durch die Angabe eines Nummernkreises für die Verkäufernummer kann diesem
+Kreis ein abweichender Anteil (Einstellung \enquote{AnteilProzent}) zugeordnet
+werden, beispielsweise können alle Verkäufer von 100 bis 149 einen Anteil von
+20\% berechnet bekommen, von 150 bis 199 bekommen 25\% und die übrigen
+Verkäufer 40\%. Das Angeben mehrerer Einträge ist möglich, indem der Eintrag
+mit einer fortlaufenden Zahl ergänzt wird.
+
+Beispiel:
+\begin{verbatim}
+AnteilProzent=40
+AnteilSpezial1=100-149,20
+AnteilSpezial2=150-199,25
+\end{verbatim}
+
+Überschneiden sich die Bereiche, ist die Angabe
+\hyperlink{anteilspezialmodus}{AnteilSpezialModus}
+erforderlich.
+
+Diese Daten werden bei jedem Anwendungsstart ausgewertet und die jeweiligen
+Anteile neu berechnet.
+
+\minisec{AnteilSpezialModus}\index{AnteilSpezialModus}
+\hypertarget{anteilspezialmodus}{Hier} kann definiert werden, wie die
+Berechnung des Anteils für spezielle Verkäufernummern erfolgen soll:
+
+\begin{tabular}{@{}cp{8cm}@{}}
+  \toprule
+  Einstellung & Bedeutung\\
+  \midrule
+  \textbf{0} & es werden alle Regeln überprüft, die letzte zutreffende Regel
+  liefert den Wert (Standardeinstellung)\\
+  1 & bei der ersten Übereinstimmung der Verkäufernummer mit einem
+  Nummernkreis wird die Suche abgebrochen und der gefundene Wert genutzt \\
+  \bottomrule
+\end{tabular}
+
+Beispiel:
+\begin{verbatim}
+AnteilProzent=40
+AnteilSpezial1=100-199,20
+AnteilSpezial2=150-169,25
+\end{verbatim}
+
+Für den Verkäufer mit der Nummer 156 werden je nach Einstellung verschiedene
+Anteile angesetzt.
+
+Ist der Modus auf \enquote{1} gestellt, erhält er 20\%, die zweite Regel würde
+nie einen Treffer landen.
+
+Steht der Modus dagegen auf \enquote{0} (dies ist die Standardeinstellung;
+fehlt die Konfigurationsangabe, so wird dieser Modus angewendet), so erhält
+unser Beispielverkäufer einen Anteil von 25\% angerechnet, allgemein heißt
+diese Einstellung, dass die Verkäufer mit den Nummern 150 bis 169 einen Anteil
+von 25\% anrechnen müssen, die Verkäufer zwischen 100 bis 149 und 170 bis 199
+jedoch 20\%. Die übrigen Verkäufer bekommen den Standardanteil (hier 40\%)
+zugewiesen.
+
+Diese Einstellung wird bei jedem Anwendungsstart ausgewertet und die
+jeweiligen Anteile neu berechnet.
 
 \minisec{Datenbanktreiber}\index{Datenbanktreiber}
 Dieser Klassenname wird verwendet, um den Datenbanktreiber zu laden.
@@ -471,7 +532,50 @@ Meldung \enquote{Meldung.Austausch.Beendet} abgezeigt.
   description={Beispieldatei unmountdisk.sh}]{../../unmountdisk.sh}
 
 Für Windows bietet sich bei USB-Datenträgern 
-http://www.uwe-sieber.de/usbstick.html an.
+\href{http://www.uwe-sieber.de/usbstick.html}{diese Seite} an.
+
+
+\section{Änderungsverzeichnis}
+
+\subsection{Version 1.2}
+\begin{itemize}
+\item nach dem Export der Auswertung erscheint die Frage, ob die exportierte
+  Datei angezeigt werden soll, dafür wird der Standardbrowser mit Hilfe von
+  \href{http://www.centerkey.com/java/browser/}{Bare Bones Browser Launch for
+    Java} gestartet
+\item durch die Einstellungen von Anteil""Spezial und Anteil""Spezial""modus
+  können für bestimmte Verkäufernummern andere Provisionsanteile hinterlegt
+  werden
+\end{itemize}
+
+\subsection{Version 1.1}
+\begin{itemize}
+\item Die kafbas.properties muss jetzt einen zusätzlichen Parameter enthalten
+  (AnteilProzent). Wird kein Datenbankverzeichnis angegeben, wird jetzt das
+  Verzeichnis \enquote{db/kafbasdb} genutzt.
+\item erweiterter Ablauf beim Datenaustausch:
+  \begin{itemize}
+  \item Meldung an den Benutzer (konfigurierbar) mit Ok+Abbrechen (z.B. bitte
+    Diskette einlegen)
+  \item Ausführen eines Scripts (konfigurierbar), z.B. USB-Datenträger
+    einhängen
+  \item DTA ausführen
+  \item Ausführen eines zweiten Scripts (konfigurierbar), z.B. USB-Datenträger
+    wieder aushängen
+  \item Meldung an den Benutzer (konfigurierbar) mit Ok (z.B. Diskette kann
+    entnommen werden)
+  \end{itemize}
+\item Datenbanktreiber und -url kann vorgegeben werden
+\item der Provisionsanteil kann konfiguriert werden
+\end{itemize}
+
+\subsection{Version 1.0}
+\begin{itemize}
+\item erste Veröffentlichung
+\end{itemize}
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \ABSCHNITTSTRENNER
 \markright{Index}

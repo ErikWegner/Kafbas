@@ -13,6 +13,7 @@
         <pathelement location="${Kafbas.location}/lib/derbyLocale_de_DE.jar"/>
         <pathelement location="${Kafbas.location}/lib/junit.jar"/>
         <pathelement location="${Kafbas.location}/lib/log4j.jar"/>
+        <pathelement location="${Kafbas.location}/lib/BareBonesBrowserLaunch.jar"/>
         <pathelement location="${Kafbas.location}/lib/bsf-2.3.0.jar"/>
         <pathelement location="${Kafbas.location}/lib/bsh-1.3.0.jar"/>
         <pathelement location="${Kafbas.location}/lib/itext-1.3.6.jar"/>

@@ -31,184 +31,190 @@ import org.apache.log4j.Logger;
 //@SuppressWarnings("serial")
 public class Auswertung extends AbstractTableModel {
 
-    private static final Logger logger = Logger.getLogger(Auswertung.class.getName());
-    private int anzahlKassen = 4;
-    private Connection conn;
-    private int[] ksums;
-    private int[][] vsums;
-    private int ergebniszeilen = 0;
-    private HashMap vmap = new HashMap();
-    private int anteilK = -1;
-    private String[] spaltennamen;
-    /** Anzahl permanenter Spalten */
-    private int permSpalten = 0;
-    /** Summe aller Verkäufe */
-    private int summe;
-    /** Summe des Kirchenanteils */
-    private int summeK;
-    /** Summe der Nettogewinne für Verkäufer */
-    private int summeV;
-    /**
-     * 
-     */
-    public Auswertung(int anzahlKassen, Connection conn, int anteilProzent) {
+	private static final Logger logger = Logger.getLogger(Auswertung.class.getName());
+	private int anzahlKassen = 4;
+	private Connection conn;
+	private int[] ksums;
+	private int[][] vsums;
+	private int ergebniszeilen = 0;
+	private HashMap vmap = new HashMap();
+	private AnteilBerechner anteilB = AnteilBerechner.getInstance();
+	private String[] spaltennamen;
+	/** Anzahl permanenter Spalten */
+	private int permSpalten = 0;
+	/** Summe aller Verkäufe */
+	private int summe;
+	/** Summe des Kirchenanteils */
+	private int summeK;
+	/** Summe der Nettogewinne für Verkäufer */
+	private int summeV;
+	/**
+	 * 
+	 */
+	public Auswertung(int anzahlKassen, Connection conn) {
 		super();
 		this.anzahlKassen = anzahlKassen;
 		this.conn = conn;
-		this.anteilK = anteilProzent;
 		ksums = new int[anzahlKassen];
-		spaltennamen = new String[4];
+		spaltennamen = new String[5];
 		spaltennamen[permSpalten++] = "Verkäufer";
+		spaltennamen[permSpalten++] = "Provision (%)";
 		spaltennamen[permSpalten++] = "Summe";
-		spaltennamen[permSpalten++] = anteilK + "%";
-		spaltennamen[permSpalten++] = (100-anteilK) + "%";
+		spaltennamen[permSpalten++] = "Provision (abs)";
+		spaltennamen[permSpalten++] = "Verkäuferanteil";
 		for (int i = 0; i < anzahlKassen; i++) ksums[i] = 0;
 		auswerten();
-    }
+	}
 
-    private void auswerten() {
+	private void auswerten() {
 		String ksum = "SELECT \"KASSENID\", SUM( \"ARTIKELPREIS\" ) AS \"KSUM\" FROM \"KASSENPOSTEN\" GROUP BY \"KASSENID\"";
 		try {
-		    Statement stmt = conn.createStatement();
-		    ResultSet rs = stmt.executeQuery(ksum);
-		    int tkassenid;
-		    while (rs.next()) {
-			tkassenid = rs.getInt("KASSENID");
-			logger.debug("Query KASSENID=" + tkassenid);
-			if (tkassenid <= anzahlKassen && tkassenid > 0)
-			    ksums[tkassenid - 1] = rs.getInt("KSUM");
-			else logger.error("In der Datenbank befinden sich Datensaetze mit einer KassenID groesser als AnzahlKassen. (KASSENID=" + tkassenid + ", AnzahlKassen="+anzahlKassen+")");
-		    }
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(ksum);
+			int tkassenid;
+			while (rs.next()) {
+				tkassenid = rs.getInt("KASSENID");
+				logger.debug("Query KASSENID=" + tkassenid);
+				if (tkassenid <= anzahlKassen && tkassenid > 0)
+					ksums[tkassenid - 1] = rs.getInt("KSUM");
+				else logger.error("In der Datenbank befinden sich Datensaetze mit einer KassenID groesser als AnzahlKassen. (KASSENID=" + tkassenid + ", AnzahlKassen="+anzahlKassen+")");
+			}
 		}
 		catch (java.sql.SQLException e) {
-		    logger.fatal("SQLException", e);
-	}
+			logger.fatal("SQLException", e);
+		}
 
 		String vsum = "SELECT \"VERKAEUFER\", SUM( \"ARTIKELPREIS\" ) AS \"VSUM\", \"KASSENID\" FROM \"KASSENPOSTEN\" GROUP BY \"VERKAEUFER\", \"KASSENID\"";
 		String vcountquery = "SELECT \"VERKAEUFER\" FROM \"KASSENPOSTEN\" GROUP BY \"VERKAEUFER\"";
 		try {
-		    Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-		    ResultSet rs = stmt.executeQuery(vcountquery);
-		    rs.last();
-		    int vcount = rs.getRow();
-		    if (vcount == 0) logger.error("Anzahl der Verkaeufer ist null.");
-		    else {
-			ergebniszeilen = vcount;
-			vsums = new int[ergebniszeilen][anzahlKassen+2];
-			logger.debug("Anzahl der Verkaeufer=" + vcount);
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery(vsum);
-			int tkassenid, vid;
-			int arraycounter=0;
-			vmap.clear();
-			while (rs.next()) {
-			    tkassenid = rs.getInt("KASSENID");
-			    vid = rs.getInt("VERKAEUFER");
-			    logger.debug("Query KASSENID=" + tkassenid);
-			    logger.debug("Query VERKAEUFER=" + vid);
-			    logger.debug("Query VSUM=" + rs.getInt("VSUM"));
-			    if (!vmap.containsKey(new Integer(vid))) {
-				logger.debug("Neuer Hashmapeintrag: " + vid + " => " + arraycounter);
-				vmap.put(new Integer(vid), new Integer(arraycounter));
-				vsums[arraycounter][0] = vid;
-				arraycounter++;
-			    }
-			    logger.debug("Zugriff auf Zeile " + vmap.get(new Integer(vid)));
-			    if (tkassenid <= anzahlKassen && tkassenid > 0) vsums[((Integer)vmap.get(new Integer(vid))).intValue()][tkassenid] = rs.getInt("VSUM");
-			    else logger.error("In der Datenbank befinden sich Datensaetze mit einer KassenID groesser als AnzahlKassen. (KASSENID=" + tkassenid + ", AnzahlKassen="+anzahlKassen+")");
+			Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			ResultSet rs = stmt.executeQuery(vcountquery);
+			rs.last();
+			int vcount = rs.getRow();
+			if (vcount == 0) logger.error("Anzahl der Verkaeufer ist null.");
+			else {
+				ergebniszeilen = vcount;
+				vsums = new int[ergebniszeilen][anzahlKassen+2];
+				logger.debug("Anzahl der Verkaeufer=" + vcount);
+				stmt = conn.createStatement();
+				rs = stmt.executeQuery(vsum);
+				int tkassenid, vid;
+				int arraycounter=0;
+				vmap.clear();
+				while (rs.next()) {
+					tkassenid = rs.getInt("KASSENID");
+					vid = rs.getInt("VERKAEUFER");
+					logger.debug("Query KASSENID=" + tkassenid);
+					logger.debug("Query VERKAEUFER=" + vid);
+					logger.debug("Query VSUM=" + rs.getInt("VSUM"));
+					if (!vmap.containsKey(new Integer(vid))) {
+						logger.debug("Neuer Hashmapeintrag: " + vid + " => " + arraycounter);
+						vmap.put(new Integer(vid), new Integer(arraycounter));
+						vsums[arraycounter][0] = vid;
+						arraycounter++;
+					}
+					logger.debug("Zugriff auf Zeile " + vmap.get(new Integer(vid)));
+					if (tkassenid <= anzahlKassen && tkassenid > 0) vsums[((Integer)vmap.get(new Integer(vid))).intValue()][tkassenid] = rs.getInt("VSUM");
+					else logger.error("In der Datenbank befinden sich Datensaetze mit einer KassenID groesser als AnzahlKassen. (KASSENID=" + tkassenid + ", AnzahlKassen="+anzahlKassen+")");
+				}
 			}
-		    }
 		}
 		catch (java.sql.SQLException e) {
-		    logger.fatal("SQLException", e);
+			logger.fatal("SQLException", e);
 		}
 		summe = summeK = summeV = 0;
 		for (int i1 = 0; i1 < ergebniszeilen; i1++) {
-		    vsums[i1][anzahlKassen+1] = 0;
-		    for (int i2 = 0; i2 < anzahlKassen; i2++) vsums[i1][anzahlKassen+1] += vsums[i1][i2+1];
-		    summe += vsums[i1][anzahlKassen+1];
-		    summeV += (100-anteilK)*vsums[i1][anzahlKassen+1]/100;
+			vsums[i1][anzahlKassen+1] = 0;
+			for (int i2 = 0; i2 < anzahlKassen; i2++) vsums[i1][anzahlKassen+1] += vsums[i1][i2+1];
+			summe += vsums[i1][anzahlKassen+1];
+			summeV += (100-anteilB.anteil(vsums[i1][0]))*vsums[i1][anzahlKassen+1]/100;
 		}
 		summeK = summe-summeV;
-    }
+	}
 
-    /* (Kein Javadoc)
-     * @see javax.swing.table.TableModel#getRowCount()
-     */
-    public int getRowCount() {
+	/* (Kein Javadoc)
+	 * @see javax.swing.table.TableModel#getRowCount()
+	 */
+	public int getRowCount() {
 		// TODO Automatisch erstellter Methoden-Stub
 		return ergebniszeilen + 1;
-    }
+	}
 
-    /* (Kein Javadoc)
-     * @see javax.swing.table.TableModel#getColumnCount()
-     */
-    public int getColumnCount() {
-    	return permSpalten + anzahlKassen;
-    }
+	/* (Kein Javadoc)
+	 * @see javax.swing.table.TableModel#getColumnCount()
+	 */
+	public int getColumnCount() {
+		return permSpalten + anzahlKassen;
+	}
 
-    /* (Kein Javadoc)
-     * @see javax.swing.table.TableModel#getValueAt(int, int)
-     */
-    public Object getValueAt(int row, int col) {
+	/* (Kein Javadoc)
+	 * @see javax.swing.table.TableModel#getValueAt(int, int)
+	 */
+	public Object getValueAt(int row, int col) {
 		String r = "";
 		double d = 0;
 		if (row == ergebniszeilen) {
-		    switch (col) {
+			switch (col) {
 			case 0 : r = "Summe"; break;
-			case 1 : d = summe/100.0; break; //TODO Summe aller Verkäufe
-			case 2 : d = summeK/100.0; break; //TODO Summe aller 20%
-			case 3 : d = summeV/100.0; break; //TODO Summe aller 80%
+			case 1 : r = " -- ";
+			case 2 : d = summe/100.0; break; //TODO Summe aller Verkäufe
+			case 3 : d = summeK/100.0; break; //TODO Summe aller 20%
+			case 4 : d = summeV/100.0; break; //TODO Summe aller 80%
 			default :
-			    d = (ksums[col - permSpalten])/100.0; //TODO Summe aller Verkäufe der Kasse
-		    }
+				d = (ksums[col - permSpalten])/100.0; //TODO Summe aller Verkäufe der Kasse
+			}
 		} else 
-		    switch (col) {
-			case 0 : r = "000" + vsums[row][col]; 
-			    r = r.substring(r.length() - 3 );
-			    break;
-			case 1 : 
-			    d = ((double)vsums[row][anzahlKassen+1])/100;
-			    break;
-			case 2 :
-			    d = ((double)(
-				     vsums[row][anzahlKassen+1]-
-				     (100-anteilK)*vsums[row][anzahlKassen+1]/100)
-				)/100;
-			    break;
+			switch (col) {
+			case 0 : 
+				r = "000" + vsums[row][col]; 
+				r = r.substring(r.length() - 3 );
+				break;
+			case 1 :
+				r = "" + anteilB.anteil(vsums[row][0]);
+				r = r.substring(r.length() - 2);
+				break;
+			case 2 : 
+				d = ((double)vsums[row][anzahlKassen+1])/100;
+				break;
 			case 3 :
-			    d = ((double)(
-				     (100-anteilK)*vsums[row][anzahlKassen+1]/100)
-				)/100; 
-			    break;
+				d = ((double)(
+						vsums[row][anzahlKassen+1]-
+						(100-anteilB.anteil(vsums[row][0]))*vsums[row][anzahlKassen+1]/100)
+				)/100;
+				break;
+			case 4 :
+				d = ((double)(
+						(100-anteilB.anteil(vsums[row][0])*vsums[row][anzahlKassen+1]/100)
+					)/100); 
+				break;
 			default :
-			    d = ((double)vsums[row][col-permSpalten+1])/100;
-		    }
+				d = ((double)vsums[row][col-permSpalten+1])/100;
+			}
 		Double objd = new Double(d);
-		if (col > 0) return objd;
+		if (col > 1) return objd;
 		else return r;
-    }
+	}
 
-    /* (Kein Javadoc)
-     * @see javax.swing.table.AbstractTableModel#getColumnName(int)
-     */
-    public String getColumnName(int arg0) {
-    	return (arg0 < permSpalten ? spaltennamen[arg0] : "Kasse" + (1 + arg0 - permSpalten));
-    }
+	/* (Kein Javadoc)
+	 * @see javax.swing.table.AbstractTableModel#getColumnName(int)
+	 */
+	public String getColumnName(int arg0) {
+		return (arg0 < permSpalten ? spaltennamen[arg0] : "Kasse" + (1 + arg0 - permSpalten));
+	}
 
-    /* (Kein Javadoc)
-     * @see javax.swing.table.AbstractTableModel#isCellEditable(int, int)
-     */
-    public boolean isCellEditable(int arg0, int arg1) {
-    	return false;
-    }
+	/* (Kein Javadoc)
+	 * @see javax.swing.table.AbstractTableModel#isCellEditable(int, int)
+	 */
+	public boolean isCellEditable(int arg0, int arg1) {
+		return false;
+	}
 
-    /* (Kein Javadoc)
-     * @see javax.swing.table.AbstractTableModel#getColumnClass(int)
-     */
-    public Class getColumnClass(int col) {
-	return (col > 0 ? Double.class : String.class);
-    }
+	/* (Kein Javadoc)
+	 * @see javax.swing.table.AbstractTableModel#getColumnClass(int)
+	 */
+	public Class getColumnClass(int col) {
+		return (col > 1 ? Double.class : String.class);
+	}
 
 	/* (Kein Javadoc)
 	 * @see javax.swing.table.AbstractTableModel#findColumn(java.lang.String)
@@ -217,7 +223,7 @@ public class Auswertung extends AbstractTableModel {
 		// return super.findColumn(arg0);
 		int i = -1;
 		for (int c = 0; c < spaltennamen.length; c++) if (spaltennamen[c].equals(arg0)) i=c;
-    	return (i < 0 ? Integer.parseInt(arg0.substring(5)) - 1 + permSpalten : i);
+		return (i < 0 ? Integer.parseInt(arg0.substring(5)) - 1 + permSpalten : i);
 	}
 
 }

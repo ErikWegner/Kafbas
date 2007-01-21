@@ -2,7 +2,7 @@
 <installation version="1.0">
 	<info>
 		<appname>Kafbas</appname>
-		<appversion>1.1</appversion>
+		<appversion>1.2</appversion>
 		<authors>
 			<author name="Erik Wegner" email="e-man@berlios.de" />
 		</authors>
@@ -41,6 +41,7 @@
 				<include name="lib/log4j.jar" />
 				<include name="lib/derby.jar" />
 				<include name="lib/derbyLocale_de_DE.jar" />
+				<include name="lib/BareBonesBrowserLaunch.jar" />
 				<include name="log4j.xml" />
 			</fileset>
 			<file src="dist/kafbas.jar" targetdir="$INSTALL_PATH" />

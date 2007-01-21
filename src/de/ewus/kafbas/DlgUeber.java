@@ -95,7 +95,7 @@ public class DlgUeber extends JDialog {
 	private JPanel getJPanelN() {
 		if (jPanelN == null) {
 			jLabel3 = new JLabel();
-			jLabel3.setText("http://kafbas.berlios.de/");
+			jLabel3.setText("http://developer.berlios.de/projects/kafbas/");
 			jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 			jLabel2 = new JLabel();
 			jLabel2.setText("Besuchen Sie http://ewus.de");
@@ -108,7 +108,7 @@ public class DlgUeber extends JDialog {
 			gridLayout.setVgap(3);
 			gridLayout.setRows(-1);
 			jLabel = new JLabel();
-			jLabel.setText("Kafbas Version 1.1");
+			jLabel.setText("Kafbas Version 1.2");
 			jLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 			jPanelN = new JPanel();
 			jPanelN.setLayout(gridLayout);
