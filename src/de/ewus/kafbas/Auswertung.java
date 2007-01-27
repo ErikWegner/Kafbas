@@ -184,7 +184,7 @@ public class Auswertung extends AbstractTableModel {
 				break;
 			case 4 :
 				d = ((double)(
-						(100-anteilB.anteil(vsums[row][0])*vsums[row][anzahlKassen+1]/100)
+						((100-anteilB.anteil(vsums[row][0]))*vsums[row][anzahlKassen+1]/100)
 					)/100); 
 				break;
 			default :
