@@ -8,7 +8,6 @@ import java.io.*;
 import java.sql.*;
 
 import javax.swing.JFrame;
-import javax.swing.ProgressMonitor;
 import org.apache.log4j.Logger;
 
 /**

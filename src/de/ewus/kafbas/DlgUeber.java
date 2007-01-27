@@ -20,6 +20,7 @@
 package de.ewus.kafbas;
 
 import java.awt.BorderLayout;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
@@ -29,15 +30,19 @@ import javax.swing.JDialog;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import java.awt.GridLayout;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
+
+import com.centerkey.utils.BareBonesBrowserLaunch;
 
 /**
  * @author 364
  *
  */
-public class DlgUeber extends JDialog {
-
+public class DlgUeber extends JDialog implements MouseListener {
 	private JPanel jContentPane = null;
 	private JPanel jPanelN = null;
 	private JPanel jPanelS = null;
@@ -95,10 +100,14 @@ public class DlgUeber extends JDialog {
 	private JPanel getJPanelN() {
 		if (jPanelN == null) {
 			jLabel3 = new JLabel();
-			jLabel3.setText("http://developer.berlios.de/projects/kafbas/");
+			jLabel3.setText("http://kafbas.berlios.de/");
+			jLabel3.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			jLabel3.addMouseListener(this);
 			jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 			jLabel2 = new JLabel();
 			jLabel2.setText("Besuchen Sie http://ewus.de");
+			jLabel2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			jLabel2.addMouseListener(this);
 			jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 			jLabel1 = new JLabel();
 			jLabel1.setText("programmiert von Erik Wegner");
@@ -160,6 +169,7 @@ public class DlgUeber extends JDialog {
 	private JTextArea getJTextArea() {
 		if (jTextArea == null) {
 			jTextArea = new JTextArea();
+			jTextArea.setEditable(false);
 			jTextArea.setText("                    GNU GENERAL PUBLIC LICENSE\n" + 
 					"                       Version 2, June 1991\n" + 
 					"\n"+
@@ -457,5 +467,22 @@ public class DlgUeber extends JDialog {
 		}
 		return jScrollPane;
 	}
+
+	public void mouseClicked(MouseEvent e) {
+		if (e.getSource().equals(jLabel2)) {
+			BareBonesBrowserLaunch.openURL("http://ewus.de");
+		}
+		if (e.getSource().equals(jLabel3)) {
+			BareBonesBrowserLaunch.openURL("http://kafbas.berlios.de");
+		}
+	}
+
+	public void mouseEntered(MouseEvent e) {}
+
+	public void mouseExited(MouseEvent e) {}
+
+	public void mousePressed(MouseEvent e) {}
+
+	public void mouseReleased(MouseEvent e) {}
 
 }  //  @jve:decl-index=0:visual-constraint="10,10"

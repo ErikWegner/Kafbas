@@ -1,6 +1,7 @@
 package de.ewus.kafbas;
 
 import java.awt.BorderLayout;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
@@ -30,6 +31,7 @@ public class ProgressDisplay {
 		dlgWindow.setSize(frame);
 		dlgWindow.validate();
 		dlgWindow.setLocation((screen.width - frame.width) / 2,(screen.height - frame.height) / 2);
+		dlgWindow.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 	}
 	
 	public void setProgress(int progress) {
