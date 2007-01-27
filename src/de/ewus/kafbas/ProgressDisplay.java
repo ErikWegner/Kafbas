@@ -20,6 +20,7 @@ public class ProgressDisplay {
 		pbar.setMaximum(max);
 		pbar.setStringPainted(true);
 		noteLabel = new JLabel();
+		noteLabel.setHorizontalAlignment(JLabel.CENTER);
 		
 		BorderLayout b = new BorderLayout(10, 10);
 		dlgWindow.setLayout(b);
@@ -27,7 +28,7 @@ public class ProgressDisplay {
 		dlgWindow.add(noteLabel,BorderLayout.PAGE_END);
 		
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-		Dimension frame = new Dimension(400,100);
+		Dimension frame = new Dimension(screen.width/3,100);
 		dlgWindow.setSize(frame);
 		dlgWindow.validate();
 		dlgWindow.setLocation((screen.width - frame.width) / 2,(screen.height - frame.height) / 2);
