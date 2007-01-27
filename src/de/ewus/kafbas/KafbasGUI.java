@@ -23,28 +23,21 @@ package de.ewus.kafbas;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.FilenameFilter;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.RandomAccessFile;
 import java.net.URL;
-import java.sql.BatchUpdateException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -63,8 +56,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.ProgressMonitor;
-import javax.swing.SwingUtilities;
 
 import org.apache.log4j.Logger;
 
@@ -72,8 +63,13 @@ import org.apache.log4j.Logger;
  * @author Erik Wegner
  *
  */
-public class KafbasGUI extends JFrame implements WindowListener, KeyListener, FilenameFilter {
+public class KafbasGUI extends JFrame implements WindowListener, KeyListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -987463071600111711L;
+	
 	private DTAmessage dtam = new DTAmessage();
 
 	private static final Logger logger = Logger.getLogger(KafbasGUI.class
@@ -91,7 +87,10 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 	private Connection conn;
 
 	public final int numTabellen = 1;
-
+	
+	/** Jede Datei enthält durchschnittlich 1000 Datensätze */
+	final static int DatensaetzeJeDatei = 1000;
+	
 	/**  Nummer der Tabelle f&uuml;r die eigene Kasse */
 	public final int TAB_Kassenposten = 0;
 
@@ -881,11 +880,6 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 		if (dtam.frageDTAbeginnen(this)) {
 			dtam.scriptDTAstart();
 
-			ProgressMonitor pm = new ProgressMonitor(this,
-					"Austauschdatei erzeugen", null, 0, 100);
-			pm.setProgress(0);
-			pm.setMillisToDecideToPopup(1000);
-			int cprogress = 0;
 			String datei = properties.getProperty("Austauschpfad", ".")
 			+ File.separator + dateiPrefix + kassenID
 			+ "." + dateiSuffix;
@@ -898,7 +892,6 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 				logger.debug(query);
 				ResultSet rs = stmt.executeQuery(query);
 				rs.last();
-				pm.setMaximum(rs.getRow() + 1);
 				rs.beforeFirst();
 				String export;
 				logger.info("Austauschdatei=" + datei);
@@ -910,7 +903,6 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 					bw.write(export);
 					bw.newLine();
 					logger.debug("Export: " + export);
-					pm.setProgress(++cprogress);
 				}
 				bw.close();
 			} catch (SQLException e) {
@@ -920,7 +912,6 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 			} catch (IOException e) {
 				logger.error("IOException", e);
 			}
-			pm.close();
 			dtam.scriptDTAende();
 			dtam.meldungDTAende(this);
 			statuszeile = "Datei geschrieben: " + datei;
@@ -929,92 +920,21 @@ public class KafbasGUI extends JFrame implements WindowListener, KeyListener, Fi
 	}
 
 	private void machDTAeinlesen() {
-		//Jede Datei enthält durchschnittlich 1000 Datensätze
-		final int datensaetzeJeDatei = 1000;
-
-		logger.debug("DTA einlesen");
 		if (dtam.frageDTAbeginnen(this)) {
-			dtam.scriptDTAstart();
-			//Finde alle kasse???.k
-			File verzeichnis = new File(properties.getProperty("Austauschpfad", "."));
-			//für alle dateien <> eigene_kassen_id
-			String[] kdaliste = verzeichnis.list(this);
+			DTAReader dtareader = new DTAReader(
+					properties.getProperty("Austauschpfad", "."),
+					dateiPrefix,
+					dateiSuffix,
+					kassenID,
+					conn,
+					tabellen[TAB_Kassenposten],
+					dtam,
+					this);
 			
-			PMThread pmthread = new PMThread();
-			pmthread.prepare(this, kdaliste.length * datensaetzeJeDatei);
-			pmthread.start();
-			pmthread.setProgress(1);
-			//	delete where kassenid=kassenid_der_datei
-			//	insert (datensätze aus datei)
-			int kasse;
-			for (int c=0; c<kdaliste.length; c++) {
-				kasse = zahlAusDateinamen(kdaliste[c]);
-				if (kasse != kassenID) {
-					int zeilenzaehler = 0;
-					try {
-						Statement stmt = conn.createStatement();
-						String anweisung;
-						conn.setAutoCommit(false);
-						anweisung = "DELETE FROM " + tabellen[TAB_Kassenposten] + " WHERE kassenid = " + kasse;
-						logger.debug("Anweisung: " + anweisung);
-						//stmt.addBatch(anweisung);
-						stmt.executeUpdate(anweisung);
-						String zeile;
-						String[] teile = null;
-						//FileReader fr = new FileReader(new File(verzeichnis, kdaliste[c]));
-						//BufferedReader in = new BufferedReader( fis );
-						RandomAccessFile in = new RandomAccessFile(new File(verzeichnis, kdaliste[c]), "r");
-						while ((zeile = in.readLine()) != null) {
-							zeilenzaehler++;
-							if (zeile.matches("\\d{3},\\d{1," + LAENGEPREIS +"}")) {
-								teile = zeile.split(",");
-								anweisung = "INSERT INTO " + tabellen[TAB_Kassenposten] +
-								" (kassenid, verkaeufer, artikelpreis) VALUES (" +
-								kasse + ",'" + teile[0] + "'," + teile[1] + ")";
-								logger.debug("Anweisung: " + anweisung);
-								stmt.executeUpdate(anweisung);
-								//stmt.addBatch(anweisung);
-							} else logger.error("In der Datei " + kdaliste[c] + " ist die Zeile" + zeilenzaehler + "fehlerhaft");
-							pmthread.setProgress((int) (c*datensaetzeJeDatei + (long)datensaetzeJeDatei * in.getFilePointer()/in.length()));
-							logger.debug("Progress:"+(int) (c*datensaetzeJeDatei + (long)datensaetzeJeDatei * in.getFilePointer()/in.length()));
-						}
-						in.close();
-						//int updateCounts[] = stmt.executeBatch();
-						conn.commit();
-						conn.setAutoCommit(true);
-						//for (int c1=0; c1 < updateCounts.length; c1++) logger.debug("update = " + updateCounts[c1]);
-					} catch (FileNotFoundException e) {
-						logger.error("FileNotFoundException", e);
-					} catch (IOException e) {
-						logger.error("IOException", e);
-					} catch (ArrayIndexOutOfBoundsException e) {
-						logger.error("In der Datei " + kdaliste[c] + " ist die Zeile" + zeilenzaehler + "fehlerhaft");
-					} catch (BatchUpdateException e) {
-						try { conn.rollback();conn.setAutoCommit(true);} catch (SQLException e2) {logger.error("SQLException",e2);}
-					} catch (SQLException e) {
-						logger.error("SQLException", e);
-					} finally {
-						try { conn.setAutoCommit(true);} catch (SQLException e) {logger.error("SQLException",e);}
-					}
-				}
-				pmthread.setProgress((c+1)*datensaetzeJeDatei);
-			}
-			pmthread.close();
-			dtam.scriptDTAende();
-			dtam.meldungDTAende(this);
-		} else logger.debug("DTA einlesen durch Benutzer abgebrochen");
+			dtareader.start();
+		}
 	}
 
-	private int zahlAusDateinamen(String dateiname) {
-		return Integer.parseInt(dateiname.substring(dateiPrefix.length(), dateiname.length() - dateiSuffix.length()-1));
-	}
-
-	/* (Kein Javadoc)
-	 * @see java.io.FilenameFilter#accept(java.io.File, java.lang.String)
-	 */
-	public boolean accept(File arg0, String arg1) {
-		return arg1.toLowerCase().matches(dateiPrefix + "\\d*\\." + dateiSuffix);
-	}
 
 	/**
 	 * This method initializes jMenuItemUeber	
