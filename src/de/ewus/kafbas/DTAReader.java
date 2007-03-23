@@ -91,7 +91,7 @@ public class DTAReader extends SwingWorker implements FilenameFilter {
 		pm.show();
 		//	delete where kassenid=kassenid_der_datei
 		//	insert (datensätze aus datei)
-		int kasse;
+		int kasse, dateilaenge;
 		for (int c=0; c<kdaliste.length; c++) {
 			kasse = zahlAusDateinamen(kdaliste[c]);
 			pm.setNote("Kasse " + kasse + " wird verarbeitet...");
@@ -110,6 +110,13 @@ public class DTAReader extends SwingWorker implements FilenameFilter {
 					//FileReader fr = new FileReader(new File(verzeichnis, kdaliste[c]));
 					//BufferedReader in = new BufferedReader( fis );
 					RandomAccessFile in = new RandomAccessFile(new File(verzeichnis, kdaliste[c]), "r");
+					dateilaenge = 0;
+					try {
+						dateilaenge = (int)in.length();
+					} catch (IOException e) {
+						logger.error(e);
+					}
+					if (dateilaenge == 0) {dateilaenge = 1;}
 					while ((zeile = in.readLine()) != null) {
 						zeilenzaehler++;
 						if (zeile.matches("\\d{3},\\d{1," + KafbasGUI.LAENGEPREIS +"}")) {
@@ -121,8 +128,8 @@ public class DTAReader extends SwingWorker implements FilenameFilter {
 							stmt.executeUpdate(anweisung);
 							//stmt.addBatch(anweisung);
 						} else logger.error("In der Datei " + kdaliste[c] + " ist die Zeile" + zeilenzaehler + "fehlerhaft");
-						pm.setProgress((int) (c*KafbasGUI.DatensaetzeJeDatei + (long)KafbasGUI.DatensaetzeJeDatei * in.getFilePointer()/in.length()));
-						logger.debug("Progress:"+(int) (c*KafbasGUI.DatensaetzeJeDatei + (long)KafbasGUI.DatensaetzeJeDatei * in.getFilePointer()/in.length()));
+						pm.setProgress((int) (c*KafbasGUI.DatensaetzeJeDatei + (long)KafbasGUI.DatensaetzeJeDatei * in.getFilePointer()/dateilaenge));
+						logger.debug("Progress:"+(int) (c*KafbasGUI.DatensaetzeJeDatei + (long)KafbasGUI.DatensaetzeJeDatei * in.getFilePointer()/dateilaenge));
 					}
 					in.close();
 					//int updateCounts[] = stmt.executeBatch();

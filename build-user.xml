@@ -1,6 +1,6 @@
 <property name="izpack.dir" value="${basedir}/lib/IzPack"/>
 <property name="version" value="1" />
-<property name="revision" value="1" />
+<property name="revision" value="2" />
 <target name="help">
     <echo message="Please run: $ ant -v -projecthelp"/>
 </target>
