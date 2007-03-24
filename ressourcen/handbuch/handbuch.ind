@@ -6,8 +6,11 @@
 
   \item Abschluss, \hyperpage{5}
   \item Anteil, \hyperpage{3}
-  \item AnzahlKassen, \hyperpage{11}
-  \item Austauschpfad, \hyperpage{11}
+  \item AnteilProzent, \hyperpage{12}
+  \item AnteilSpezial, \hyperpage{12}
+  \item AnteilSpezialModus, \hyperpage{13}
+  \item AnzahlKassen, \hyperpage{12}
+  \item Austauschpfad, \hyperpage{12}
   \item Auswertung, \hyperpage{5, 6}
 
   \indexspace
@@ -17,6 +20,8 @@
   \indexspace
 
   \item Datenbank, \hyperpage{9}
+  \item Datenbankpfad, \hyperpage{14}
+  \item Datenbanktreiber, \hyperpage{14}
   \item Derby, \hyperpage{11}
 
   \indexspace
@@ -28,12 +33,16 @@
 
   \indexspace
 
-  \item KassenID, \hyperpage{11}
+  \item KassenID, \hyperpage{12}
   \item Klassenpfad, \hyperpage{8}
 
   \indexspace
 
   \item L\"oschen, \hyperpage{9}
+
+  \indexspace
+
+  \item mount, \hyperpage{15}
 
   \indexspace
 

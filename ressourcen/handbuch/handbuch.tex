@@ -83,6 +83,8 @@
 \usepackage{listings} % Quelltexte formatiert ausgeben
 \usepackage{booktabs} % Tabellenformatierungsbefehle top-/mid-/bottomrule
 \usepackage{keystroke} %Tastaturabbildung
+\usepackage{caption}
+%\usepackage{capt-of}
 %\usepackage{marginnote}
 \usepackage{fixme}
 \usepackage[ngerman]{varioref} % variable Referenzen
@@ -154,6 +156,9 @@
 {} {} {}
 (0pt,0pt)
 }
+\flushbottom
+\captionsetup{margin=10pt,font=small,labelfont=bf}
+
 \begin{document}
 \attachfilesetup{author={Erik Wegner},mimetype=text/plain,icon=Paperclip,print=true}
 \lstset{basicstyle=\small\ttfamily}
@@ -161,7 +166,7 @@
 %% ==================================
 %% Befehle für die Titelseite
 %% ==================================
-\subject{Handbuch zur Version 1.1}
+\subject{Handbuch zur Version 1.2}
 \title{
   %\includegraphics[scale=0.333]{zusatz/logo_ksk}\\
   Kassenabrechnung für Basare
@@ -205,12 +210,13 @@ werden mit einer \textindex{Etikette} ausgestattet, die eine
 die \textindex{Verkäufernummer} und die übrigen Ziffern geben den
 \textindex{Preis} an.
 
-\begin{figure}[h]
-        \centering
+%\begin{figure}[h]
+{        \centering
                 \includegraphics[scale=0.5]{etikett}
-        \caption{Etikettenbeispiel}
+        \captionof{figure}{Etikettenbeispiel}
         \label{fig:etikett}
-\end{figure}
+}
+%\end{figure}
 
 Im Beispiel (Abbildung~\vref{fig:etikett}) bietet der Verkäufer mit der
 Nummer~104 diesen Artikel zum Preis von \EUR{2,30} an.
@@ -415,13 +421,20 @@ erfolgt als Zahl:
 
 \texttt{AnteilProzent=10}
 
-\minisec{AnteilSpezial?}\index{AnteilSpezial}
+\minisec{AnteilSpezial}\index{AnteilSpezial}
 Durch die Angabe eines Nummernkreises für die Verkäufernummer kann diesem
 Kreis ein abweichender Anteil (Einstellung \enquote{AnteilProzent}) zugeordnet
 werden, beispielsweise können alle Verkäufer von 100 bis 149 einen Anteil von
 20\% berechnet bekommen, von 150 bis 199 bekommen 25\% und die übrigen
 Verkäufer 40\%. Das Angeben mehrerer Einträge ist möglich, indem der Eintrag
-mit einer fortlaufenden Zahl ergänzt wird.
+mit einer fortlaufenden Zahl ergänzt wird. Die fortlaufende Zahl ist
+wichtig, wenn mehrere Regeln auf eine Verkäufernummer zutreffen (siehe
+\hyperlink{anteilspezialmodus}{AnteilSpezialModus}). Überschneiden sich
+die Bereiche, ist die Angabe
+\hyperlink{anteilspezialmodus}{AnteilSpezialModus} ebenfalls erforderlich.
+
+Diese Einstellungen werden bei jedem Anwendungsstart ausgewertet und die
+jeweiligen Anteile in der Auswertung neu berechnet.
 
 Beispiel:
 \begin{verbatim}
@@ -430,12 +443,7 @@ AnteilSpezial1=100-149,20
 AnteilSpezial2=150-199,25
 \end{verbatim}
 
-Überschneiden sich die Bereiche, ist die Angabe
-\hyperlink{anteilspezialmodus}{AnteilSpezialModus}
-erforderlich.
 
-Diese Daten werden bei jedem Anwendungsstart ausgewertet und die jeweiligen
-Anteile neu berechnet.
 
 \minisec{AnteilSpezialModus}\index{AnteilSpezialModus}
 \hypertarget{anteilspezialmodus}{Hier} kann definiert werden, wie die
@@ -555,9 +563,9 @@ Für Windows bietet sich bei USB-Datenträgern
   Verzeichnis \enquote{db/kafbasdb} genutzt.
 \item erweiterter Ablauf beim Datenaustausch:
   \begin{itemize}
-  \item Meldung an den Benutzer (konfigurierbar) mit Ok+Abbrechen (z.B. bitte
-    Diskette einlegen)
-  \item Ausführen eines Scripts (konfigurierbar), z.B. USB-Datenträger
+  \item Meldung an den Benutzer (konfigurierbar) mit Ok und Abbrechen
+    (z.B. bitte Diskette einlegen)
+  \item Ausführen eines Scripts (konfigurierbar), z.B. USB"=Datenträger
     einhängen
   \item DTA ausführen
   \item Ausführen eines zweiten Scripts (konfigurierbar), z.B. USB-Datenträger
