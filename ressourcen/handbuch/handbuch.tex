@@ -2,7 +2,7 @@
 \documentclass[
   final,      % endgültige Fassung
 % draft,      % Vorschau
-  pdftex,     % bei Aufruf von pdflatex
+  %pdftex,     % bei Aufruf von pdflatex
   idxtotoc,   % Index soll im Inhaltsverzeichnis stehen
   tocleft,    % Inhaltsverzeichnis nicht einrücken
   a5paper,    % Papiergröße A5
@@ -74,8 +74,8 @@
 \usepackage{microtype} % Mikrotypographische Anpassungen für pdflatex
 \usepackage{fixltx2e} % korrigiert LaTeX-Fehler
 %\usepackage{mparhack} % wenn verfügbar, korrigiert Fehler bei marginpar-Befehl
-\usepackage[pdftex]{color,graphics,graphicx} % Unterstützung für Grafiken und Farben
-\usepackage{picins} % Text umfließt Grafiken
+\usepackage{color,graphics,graphicx} % Unterstützung für Grafiken und Farben
+%\usepackage{picins} % Text umfließt Grafiken
 %\usepackage{eso-pic} % nur falls Entwurf-Seitenhintergrund
 % \usepackage{url} % nur falls kein hyperref-Paket genutzt wird
 % \usepackage{longtable} % für Tabellen über mehrere Seiten
@@ -87,8 +87,8 @@
 %\usepackage{capt-of}
 %\usepackage{marginnote}
 \usepackage{fixme}
-\usepackage[ngerman]{varioref} % variable Referenzen
-\usepackage[pdftex, draft=false, bookmarks=true, bookmarksnumbered=true, bookmarksopen=true, colorlinks, linkcolor=blue, urlcolor=blue, pdfauthor={Erik Wegner}, pdftitle={Kassenabrechnung für Bassare}, pdfsubject={Handbuch}, pdfpagemode=UseOutlines, pdfstartview=Fit, pdfview=FitBH, a4paper]{hyperref,attachfile} % PDF-Optionen, PDF-Hyperlinks
+%\usepackage[ngerman]{varioref} % variable Referenzen
+\usepackage[draft=false, bookmarks=true, bookmarksnumbered=true, bookmarksopen=true, colorlinks, linkcolor=blue, urlcolor=blue, pdfauthor={Erik Wegner}, pdftitle={Kassenabrechnung für Bassare}, pdfsubject={Handbuch}, pdfpagemode=UseOutlines, pdfstartview=Fit, pdfview=FitBH, a4paper]{hyperref,attachfile} % PDF-Optionen, PDF-Hyperlinks
 \usepackage[all]{hypcap} %Klicken auf Verweise rückt Ziel in den Mittelpunkt
 
 %veraltete Pakete, die nicht mehr benötigt werden
@@ -218,7 +218,7 @@ die \textindex{Verkäufernummer} und die übrigen Ziffern geben den
 }
 %\end{figure}
 
-Im Beispiel (Abbildung~\vref{fig:etikett}) bietet der Verkäufer mit der
+Im Beispiel (Abbildung~\ref{fig:etikett}) bietet der Verkäufer mit der
 Nummer~104 diesen Artikel zum Preis von \EUR{2,30} an.
 
 Vom insgesamten Verkaufsergebnis behält der Veranstalter einen
@@ -227,7 +227,7 @@ abgelesen werden.
 
 Eine zusätzliche Anforderung bestand darin, dass an verschiedenen Kassen
 verkauft werden soll, ohne das die Plätze im \textindex{Netzwerk} verbunden
-sind. Daher implementiert dsa Programm eine Möglichkeit, die Verkaufsdaten
+sind. Daher implementiert das Programm eine Möglichkeit, die Verkaufsdaten
 zwischen den Kasseplätzen auszutauschen.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -261,7 +261,7 @@ die Eingabe zum Feld \enquote{Artikelpreis}. Haben Sie sich vertippt, können Sie
 die letzte Ziffer mit der Rückschritttaste (Backspace) \BSpace löschen.
 
 \minisec{Schritt 2: Eingabe des Artikelpreises}
-Den Artikelpreis geben Sie als fortlaufende Zahl ohne Punkt oder Komma ein. Bspw.\ drücken Sie die Kombination \keystroke{1}\,\keystroke{2}\,\keystroke{5}\,\keystroke{0}, um den Preis von \EUR{12,50} einzugeben. Auch hier können Sie Ihre Eingaben korrigieren, indem Sie die Rückschritttaste benutzen.
+Den Artikelpreis geben Sie als fortlaufende Zahl ohne Punkt oder Komma ein. Bspw.\ drücken Sie die Kombination \keystroke{1}\,\keystroke{2}\,\keystroke{5}\,\mbox{\keystroke{0},} um den Preis von \EUR{12,50} einzugeben. Auch hier können Sie Ihre Eingaben korrigieren, indem Sie die Rückschritttaste benutzen.
 
 \minisec{Schritt 3: Übergang zum nächsten Artikel}
 Den \textindex{Abschluss} einer Artikeleingabe bildet \keystroke{+}. Die zwei Eingaben Verkäufer und Artikelpreis werden in die Liste übernommen und die neue Endsumme berechnet. Anschließend steht die Anwendung wieder bereit, die Verkäufernummer wie in Schritt 1 entgegenzunehmen. Stellen Sie fest, dass die Eingabe, die bereits in der Liste abgelegt ist, fehlerhaft ist oder gelöscht werden soll, betätigen Sie wieder die Rückschritttaste, um den letzten Listenposten in die aktive Eingabe zu übernehmen. Nun können Sie die Eingabe korrigieren oder mit der Taste \Esc löschen.
@@ -285,7 +285,7 @@ einem Wechselmedium (Diskette, USB-Stick o.~ä.) abgelegt.
 
 Die Auswahl dieses Verzeichnisses erfolgt während der Installation oder
 nachträglich über die Anpassung der Datei \path{kafbas.properties} (siehe
-Anhang~\vref{sec:propertiesDatei}).
+Anhang~\ref{sec:propertiesDatei}).
 
 \emph{Diese Funktion muss für alle Kassenpunkte ausgeführt werden.}
 
@@ -326,7 +326,7 @@ gespeichert. Für dieses Verzeichnis benötigt der Benutzer Schreib- und
 Ändernrechte.\index{Rechte} \index{Berechtigung} \index{Schreibrechte} \index{Ändernrechte}
 
 \subsection{Installation manuell}
-Kopieren Sie die Bibliotheken (siehe Anhang~\vref{sec:ListeDerBibliotheken}) und die Jar-Datei der Anwendung in den Ordner der Anwendung. Zusätzlich werden Programmeinstellungen in einer properies-Datei abgelegt, die Beschreibung finden Sie im Anhang~\vref{sec:propertiesDatei}.
+Kopieren Sie die Bibliotheken (siehe Anhang~\ref{sec:ListeDerBibliotheken}) und die Jar-Datei der Anwendung in den Ordner der Anwendung. Zusätzlich werden Programmeinstellungen in einer properies-Datei abgelegt, die Beschreibung finden Sie im Anhang~\ref{sec:propertiesDatei}.
 
 Um die Anwendung zu starten, müssen Sie alle Bibliotheken in den \textindex{Klassenpfad} der Java-VM aufnehmen.
 
@@ -338,7 +338,7 @@ properties-Datei abgefragt.
 
 \subsection{Anpassungen nachträglich}
 Änderungen der Programmparameter können in der properties-Datei (siehe
-Anhang~\vref{sec:propertiesDatei}) vorgenommen werden.
+Anhang~\ref{sec:propertiesDatei}) vorgenommen werden.
 
 \subsection{Löschen der Datenbank für neue Veranstaltung}\index{Löschen}\index{Datenbank}
 Wird eine vorhandene Installation für eine neue Veranstaltung weiterbenutzt,
@@ -396,12 +396,16 @@ Als Datenbank wird die komplett in Java programmierte Datenbank
   postbreak=\space,%
   showspaces=true%
 }
+\ifpdf
 \lstinputlisting[style=properties]{../../kafbas.properties}
+\else
+\VerbatimInput{../../kafbas.properties}
+\fi
 \attachfile[%
   author={Erik Wegner},%
   mimetype={text/plain},%
   icon=Paperclip,%
-  description={Beispieldatei kafbas.properties}]{../../kafbas.properties}
+   description={Beispieldatei kafbas.properties}]{../../kafbas.properties}
 
 \minisec{KassenID}\index{KassenID}
 Die Nummer dieser Kasse. Sie ist für die Veranstaltung einmalig und darf nicht
@@ -598,3 +602,7 @@ Für Windows bietet sich bei USB-Datenträgern
 %\end{flushleft}
 
 \end{document}
+%
+% Umwandlung in XHTML
+%
+% htlatex handbuch.tex "xhtml,uni-html4" " -cunihtf -utf8"

@@ -55,8 +55,14 @@
 			<parsable targetfile="$INSTALL_PATH/kafbas.properties" type="plain" />
 		</pack>
 		<pack name="Handbuch" required="no" preselected="yes">
-			<description>Beschreibung der Anwendung</description>
-			<file src="ressourcen/handbuch/handbuch.pdf" targetdir="$INSTALL_PATH" />
+			<description>Beschreibung der
+			Anwendung</description>
+			<fileset dir="ressourcen/handbuch"
+			targetdir="$INSTALL_PATH/handbuch">
+			<include name="handbuch.pdf" />
+			<include name="handbuch.html" />
+			<include name="handbuch0x.png" />
+			</fileset>
 		</pack>
 	</packs>
 </installation>

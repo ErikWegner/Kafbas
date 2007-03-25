@@ -1,0 +1,807 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<!--http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd-->  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+> 
+<head><title> Kassenabrechnung für Basare </title> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+<meta name="generator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)" /> 
+<meta name="originator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)" /> 
+<!-- xhtml,uni-html4,html --> 
+<meta name="src" content="handbuch.tex" /> 
+<meta name="date" content="2007-03-25 01:01:00" /> 
+<link rel="stylesheet" type="text/css" href="handbuch.css" /> 
+</head><body 
+>
+<div class="maketitle">
+                                                               
+                                                               
+                                                               
+                                                               
+<span 
+class="ec-lmbx-12x-x-120">Handbuch zur Version 1.2</span>
+
+<h2 class="titleHead"> Kassenabrechnung für Basare </h2>
+<div class="author" ><span 
+class="ec-lmr-12x-x-120">Erik Wegner</span></div>
+<br />
+<div class="date" ><span 
+class="ec-lmr-12x-x-120">25.</span><span 
+class="ec-lmr-12x-x-120"> März 2007</span></div>
+</div>
+<!--l. 181--><p class="noindent" >
+                                                               
+                                                               
+</p>
+<h3 class="likesectionHead"><a 
+ id="x1-1000"></a>Inhaltsverzeichnis</h3>
+<div class="tableofcontents">
+<span class="sectionToc" >1 <a 
+href="#x1-20001" id="QQ2-1-2">Allgemeines</a></span>
+<br /><span class="sectionToc" >2 <a 
+href="#x1-30002" id="QQ2-1-4">Benutzerhandbuch</a></span>
+<br /> <span class="subsectionToc" >2.1 <a 
+href="#x1-40002.1" id="QQ2-1-5">Ablauf der Eingabe</a></span>
+<br /> <span class="subsectionToc" >2.2 <a 
+href="#x1-90002.2" id="QQ2-1-10">Datenaustausch</a></span>
+<br />  <span class="subsubsectionToc" >2.2.1 <a 
+href="#x1-100002.2.1" id="QQ2-1-11">Datenaustausch erzeugen</a></span>
+<br />  <span class="subsubsectionToc" >2.2.2 <a 
+href="#x1-110002.2.2" id="QQ2-1-12">Datenaustausch einlesen</a></span>
+<br /> <span class="subsectionToc" >2.3 <a 
+href="#x1-120002.3" id="QQ2-1-13">Auswertung</a></span>
+<br /><span class="sectionToc" >3 <a 
+href="#x1-130003" id="QQ2-1-14">Installationsanleitung</a></span>
+<br /> <span class="subsectionToc" >3.1 <a 
+href="#x1-140003.1" id="QQ2-1-15">Installation manuell</a></span>
+<br /> <span class="subsectionToc" >3.2 <a 
+href="#x1-150003.2" id="QQ2-1-16">per Installer</a></span>
+<br /> <span class="subsectionToc" >3.3 <a 
+href="#x1-160003.3" id="QQ2-1-17">Anpassungen nachträglich</a></span>
+<br /> <span class="subsectionToc" >3.4 <a 
+href="#x1-170003.4" id="QQ2-1-18">Löschen der Datenbank für neue Veranstaltung</a></span>
+<br /><span class="sectionToc" >4 <a 
+href="#x1-180004" id="QQ2-1-19">Kurzübersicht</a></span>
+<br /><span class="sectionToc" >A <a 
+href="#x1-25000A" id="QQ2-1-26">Liste der Bibliotheken</a></span>
+<br /><span class="sectionToc" >B <a 
+href="#x1-26000B" id="QQ2-1-27">Beschreibung der properties-Datei</a></span>
+<br /><span class="sectionToc" >C <a 
+href="#x1-39000C" id="QQ2-1-40">Änderungsverzeichnis</a></span>
+<br /> <span class="subsectionToc" >C.1 <a 
+href="#x1-40000C.1" id="QQ2-1-41">Version 1.2</a></span>
+<br /> <span class="subsectionToc" >C.2 <a 
+href="#x1-41000C.2" id="QQ2-1-42">Version 1.1</a></span>
+<br /> <span class="subsectionToc" >C.3 <a 
+href="#x1-42000C.3" id="QQ2-1-43">Version 1.0</a></span>
+                                                               
+                                                               
+</div>
+                                                               
+                                                               
+<h3 class="sectionHead"><span class="titlemark">1 </span> <a 
+ id="x1-20001"></a>Allgemeines</h3>
+<!--l. 204--><p class="noindent" >Vielen Dank für Ihr Interesse am Programm Kafbas – Kassenabrechnung
+für Basare.
+</p><!--l. 207--><p class="noindent" >Dieses Programm entstand zur Unterstützung wohltätiger Basare. Alle
+Artikel werden mit einer Etikette<a 
+ id="dx1-2001"></a> ausgestattet, die eine Zahlenkombination<a 
+ id="dx1-2002"></a>
+enthält, dabei enthalten die ersten drei Ziﬀern die Verkäufernummer<a 
+ id="dx1-2003"></a> und
+die übrigen Ziﬀern geben den Preis<a 
+ id="dx1-2004"></a> an.
+</p><!--l. 215--><p class="noindent" ><img 
+src="handbuch0x.png" alt="PIC" class="graphics" width="170.6375pt" height="64.23999pt"  /><!--tex4ht:graphics  
+name="handbuch0x.png" src="etikett.ps"  
+-->
+<br /> </p><table class="caption" 
+><tr style="vertical-align:baseline;" class="caption"><td class="id">Abbildung 1: </td><td  
+class="content">Etikettenbeispiel</td></tr></table><!--tex4ht:label?: x1-20051 -->
+<a 
+ id="x1-20051"></a>
+Im Beispiel (Abbildung <a 
+href="#x1-20051">1<!--tex4ht:ref: fig:etikett --></a>) bietet der Verkäufer mit der Nummer 104
+diesen Artikel zum Preis von 2,30 <span 
+class="feymr-10x-x-109">€ </span>an.
+<!--l. 224--><p class="noindent" >Vom insgesamten Verkaufsergebnis behält der Veranstalter einen Anteil<a 
+ id="dx1-2006"></a>
+(bspw. 20%) ein, dies kann in der Auswertung des Programms abgelesen
+werden.
+</p><!--l. 228--><p class="noindent" >Eine zusätzliche Anforderung bestand darin, dass an verschiedenen Kassen
+verkauft werden soll, ohne das die Plätze im Netzwerk<a 
+ id="dx1-2007"></a> verbunden sind.
+Daher implementiert das Programm eine Möglichkeit, die Verkaufsdaten
+zwischen den Kasseplätzen auszutauschen.
+                                                               
+                                                               
+</p>
+<h3 class="sectionHead"><span class="titlemark">2 </span> <a 
+ id="x1-30002"></a>Benutzerhandbuch</h3>
+<!--l. 236--><p class="noindent" >In diesem Teil der Dokumentation wird die Benutzung der Anwendung
+erläutert.
+</p><!--l. 238--><p class="noindent" >
+</p>
+<h4 class="subsectionHead"><span class="titlemark">2.1 </span> <a 
+ id="x1-40002.1"></a>Ablauf der Eingabe</h4>
+<!--l. 239--><p class="noindent" >Nach dem Start ist die Anwendung bereit, die Eingaben zum Verkauf
+entgegenzunehmen. Es stehen zwei Eingabefelder zur Verfügung, die
+jedoch nicht direkt angewählt werden können, denn die Eingabereihenfolge<a 
+ id="dx1-4001"></a>
+ist fest vorgeschrieben. Welches Feld gerade die Eingabe entgegennimmt,
+ist an der vergrößerten Beschriftung ablesbar. Für die Eingabe stehen
+folgende Tasten<a 
+ id="dx1-4002"></a><a 
+ id="dx1-4003"></a><a 
+ id="dx1-4004"></a> zur Verfügung:
+</p>
+<div class="tabular">
+<table class="tabular" 
+cellspacing="0" cellpadding="0"  
+><colgroup id="TBL-2-1g"><col 
+id="TBL-2-1" /><col 
+id="TBL-2-2" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-2-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-2-1-1"  
+class="td01">Taste                    </td><td  style="white-space:wrap; text-align:left;" id="TBL-2-1-2"  
+class="td10"><!--l. 248--><p class="noindent" >Bedeutung                                        </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-2-2-1"  
+class="td01">  <span 
+class="ec-lmss-9">0</span>    ,   <span 
+class="ec-lmss-9">1</span>    , …,   <span 
+class="ec-lmss-9">9</span>    </td><td  style="white-space:wrap; text-align:left;" id="TBL-2-2-2"  
+class="td10"><!--l. 250--><p class="noindent" >Eingabe der Zahl                                </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-2-3-1"  
+class="td01">   <span 
+class="lmmi-9">↦</span>                        </td><td  style="white-space:wrap; text-align:left;" id="TBL-2-3-2"  
+class="td10"><!--l. 251--><p class="noindent" >Löschen der letzten (eingegebenen) Ziﬀer </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-2-4-1"  
+class="td01">  <span 
+class="ec-lmss-9">+</span>                        </td><td  style="white-space:wrap; text-align:left;" id="TBL-2-4-2"  
+class="td10"><!--l. 252--><p class="noindent" >nächsten Artikel für diesen Kunden        </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-2-5-1"  
+class="td01">  <span 
+class="ec-lmss-9">Enter</span>                    </td><td  style="white-space:wrap; text-align:left;" id="TBL-2-5-2"  
+class="td10"><!--l. 253--><p class="noindent" >zweimaliges     Drücken     beendet     den
+Verkaufsvorgang für den Kunden           </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-6-"><td  style="white-space:nowrap; text-align:left;" id="TBL-2-6-1"  
+class="td01">  <span 
+class="ec-lmss-9">Esc</span>                      </td><td  style="white-space:wrap; text-align:left;" id="TBL-2-6-2"  
+class="td10"><!--l. 254--><p class="noindent" >die   Inhalte   der   Eingabefelder   werden
+gelöscht                                            </p></td>
+
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-7-"><td  style="white-space:nowrap; text-align:left;" id="TBL-2-7-1"  
+class="td01">                            </td>
+</tr></table></div>
+<h5 class="minisecHead"> <a 
+ id="x1-50002.1"></a>Schritt 1: Eingabe der Verkäufernummer</h5>
+                                                               
+                                                               
+<!--l. 259--><p class="noindent" >Geben Sie die dreistellige Nummer des Verkäufers ein, anschließend
+wechselt die Eingabe zum Feld »Artikelpreis«. Haben Sie sich vertippt,
+können Sie die letzte Ziﬀer mit der Rückschritttaste (Backspace)
+   <span 
+class="lmmi-9">↦</span>   löschen.
+</p>
+<h5 class="minisecHead"> <a 
+ id="x1-60002.1"></a>Schritt 2: Eingabe des Artikelpreises</h5>
+<!--l. 264--><p class="noindent" >Den Artikelpreis geben Sie als fortlaufende Zahl ohne Punkt oder Komma
+ein. Bspw. drücken Sie die Kombination   <span 
+class="ec-lmss-9">1</span>       <span 
+class="ec-lmss-9">2</span>       <span 
+class="ec-lmss-9">5</span>       <span 
+class="ec-lmss-9">0</span>    , um den
+Preis von 12,50 <span 
+class="feymr-10x-x-109">€ </span>einzugeben. Auch hier können Sie Ihre Eingaben
+korrigieren, indem Sie die Rückschritttaste benutzen.
+</p>
+<h5 class="minisecHead"> <a 
+ id="x1-70002.1"></a>Schritt 3: Übergang zum nächsten Artikel</h5>
+<!--l. 267--><p class="noindent" >Den Abschluss<a 
+ id="dx1-7001"></a> einer Artikeleingabe bildet   <span 
+class="ec-lmss-9">+</span>   . Die zwei Eingaben
+Verkäufer und Artikelpreis werden in die Liste übernommen und die neue
+Endsumme berechnet. Anschließend steht die Anwendung wieder
+bereit, die Verkäufernummer wie in Schritt 1 entgegenzunehmen.
+Stellen Sie fest, dass die Eingabe, die bereits in der Liste abgelegt ist,
+fehlerhaft ist oder gelöscht werden soll, betätigen Sie wieder die
+Rückschritttaste, um den letzten Listenposten in die aktive Eingabe zu
+übernehmen. Nun können Sie die Eingabe korrigieren oder mit der Taste
+  <span 
+class="ec-lmss-9">Esc</span>   löschen.
+</p>
+<h5 class="minisecHead"> <a 
+ id="x1-80002.1"></a>Schritt 4: Abschluss des Verkaufs</h5>
+<!--l. 270--><p class="noindent" >Sind alle Artikel des Kunden erfasst, kann die Gesamtsumme abgelesen
+und kassiert werden. Um die erfassten Verkäufe in die Datenbank zu
+übernehmen und die Anwendung für den nächsten Kunden einzustellen,
+betätigen Sie die Taste   <span 
+class="ec-lmss-9">Enter</span>   zweimal. Nach dem ersten Tastendruck
+erscheint in der Statuszeile des Fensters der Hinweis, die Taste ein zweites
+Mal zu drücken. Erst jetzt sind die eben eingegebenen Verkäufe in der
+Datenbank gespeichert, sodass der Datenaustausch erfolgen oder die
+Anwendung beendet werden kann.
+                                                               
+                                                               
+</p>
+<h4 class="subsectionHead"><span class="titlemark">2.2 </span> <a 
+ id="x1-90002.2"></a>Datenaustausch</h4>
+<!--l. 273--><p class="noindent" >Der Datenaustausch dient zum Synchronisieren<a 
+ id="dx1-9001"></a> der Kassen, dadurch
+funktionieren die Kassen ohne ein verbindendes Netzwerk. Der
+Datenaustausch ist nur für die Auswertung<a 
+ id="dx1-9002"></a> wichtig, d. h. diese Vorgänge
+können nach dem Schließen der eigentlichen Basarveranstaltung
+durchgeführt werden.
+</p><!--l. 278--><p class="noindent" ><span 
+class="ec-lmri-10x-x-109">Hinweis: </span>Die Funktionen Datenaustausch erzeugen und einlesen können
+mehrmals aufgerufen werden.
+</p><!--l. 281--><p class="noindent" >
+</p>
+<h5 class="subsubsectionHead"><span class="titlemark">2.2.1 </span> <a 
+ id="x1-100002.2.1"></a>Datenaustausch erzeugen</h5>
+<!--l. 282--><p class="noindent" >Durch Auswahl dieses Punktes wird eine Datei erzeugt, die alle
+Transaktionen dieser Kasse enthält. Diese Datei wird in einem zentralen
+Verzeichnis oder auf einem Wechselmedium (Diskette, USB-Stick o. ä.)
+abgelegt.
+</p><!--l. 286--><p class="noindent" >Die Auswahl dieses Verzeichnisses erfolgt während der Installation oder
+nachträglich über die Anpassung der Datei <span class="path"><span 
+class="ec-lmtt-10x-x-109">kafbas.properties</span></span> (siehe
+Anhang <a 
+href="#x1-26000B">B<!--tex4ht:ref: sec:propertiesDatei --></a>).
+</p><!--l. 290--><p class="noindent" ><span 
+class="ec-lmri-10x-x-109">Diese Funktion muss für alle Kassenpunkte ausgeführt werden.</span>
+                                                               
+                                                               
+</p><!--l. 292--><p class="noindent" >
+</p>
+<h5 class="subsubsectionHead"><span class="titlemark">2.2.2 </span> <a 
+ id="x1-110002.2.2"></a>Datenaustausch einlesen</h5>
+<!--l. 293--><p class="noindent" >An jedem Kassepunkt, an dem die Auswertung der Verkäufe und
+Erlöse erfolgen soll, muss die Funktion »Datenaustausch einlesen«
+aufgerufen werden. Dabei werden die Datenaustauschdateien der übrigen
+Kassen in die Datenbank der benutzten Kasse eingelesen und die
+Auswertungsfunktion kann aufgerufen werden.
+</p><!--l. 299--><p class="noindent" >
+</p>
+<h4 class="subsectionHead"><span class="titlemark">2.3 </span> <a 
+ id="x1-120002.3"></a>Auswertung</h4>
+<a 
+ id="dx1-12001"></a>
+<!--l. 300--><p class="noindent" >Beim Aufrufen der Funktion Auswertung öﬀnet sich ein Dialog, der
+die Summen<a 
+ id="dx1-12002"></a> der Verkäufe auﬂistet. In der ersten Spalte steht die
+Verkäufernummer, die zweite Spalte beinhaltet die Summe aller Artikel
+dieses Verkäufers. An dritter Stelle steht der Anteil, den der Veranstalter
+von diesem Verkäufer einbehält. In der vierten Spalte beﬁndet sich der
+tatsächliche Erlös, den dieser Verkäufer erzielt hat. Die nachfolgenden
+Spalten enthalten die umgesetzten Summen an den einzelnen Kassen für
+diesen Verkäufer.
+</p><!--l. 309--><p class="noindent" >In der letzten Zeile beﬁnden sich die Summen für die Werte der zweiten bis
+letzten Spalte. Die erste Spalte weist durch die Ausschrift »Summe«
+darauf hin, dass dies die Summenzeile ist. In der zweiten Spalte beﬁndet
+sich die Summe aller Verkäufe, danach die Summe der Anteile für den
+Veranstalter, d. h. hier steht der gesamte Erlös, den der Veranstalter
+erhält. In der vierten Spalte ist die Summe aller Erlöse der Verkäufer. Die
+nachfolgenden Zahlen stellen die Verkaufssummen der einzelnen Kassen
+                                                               
+                                                               
+dar.
+</p><!--l. 317--><p class="noindent" ><span 
+class="ec-lmri-10x-x-109">Hinweis: </span>Die Spalten für die Kassen enthalten die Summe der verkauften
+Artikel, der Anteil des Veranstalters ist in diesen Beträgen enthälten.
+                                                               
+                                                               
+</p>
+<h3 class="sectionHead"><span class="titlemark">3 </span> <a 
+ id="x1-130003"></a>Installationsanleitung</h3>
+<!--l. 323--><p class="noindent" >Im zukünftigen Installationspfad der Anwendung wird während des
+ersten Starts ein Verzeichnis <span class="path"><span 
+class="ec-lmtt-10x-x-109">kafbasdb</span></span> angelegt. Darin werden die
+Datenbankdateien gespeichert. Für dieses Verzeichnis benötigt der
+Benutzer Schreib- und Ändernrechte.<a 
+ id="dx1-13001"></a> <a 
+ id="dx1-13002"></a><a 
+ id="dx1-13003"></a> <a 
+ id="dx1-13004"></a>
+</p><!--l. 328--><p class="noindent" >
+</p>
+<h4 class="subsectionHead"><span class="titlemark">3.1 </span> <a 
+ id="x1-140003.1"></a>Installation manuell</h4>
+<!--l. 329--><p class="noindent" >Kopieren Sie die Bibliotheken (siehe Anhang <a 
+href="#x1-25000A">A<!--tex4ht:ref: sec:ListeDerBibliotheken --></a>) und die Jar-Datei
+der Anwendung in den Ordner der Anwendung. Zusätzlich werden
+Programmeinstellungen in einer properies-Datei abgelegt, die Beschreibung
+ﬁnden Sie im Anhang <a 
+href="#x1-26000B">B<!--tex4ht:ref: sec:propertiesDatei --></a>.
+</p><!--l. 331--><p class="noindent" >Um die Anwendung zu starten, müssen Sie alle Bibliotheken in den
+Klassenpfad<a 
+ id="dx1-14001"></a> der Java-VM aufnehmen.
+</p><!--l. 333--><p class="noindent" >
+</p>
+<h4 class="subsectionHead"><span class="titlemark">3.2 </span> <a 
+ id="x1-150003.2"></a>per Installer</h4>
+<!--l. 334--><p class="noindent" >Liegt die Anwendung als <span class="path"><span 
+class="ec-lmtt-10x-x-109">kafbas-installer.jar</span></span> vor, kann mit einem
+Doppelklick oder dem Aufruf <span class="lstinline"><span 
+class="ec-lmtt-10">java</span><span 
+class="ec-lmtt-10"> </span><span 
+class="ec-lmtt-10">-</span><span 
+class="ec-lmtt-10">jar</span><span 
+class="ec-lmtt-10"> </span><span 
+class="ec-lmtt-10">kafbas</span><span 
+class="ec-lmtt-10">-</span><span 
+class="ec-lmtt-10">installer</span><span 
+class="ec-lmtt-10">.</span><span 
+class="ec-lmtt-10">jar</span></span> die
+Installation graﬁsch ausgeführt werden. Dabei werden die Einstellungen
+der properties-Datei abgefragt.
+                                                               
+                                                               
+</p><!--l. 339--><p class="noindent" >
+</p>
+<h4 class="subsectionHead"><span class="titlemark">3.3 </span> <a 
+ id="x1-160003.3"></a>Anpassungen nachträglich</h4>
+<!--l. 340--><p class="noindent" >Änderungen der Programmparameter können in der properties-Datei
+(siehe Anhang <a 
+href="#x1-26000B">B<!--tex4ht:ref: sec:propertiesDatei --></a>) vorgenommen werden.
+</p><!--l. 343--><p class="noindent" >
+</p>
+<h4 class="subsectionHead"><span class="titlemark">3.4 </span> <a 
+ id="x1-170003.4"></a>Löschen der Datenbank für neue Veranstaltung</h4>
+<a 
+ id="dx1-17001"></a>
+<a 
+ id="dx1-17002"></a>
+<!--l. 344--><p class="noindent" >Wird eine vorhandene Installation für eine neue Veranstaltung
+weiterbenutzt, so muss das Verzeichnis <span class="path"><span 
+class="ec-lmtt-10x-x-109">kafbasdb</span></span> auf jedem Kassenplatz
+gelöscht werden. Beim nächsten Programmstart wird es neu angelegt
+und die Datenbank kann neu befüllt werden. Achten Sie darauf,
+die Berechtigungen des <span class="path"><span 
+class="ec-lmtt-10x-x-109">kafbasdb</span></span>-Ordners ausreichend zu setzen,
+d. h. Ändern- und Schreibrechte für den späteren Benutzer.
+                                                               
+                                                               
+</p>
+<h3 class="sectionHead"><span class="titlemark">4 </span> <a 
+ id="x1-180004"></a>Kurzübersicht</h3>
+<!--l. 354--><p class="noindent" >
+</p>
+<h4 class="likesubsectionHead"><a 
+ id="x1-190004"></a>Bedienung Kassefunktionen</h4>
+<!--l. 355--><p class="noindent" >Geben Sie zuerst die <span 
+class="ec-lmbx-10x-x-109">dreistellige Verkäufernummer </span>und anschließend
+den <span 
+class="ec-lmbx-10x-x-109">Artikelpreis ohne Komma oder Punkt </span>ein. Korrigieren Sie
+Eingaben mit der    <span 
+class="lmmi-9">↦</span>   -Taste (Rückschritt).
+</p>
+<h5 class="minisecHead"> <a 
+ id="x1-200004"></a>Zahlen</h5>
+<!--l. 358--><p class="noindent" >  <span 
+class="ec-lmss-9">0</span>       <span 
+class="ec-lmss-9">1</span>       <span 
+class="ec-lmss-9">2</span>       <span 
+class="ec-lmss-9">3</span>       <span 
+class="ec-lmss-9">4</span>       <span 
+class="ec-lmss-9">5</span>       <span 
+class="ec-lmss-9">6</span>       <span 
+class="ec-lmss-9">7</span>       <span 
+class="ec-lmss-9">8</span>       <span 
+class="ec-lmss-9">9</span>    
+</p>
+<h5 class="minisecHead"> <a 
+ id="x1-210004"></a>Plus</h5>
+<!--l. 361--><p class="noindent" >  <span 
+class="ec-lmss-9">+</span>    übernimmt Preis in die Liste für die Gesamtsummenberechnung
+</p>
+<h5 class="minisecHead"> <a 
+ id="x1-220004"></a>Enter</h5>
+<!--l. 364--><p class="noindent" >2x   <span 
+class="ec-lmss-9">Enter</span>   schließt den Einkauf dieses Kunden ab.
+</p>
+<h4 class="likesubsectionHead"><a 
+ id="x1-230004"></a>Löschen</h4>
+                                                               
+                                                               
+<!--l. 367--><p class="noindent" >   <span 
+class="lmmi-9">↦</span>   löscht die letzte Ziﬀer der Eingabe. Ist keine Eingabe mehr
+vorhanden, wird das letzte Element der Liste aus der Liste gelöscht und als
+neue Werte für die Eingabefelder vorbelegt. Damit lassen sich falsche
+  <span 
+class="ec-lmss-9">+</span>   -Eingaben rückgängig machen.
+</p><!--l. 369--><p class="noindent" >
+</p>
+<h4 class="likesubsectionHead"><a 
+ id="x1-240004"></a>ESC</h4>
+<!--l. 370--><p class="noindent" >  <span 
+class="ec-lmss-9">Esc</span>   löscht die Belegung der Eingabefelder und setzt die Verkäufereingabe
+als nächstes Eingabefeld.
+                                                               
+                                                               
+</p>
+<h3 class="sectionHead"><span class="titlemark">A </span> <a 
+ id="x1-25000A"></a>Liste der Bibliotheken</h3>
+<div class="tabular">
+<table class="tabular" 
+cellspacing="0" cellpadding="0"  
+><colgroup id="TBL-3-1g"><col 
+id="TBL-3-1" /><col 
+id="TBL-3-2" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-3-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-3-1-1"  
+class="td01">Dateiname, Version      </td><td  style="white-space:wrap; text-align:left;" id="TBL-3-1-2"  
+class="td10"><!--l. 378--><p class="noindent" >Beschreibung                                   </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-3-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-3-2-1"  
+class="td01">derby.jar, 10.1.2           </td><td  style="white-space:wrap; text-align:left;" id="TBL-3-2-2"  
+class="td10"><!--l. 380--><p class="noindent" >Datenbanktreiber                             </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-3-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-3-3-1"  
+class="td01">derbyLocale_de_DE.jar</td><td  style="white-space:wrap; text-align:left;" id="TBL-3-3-2"  
+class="td10"><!--l. 381--><p class="noindent" >deutsche        Texte        für        den
+Datenbanktreiber                             </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-3-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-3-4-1"  
+class="td01">log4j.jar, 1.2.13            </td><td  style="white-space:wrap; text-align:left;" id="TBL-3-4-2"  
+class="td10"><!--l. 382--><p class="noindent" >Protokollierung                            der
+Programmmeldungen                        </p></td>
+
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-3-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-3-5-1"  
+class="td01">                                </td>
+</tr></table></div>
+<!--l. 386--><p class="noindent" >Als Datenbank wird die komplett in Java programmierte Datenbank
+«Derby<a 
+ id="dx1-25001"></a>» (<a 
+href="http://db.apache.org/derby" >Homepage</a>) aus dem Apache-Projekt (<a 
+href="http://www.apache.org" >Homepage</a>) eingesetzt.
+</p><!--l. 390--><p class="noindent" >
+</p>
+<h3 class="sectionHead"><span class="titlemark">B </span> <a 
+ id="x1-26000B"></a>Beschreibung der properties-Datei</h3>
+<!--l. 402--><p class="noindent" >
+</p>
+<div class="fancyvrb" id="fancyvrb1">
+<a 
+ id="x1-26002r1"></a><span 
+class="ec-lmtt-10x-x-109"> </span><span 
+class="ec-lmtt-10x-x-109"> KassenID=6</span>
+<br class="fancyvrb" /><a 
+ id="x1-26004r2"></a><span 
+class="ec-lmtt-10x-x-109"> </span><span 
+class="ec-lmtt-10x-x-109"> AnzahlKassen=6</span>
+<br class="fancyvrb" /><a 
+ id="x1-26006r3"></a><span 
+class="ec-lmtt-10x-x-109"> </span><span 
+class="ec-lmtt-10x-x-109"> #Austauschpfad=/media/floppy</span>
+<br class="fancyvrb" /><a 
+ id="x1-26008r4"></a><span 
+class="ec-lmtt-10x-x-109"> </span><span 
+class="ec-lmtt-10x-x-109"> Austauschpfad=/var/tmp</span>
+<br class="fancyvrb" /><a 
+ id="x1-26010r5"></a><span 
+class="ec-lmtt-10x-x-109"> </span><span 
+class="ec-lmtt-10x-x-109"> AnteilProzent=40</span>
+<br class="fancyvrb" /><a 
+ id="x1-26012r6"></a><span 
+class="ec-lmtt-10x-x-109"> </span><span 
+class="ec-lmtt-10x-x-109"> AnteilSpezial01=1-99,20</span>
+<br class="fancyvrb" /><a 
+ id="x1-26014r7"></a><span 
+class="ec-lmtt-10x-x-109"> </span><span 
+class="ec-lmtt-10x-x-109"> AnteilSpezial02=84-84,77</span>
+                                                               
+                                                               
+<br class="fancyvrb" /><a 
+ id="x1-26016r8"></a><span 
+class="ec-lmtt-10x-x-109"> </span><span 
+class="ec-lmtt-10x-x-109"> AnteilSpezial03=20-25,45</span>
+<br class="fancyvrb" /><a 
+ id="x1-26018r9"></a><span 
+class="ec-lmtt-10x-x-109"> </span><span 
+class="ec-lmtt-10x-x-109"> AnteilSpezialModus=0</span>
+<br class="fancyvrb" /><a 
+ id="x1-26020r10"></a><span 
+class="ec-lmtt-10x-x-109"> </span><span 
+class="ec-lmtt-10x-x-109"> Datenbanktreiber=org.apache.derby.jdbc.EmbeddedDriver</span>
+<br class="fancyvrb" /><a 
+ id="x1-26022r11"></a><span 
+class="ec-lmtt-10x-x-109"> </span><span 
+class="ec-lmtt-10x-x-109"> Datenbankpfad=jdbc:derby:db/kafbasdb;create=true</span>
+<br class="fancyvrb" /><a 
+ id="x1-26024r12"></a><span 
+class="ec-lmtt-10x-x-109"> </span><span 
+class="ec-lmtt-10x-x-109"> Meldung.Austausch.FrageVorBeginn=Bitte</span><span 
+class="ec-lmtt-10x-x-109"> legen</span><span 
+class="ec-lmtt-10x-x-109"> Sie</span><span 
+class="ec-lmtt-10x-x-109"> eine</span><span 
+class="ec-lmtt-10x-x-109"> Diskette</span><span 
+class="ec-lmtt-10x-x-109"> ein</span><span 
+class="ec-lmtt-10x-x-109"> und</span><span 
+class="ec-lmtt-10x-x-109"> bestätigen</span><span 
+class="ec-lmtt-10x-x-109"> Sie</span><span 
+class="ec-lmtt-10x-x-109"> mit</span><span 
+class="ec-lmtt-10x-x-109"> »Ok«.</span><span 
+class="ec-lmtt-10x-x-109"> Durch</span><span 
+class="ec-lmtt-10x-x-109"> »Abbrechen«</span><span 
+class="ec-lmtt-10x-x-109"> wird</span><span 
+class="ec-lmtt-10x-x-109"> der</span><span 
+class="ec-lmtt-10x-x-109"> Vorgang</span><span 
+class="ec-lmtt-10x-x-109"> abgebrochen.</span>
+<br class="fancyvrb" /><a 
+ id="x1-26026r13"></a><span 
+class="ec-lmtt-10x-x-109"> </span><span 
+class="ec-lmtt-10x-x-109"> Meldung.Austausch.Beendet=Sie</span><span 
+class="ec-lmtt-10x-x-109"> können</span><span 
+class="ec-lmtt-10x-x-109"> die</span><span 
+class="ec-lmtt-10x-x-109"> Diskette</span><span 
+class="ec-lmtt-10x-x-109"> nun</span><span 
+class="ec-lmtt-10x-x-109"> wieder</span><span 
+class="ec-lmtt-10x-x-109"> entnehmen.</span>
+<br class="fancyvrb" /><a 
+ id="x1-26028r14"></a><span 
+class="ec-lmtt-10x-x-109"> </span><span 
+class="ec-lmtt-10x-x-109"> Script.Austausch.Beginn=./mountdisk.sh</span>
+<br class="fancyvrb" /><a 
+ id="x1-26030r15"></a><span 
+class="ec-lmtt-10x-x-109"> </span><span 
+class="ec-lmtt-10x-x-109"> Script.Austausch.Beendet=./unmountdisk.sh</span>
+</div>
+<!--l. 408--><p class="noindent" ><span id="textcolor1"></span>
+</p>
+<h5 class="minisecHead"> <a 
+ id="x1-27000B"></a>KassenID</h5>
+<a 
+ id="dx1-27001"></a>
+<!--l. 411--><p class="noindent" >Die Nummer dieser Kasse. Sie ist für die Veranstaltung einmalig und darf
+nicht größer sein als der Wert für »AnzahlKassen«. Die Zählung beginnt
+bei 1.
+</p>
+<h5 class="minisecHead"> <a 
+ id="x1-28000B"></a>AnzahlKassen</h5>
+<a 
+ id="dx1-28001"></a>
+<!--l. 415--><p class="noindent" >Die Anzahl der vorhandenen Kassen für die Veranstaltung. Dieser Wert
+dient als Grundlage für die Anzahl der Spalten in der Auswertung.
+</p>
+<h5 class="minisecHead"> <a 
+ id="x1-29000B"></a>Austauschpfad</h5>
+<a 
+ id="dx1-29001"></a>
+<!--l. 419--><p class="noindent" >Der Pfad zu einem Verzeichnis, wo die Austauschdateien abgelegt werden
+können. Dies kann ein Disketten-, USB- oder Netzwerklaufwerk/-pfad
+sein.
+</p>
+<h5 class="minisecHead"> <a 
+ id="x1-30000B"></a>AnteilProzent</h5>
+                                                               
+                                                               
+<a 
+ id="dx1-30001"></a>
+<!--l. 423--><p class="noindent" >Dieser Prozentteil wird in der Auswertung als Standard genutzt. Die
+Angabe erfolgt als Zahl:
+</p><!--l. 426--><p class="noindent" ><span 
+class="ec-lmtt-10x-x-109">AnteilProzent=10</span>
+</p>
+<h5 class="minisecHead"> <a 
+ id="x1-31000B"></a>AnteilSpezial</h5>
+<a 
+ id="dx1-31001"></a>
+<!--l. 429--><p class="noindent" >Durch die Angabe eines Nummernkreises für die Verkäufernummer kann
+diesem Kreis ein abweichender Anteil (Einstellung »AnteilProzent«)
+zugeordnet werden, beispielsweise können alle Verkäufer von 100 bis
+149 einen Anteil von 20% berechnet bekommen, von 150 bis 199
+bekommen 25% und die übrigen Verkäufer 40%. Das Angeben mehrerer
+Einträge ist möglich, indem der Eintrag mit einer fortlaufenden Zahl
+ergänzt wird. Die fortlaufende Zahl ist wichtig, wenn mehrere Regeln
+auf eine Verkäufernummer zutreﬀen (siehe <a 
+href="#anteilspezialmodus">AnteilSpezialModus</a>).
+Überschneiden sich die Bereiche, ist die Angabe <a 
+href="#anteilspezialmodus">AnteilSpezialModus</a>
+ebenfalls erforderlich.
+</p><!--l. 440--><p class="noindent" >Diese Einstellungen werden bei jedem Anwendungsstart ausgewertet und
+die jeweiligen Anteile in der Auswertung neu berechnet.
+</p><!--l. 443--><p class="noindent" >Beispiel:
+                                                               
+                                                               
+</p>
+<table 
+class="verbatim"><tr class="verbatim"><td 
+class="verbatim"><div class="verbatim">
+AnteilProzent=40
+ <br />AnteilSpezial1=100-149,20
+ <br />AnteilSpezial2=150-199,25
+</div>
+</td></tr></table>
+<!--l. 448--><p class="nopar" >
+</p>
+<h5 class="minisecHead"> <a 
+ id="x1-32000B"></a>AnteilSpezialModus</h5>
+<a 
+ id="dx1-32001"></a>
+<!--l. 453--><p class="noindent" ><a 
+ id="anteilspezialmodus">Hier</a> kann deﬁniert werden, wie die Berechnung des Anteils für spezielle
+Verkäufernummern erfolgen soll:
+</p>
+<div class="tabular">
+<table class="tabular" 
+cellspacing="0" cellpadding="0"  
+><colgroup id="TBL-4-1g"><col 
+id="TBL-4-1" /><col 
+id="TBL-4-2" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-4-1-"><td  style="white-space:nowrap; text-align:center;" id="TBL-4-1-1"  
+class="td01">Einstellung</td><td  style="white-space:wrap; text-align:left;" id="TBL-4-1-2"  
+class="td10"><!--l. 458--><p class="noindent" >Bedeutung                                                </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-4-2-"><td  style="white-space:nowrap; text-align:center;" id="TBL-4-2-1"  
+class="td01">      <span 
+class="ec-lmbx-10x-x-109">0      </span></td><td  style="white-space:wrap; text-align:left;" id="TBL-4-2-2"  
+class="td10"><!--l. 460--><p class="noindent" >es            werden            alle            Regeln
+überprüft, die letzte zutreﬀende Regel liefert den
+Wert (Standardeinstellung)                           </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-4-3-"><td  style="white-space:nowrap; text-align:center;" id="TBL-4-3-1"  
+class="td01">       1       </td><td  style="white-space:wrap; text-align:left;" id="TBL-4-3-2"  
+class="td10"><!--l. 462--><p class="noindent" >bei        der        ersten        Übereinstimmung
+der Verkäufernummer mit einem Nummernkreis
+wird die Suche abgebrochen und der gefundene
+Wert genutzt                                             </p></td>
+
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-4-4-"><td  style="white-space:nowrap; text-align:center;" id="TBL-4-4-1"  
+class="td01">               </td>
+</tr></table></div>
+<!--l. 467--><p class="noindent" >Beispiel:
+                                                               
+                                                               
+</p>
+<table 
+class="verbatim"><tr class="verbatim"><td 
+class="verbatim"><div class="verbatim">
+AnteilProzent=40
+ <br />AnteilSpezial1=100-199,20
+ <br />AnteilSpezial2=150-169,25
+</div>
+</td></tr></table>
+<!--l. 472--><p class="nopar" >
+</p><!--l. 474--><p class="noindent" >Für den Verkäufer mit der Nummer 156 werden je nach Einstellung
+verschiedene Anteile angesetzt.
+</p><!--l. 477--><p class="noindent" >Ist der Modus auf »1« gestellt, erhält er 20%, die zweite Regel würde nie
+einen Treﬀer landen.
+</p><!--l. 480--><p class="noindent" >Steht der Modus dagegen auf »0« (dies ist die Standardeinstellung; fehlt
+die Konﬁgurationsangabe, so wird dieser Modus angewendet), so erhält
+unser Beispielverkäufer einen Anteil von 25% angerechnet, allgemein heißt
+diese Einstellung, dass die Verkäufer mit den Nummern 150 bis 169 einen
+Anteil von 25% anrechnen müssen, die Verkäufer zwischen 100 bis 149
+und 170 bis 199 jedoch 20%. Die übrigen Verkäufer bekommen den
+Standardanteil (hier 40%) zugewiesen.
+</p><!--l. 488--><p class="noindent" >Diese Einstellung wird bei jedem Anwendungsstart ausgewertet und die
+jeweiligen Anteile neu berechnet.
+</p>
+<h5 class="minisecHead"> <a 
+ id="x1-33000B"></a>Datenbanktreiber</h5>
+<a 
+ id="dx1-33001"></a>
+<!--l. 492--><p class="noindent" >Dieser Klassenname wird verwendet, um den Datenbanktreiber zu
+laden.
+</p><!--l. 494--><p class="noindent" >Für den mitgelieferten Apache-Derby-Treiber<span class="marginpar">Derby</span> lautet der Eintrag:
+                                                               
+                                                               
+</p><!--l. 497--><p class="noindent" ><span 
+class="ec-lmtt-10x-x-109">org.apache.derby.jdbc.EmbeddedDriver</span>
+</p>
+<h5 class="minisecHead"> <a 
+ id="x1-34000B"></a>Datenbankpfad</h5>
+<a 
+ id="dx1-34001"></a>
+<!--l. 500--><p class="noindent" >Die Verbindung zur Datenbank wird mit dem hier angegebenen Eintrag
+hergestellt.
+</p><!--l. 503--><p class="noindent" >Für die mitgelieferte Apache-Derby-Datenbank<span class="marginpar">Derby</span> lautet der
+Eintrag:
+</p><!--l. 506--><p class="noindent" ><span 
+class="ec-lmtt-10x-x-109">jdbc:derby:db/kafbasdb;create=true</span>
+</p><!--l. 508--><p class="noindent" >Der Zielordner der Datenbank lautet dabei »kafbasdb«, der Zusatz
+»;create=true« legt den Ordner an, wenn er noch nicht existiert und der
+Benutzer die Berechtigung dazu besitzt.
+</p>
+<h5 class="minisecHead"> <a 
+ id="x1-35000B"></a>Meldung.Austausch.FrageVorBeginn</h5>
+<!--l. 513--><p class="noindent" >Diese Meldung wird dem Benutzer vor Ausführung des Datenaustauschs
+angezeigt. Sie dient dazu, den Benutzer zum Einlegen einer Diskette oder
+zum Anschließen eines USB-Datenträgers aufzufordern.
+</p><!--l. 517--><p class="noindent" >Der Benutzer hat hier noch die Möglichkeit, den Datenaustausch abzubrechen,
+die Meldung wird mit einer »Ok« und einer »Abbrechen«-Schaltﬂäche
+angezeigt.
+</p>
+<h5 class="minisecHead"> <a 
+ id="x1-36000B"></a>Meldung.Austausch.Beendet</h5>
+<!--l. 522--><p class="noindent" >Nach dem Beenden des Datenaustauschs erscheint diese Meldung, sie kann
+nur mit »Ok« bestätigt werden.
+</p>
+<h5 class="minisecHead"> <a 
+ id="x1-37000B"></a>Script.Austausch.Beginn</h5>
+<!--l. 526--><p class="noindent" >Dieser Befehl wird ausgeführt, wenn der Benutzer die Meldung
+»Meldung.Austausch.FrageVorBeginn« mit »Ok« beantwortet hat. Damit
+kann bswp. ein mount<a 
+ id="dx1-37001"></a>-Befehl abgesetzt werden.
+                                                               
+                                                               
+</p><!--l. 534--><p class="noindent" ><span id="textcolor2"></span>
+</p>
+<h5 class="minisecHead"> <a 
+ id="x1-38000B"></a>Script.Austausch.Beendet</h5>
+<!--l. 537--><p class="noindent" >Nach dem Datenaustausch wird dieser Befehl aufgerufen, anschließend
+wird die Meldung »Meldung.Austausch.Beendet« abgezeigt.
+</p><!--l. 544--><p class="noindent" ><span id="textcolor3"></span>
+</p><!--l. 546--><p class="noindent" >Für Windows bietet sich bei USB-Datenträgern <a 
+href="http://www.uwe-sieber.de/usbstick.html" >diese Seite</a> an.
+</p>
+<h3 class="sectionHead"><span class="titlemark">C </span> <a 
+ id="x1-39000C"></a>Änderungsverzeichnis</h3>
+<!--l. 552--><p class="noindent" >
+</p>
+<h4 class="subsectionHead"><span class="titlemark">C.1 </span> <a 
+ id="x1-40000C.1"></a>Version 1.2</h4>
+     <ul class="itemize1">
+     <li class="itemize">nach  dem  Export  der  Auswertung  erscheint  die  Frage,  ob
+     die  exportierte  Datei  angezeigt  werden  soll,  dafür  wird  der
+     Standardbrowser mit Hilfe von <a 
+href="http://www.centerkey.com/java/browser/" >Bare Bones Browser Launch for
+     Java</a> gestartet
+     </li>
+     <li class="itemize">durch  die  Einstellungen  von  AnteilSpezial  und  AnteilSpezial
+     modus   können   für   bestimmte   Verkäufernummern   andere
+     Provisionsanteile hinterlegt werden</li></ul>
+                                                               
+                                                               
+<!--l. 563--><p class="noindent" >
+</p>
+<h4 class="subsectionHead"><span class="titlemark">C.2 </span> <a 
+ id="x1-41000C.2"></a>Version 1.1</h4>
+     <ul class="itemize1">
+     <li class="itemize">Die kafbas.properties muss jetzt einen zusätzlichen Parameter
+     enthalten  (AnteilProzent).  Wird  kein  Datenbankverzeichnis
+     angegeben, wird jetzt das Verzeichnis »db/kafbasdb« genutzt.
+     </li>
+     <li class="itemize">erweiterter Ablauf beim Datenaustausch:
+          <ul class="itemize2">
+          <li class="itemize">Meldung  an  den  Benutzer  (konﬁgurierbar)  mit  Ok  und
+          Abbrechen (z.B. bitte Diskette einlegen)
+          </li>
+          <li class="itemize">Ausführen   eines   Scripts   (konﬁgurierbar),   z.B.   USB-
+          Datenträger einhängen
+          </li>
+          <li class="itemize">DTA ausführen
+          </li>
+          <li class="itemize">Ausführen  eines  zweiten  Scripts  (konﬁgurierbar),  z.B.
+          USB-Datenträger wieder aushängen
+          </li>
+          <li class="itemize">Meldung  an  den  Benutzer  (konﬁgurierbar)  mit  Ok  (z.B.
+          Diskette kann entnommen werden)</li></ul>
+     </li>
+     <li class="itemize">Datenbanktreiber und -url kann vorgegeben werden
+     </li>
+     <li class="itemize">der Provisionsanteil kann konﬁguriert werden</li></ul>
+                                                               
+                                                               
+<!--l. 584--><p class="noindent" >
+</p>
+<h4 class="subsectionHead"><span class="titlemark">C.3 </span> <a 
+ id="x1-42000C.3"></a>Version 1.0</h4>
+     <ul class="itemize1">
+     <li class="itemize">erste Veröﬀentlichung</li></ul>
+                                                               
+                                                               
+ 
+</body></html> 
+
+                                                               
+
+
