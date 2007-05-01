@@ -2,16 +2,15 @@
 \documentclass[
   final,      % endgültige Fassung
 % draft,      % Vorschau
-  %pdftex,     % bei Aufruf von pdflatex
   idxtotoc,   % Index soll im Inhaltsverzeichnis stehen
   tocleft,    % Inhaltsverzeichnis nicht einrücken
   a5paper,    % Papiergröße A5
   abstracton, % Zusammenfassung aktivieren
-%  titlepage,  % Eine Titelseite erstellen
+% titlepage,  % Eine Titelseite erstellen
 % twoside,    % zweiseitiges Layout
   oneside,    % einseitiges Layout
-  halfparskip,
-  DIVcalc
+  halfparskip,%
+  DIVcalc     %
 ]{scrartcl}
 
 %% ==================================
@@ -24,94 +23,90 @@
 \usepackage[T1]{fontenc} % Aktiviert EC-Schriftarten
 \usepackage{ae} % Schöne Schriften für PDF-Dateien
 \usepackage{textcomp} % Text-Companion-Symbols (z. B. \texteuro)
-\usepackage{ngerman} % Deutsche Einstellungen
+\usepackage[ngerman]{babel} % Deutsche Einstellungen
 \usepackage{lmodern}
-%Paket times ist veraltet, siehe
+% Paket times ist veraltet, siehe
 % http://www.ctan.org/tex-archive/info/german/l2tabu/l2tabu.pdf
 % \usepackage{times} % Times-Schriftart auswählen
 
-%Auswahl der Schriftarten:
-%
+% Auswahl der Schriftarten:
+% 
 % -- Palatino --
 % Paket mathpazo akzeptiert diese Optionen:
 % leer    lieber nicht benutzen
 % [sc]    Palatino(pplx) mit echten Kapitälchen
 % [osf]   Palatino(pplj) mit echten Kapitälchen und
-%         Oldstyle-Zahlen im Text
-%\usepackage[sc,osf]{mathpazo}
-%\linespread{1.04} % Zeilenabstand passend zur Schriftart erhöen
-%\usepackage[scaled=.95]{helvet}
-%\usepackage{courier}
-%
+% Oldstyle-Zahlen im Text
+% \usepackage[sc,osf]{mathpazo}
+% \linespread{1.04} % Zeilenabstand passend zur Schriftart erhöen
+% \usepackage[scaled=.95]{helvet}
+% \usepackage{courier}
+% 
 % -- Times --
-%\usepackage{mathptmx} % Times
-%\usepackage[scaled=.90]{helvet}
-%\usepackage{courier}
-%
+% \usepackage{mathptmx} % Times
+% \usepackage[scaled=.90]{helvet}
+% \usepackage{courier}
+% 
 % -- Zapf Chancery --
-%\usepackage{chancery}
-%\usepackage[scaled=.90]{helvet}
-%\usepackage{courier}
-%
+% \usepackage{chancery}
+% \usepackage[scaled=.90]{helvet}
+% \usepackage{courier}
+% 
 % -- Bookman --
-%\usepackage{bookman}
-%\usepackage[scaled=.90]{helvet}
-%\usepackage{courier}
-%
+% \usepackage{bookman}
+% \usepackage[scaled=.90]{helvet}
+% \usepackage{courier}
+% 
 % -- New Century Schoolbook --
-%\usepackage{newcent}
-%\usepackage[scaled=.90]{helvet}
-%\usepackage{courier}
-%
+% \usepackage{newcent}
+% \usepackage[scaled=.90]{helvet}
+% \usepackage{courier}
+% 
 % -- Charter --
-%\usepackage{charter}
-%\usepackage[scaled=.90]{helvet}
-%\usepackage{courier}
+% \usepackage{charter}
+% \usepackage[scaled=.90]{helvet}
+% \usepackage{courier}
 
 
 \usepackage{marvosym} % Symbole und das Euro-Zeichen \EUR
 \usepackage{eurosym} % Euro-Zeichen nach offz. Vorgaben, Geld durch \EUR{100,00}
-\usepackage{microtype} % Mikrotypographische Anpassungen für pdflatex
+\usepackage[final]{microtype} % Mikrotypographische Anpassungen für pdflatex
 \usepackage{fixltx2e} % korrigiert LaTeX-Fehler
-%\usepackage{mparhack} % wenn verfügbar, korrigiert Fehler bei marginpar-Befehl
-%\usepackage{picins} % Text umfließt Grafiken
+\usepackage{mparhack} % wenn verfügbar, korrigiert Fehler bei marginpar-Befehl
 \usepackage{color,graphics,graphicx} % Unterstützung für Grafiken und Farben
-%\usepackage{eso-pic} % nur falls Entwurf-Seitenhintergrund
-% \usepackage{url} % nur falls kein hyperref-Paket genutzt wird
 % \usepackage{longtable} % für Tabellen über mehrere Seiten
 \usepackage{fancyvrb} % für verbatiminput
 \usepackage{listings} % Quelltexte formatiert ausgeben
 \usepackage{booktabs} % Tabellenformatierungsbefehle top-/mid-/bottomrule
 \usepackage{keystroke} %Tastaturabbildung
 \usepackage{caption}
-%\usepackage{capt-of}
-%\usepackage{marginnote}
+% \usepackage{marginnote}
 \usepackage{fixme}
-%\usepackage[ngerman]{varioref} % variable Referenzen
+\usepackage[german]{fancyref} % variable Referenzen
 \usepackage[draft=false, bookmarks=true, bookmarksnumbered=true, bookmarksopen=true, colorlinks, linkcolor=blue, urlcolor=blue, pdfauthor={Erik Wegner}, pdftitle={Kassenabrechnung für Bassare}, pdfsubject={Handbuch}, pdfpagemode=UseOutlines, pdfstartview=Fit, pdfview=FitBH, a4paper]{hyperref,attachfile} % PDF-Optionen, PDF-Hyperlinks
 \usepackage[all]{hypcap} %Klicken auf Verweise rückt Ziel in den Mittelpunkt
 
-%veraltete Pakete, die nicht mehr benötigt werden
-%t1enc = ersetzt durch fontenc
-%times = ersetzt durch mathptmx
-%a4 = ersetzt durch Klassenoption a4paper
+% veraltete Pakete, die nicht mehr benötigt werden
+% t1enc = ersetzt durch fontenc
+% times = ersetzt durch mathptmx
+% a4 = ersetzt durch Klassenoption a4paper
 
 %% ==================================
 %% Standardbefehle für \newcommand
 %% ==================================
-%%Dieses Kommando trennt die einzelnen Dokumentenabschnitte
-%%wahlweise eine neue Seite
-\newcommand{\ABSCHNITTSTRENNER}{\cleardoublepage }
+%% Dieses Kommando trennt die einzelnen Dokumentenabschnitte
+%% wahlweise eine neue Seite
+\newcommand{\ABSCHNITTSTRENNER}{\clearpage }
 
-%%Dieses Kommando setzt einen Backslash,
-%%an dem ohne ein Trennzeichen getrennt werden kann
+%% Dieses Kommando setzt einen Backslash,
+%% an dem ohne ein Trennzeichen getrennt werden kann
 \newcommand{\trennBS}{{\tt\char92}" "}
 
-%%Dieses Kommando setzt um den übergebenen Parameter
-%%deutsche doppelte Anführungszeichen
+%% Dieses Kommando setzt um den übergebenen Parameter
+%% deutsche doppelte Anführungszeichen
 \newcommand{\gdq}[1]{\glqq{}#1\grqq{}}
-%%Dieses Kommando setzt um den übergebenen Parameter
-%%französische Anführungszeichen (innen, außen, einfach, doppelt)
+%% Dieses Kommando setzt um den übergebenen Parameter
+%% französische Anführungszeichen (innen, außen, einfach, doppelt)
 \newcommand{\fqi}[1]{\frq{}#1\flq{}}                 % Anführungsz. einfach
 \newcommand{\fqqi}[1]{\frqq{}#1{}\flqq{}}              % Anführungsz. doppelt
 \newcommand{\fqa}[1]{\flq{}#1\frq{}}                 % Anführungsz. einfach
@@ -119,10 +114,10 @@
 
 \newcommand{\enquote}[1]{\fqqi{#1}}
 
-%%Ein Platzhalter für Daten, die später ergänzt werden
+%% Ein Platzhalter für Daten, die später ergänzt werden
 \newcommand{\weissnicht}{XX?\-XX?\-XX?\-XX\marginpar{\textcolor{red}{Hier fehlt was!}}}
 
-%%Der Parameter erscheint im Text und im Index
+%% Der Parameter erscheint im Text und im Index
 \newcommand{\textindex}[1]{#1\index{#1}}
 
 \newcommand{\Server}[1]{\texttt{#1}}
@@ -140,21 +135,21 @@
 %% ==================================
 %% Kopf- und Fußzeile definieren
 %% ==================================
-%\manualmark % Manuelle Einstellungen anschalten
+% \manualmark % Manuelle Einstellungen anschalten
 \automark[section]{section}
 \pagestyle{scrheadings}
-%\ihead{} \chead{} \ohead{\headmark}
-%\ifoot{\tiny Erik Wegner, \today} \cfoot{} \ofoot{\pagemark}
+% \ihead{} \chead{} \ohead{\headmark}
+% \ifoot{\tiny Erik Wegner, \today} \cfoot{} \ofoot{\pagemark}
 
 % Eine Seite ohne Kopf- und Fußzeile
 \defpagestyle{plainwfl}{
-(0pt,0pt)
-{} {} {}
-(0pt,0pt)
+  (0pt,0pt)
+  {} {} {}
+  (0pt,0pt)
 }{
-(0pt,0pt)
-{} {} {}
-(0pt,0pt)
+  (0pt,0pt)
+  {} {} {}
+  (0pt,0pt)
 }
 \flushbottom
 \captionsetup{margin=10pt,font=small,labelfont=bf}
@@ -168,38 +163,24 @@
 %% ==================================
 \subject{Handbuch zur Version 1.2}
 \title{
-  %\includegraphics[scale=0.333]{zusatz/logo_ksk}w\\
+  % \includegraphics[scale=0.333]{zusatz/logo_ksk}w\\
   Kassenabrechnung für Basare
-  %\includegraphics[draft=false,scale=0.333]{zusatz/logo_a}
+  % \includegraphics[draft=false,scale=0.333]{zusatz/logo_a}
 }
 \author{Erik Wegner}
-\publishers{\includegraphics[scale=0.1]{ewuslogo_2007}}
-%Datum wird automatisch eingefügt
+\publishers{\href{http://ewus.de}{\includegraphics[scale=0.1]{ewuslogo_2007}}}
+% Datum wird automatisch eingefügt
 \pdfbookmark[1]{Titelseite}{titel}
 \maketitle
 \thispagestyle{plainwfl}
 
-\mbox{}
-
-\vfill
-
-%% ==================================
-%% Die Zusammenfassung
-%% ==================================
-%\begin{abstract}
-%\pdfbookmark[1]{Zusammenfassung}{zus}
-%Dieses Dokument beschreibt die Server zur Bereitstellung der Anwendungen \alleDrei{}.
-%\end{abstract}
-
-%\markleft{}
-%\markright{Inhaltsverzeichnis}
 \ABSCHNITTSTRENNER
 \pdfbookmark[1]{\contentsname}{toc}
 \tableofcontents
-%\listoffigures
-%\listoftables
+% \listoffigures
+% \listoftables
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \ABSCHNITTSTRENNER
 \section{Allgemeines}
 Vielen Dank für Ihr Interesse am Programm Kafbas -- Kassenabrechnung für
@@ -211,15 +192,15 @@ werden mit einer \textindex{Etikette} ausgestattet, die eine
 die \textindex{Verkäufernummer} und die übrigen Ziffern geben den
 \textindex{Preis} an.
 
-%\begin{figure}[h]
-{        \centering
-                \includegraphics[scale=0.5]{etikett}
-        \captionof{figure}{Etikettenbeispiel}
-        \label{fig:etikett}
-}
-%\end{figure}
+\begin{minipage}{0.9\linewidth}
+  \centering
+  \includegraphics[scale=0.5]{etikett}
+  \captionof{figure}{Etikettenbeispiel}
+  \label{fig:etikett}
+\end{minipage}
 
-Im Beispiel (Abbildung~\ref{fig:etikett}) bietet der Verkäufer mit der
+
+Im Beispiel (Abbildung~\fref{fig:etikett}) bietet der Verkäufer mit der
 Nummer~104 diesen Artikel zum Preis von \EUR{2,30} an.
 
 Vom insgesamten Verkaufsergebnis behält der Veranstalter einen
@@ -231,7 +212,7 @@ verkauft werden soll, ohne das die Plätze im \textindex{Netzwerk} verbunden
 sind. Daher implementiert das Programm eine Möglichkeit, die Verkaufsdaten
 zwischen den Kasseplätzen auszutauschen.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \ABSCHNITTSTRENNER
 \section{Benutzerhandbuch}
 In diesem Teil der Dokumentation wird die Benutzung der Anwendung erläutert.
@@ -245,30 +226,40 @@ Feld gerade die Eingabe entgegennimmt, ist an der vergrößerten Beschriftung
 ablesbar. Für die Eingabe stehen folgende Tasten\index{Tastatur|see{Eingabe,~Tasten}}\index{Tasten|see{Eingabe,~Tasten}}\index{Eingabe!Tasten} zur Verfügung:
 
 \begin{tabular}{@{}lp{7cm}@{}}
-\toprule
-Taste & Bedeutung \\
-\midrule
-\keystroke{0}, \keystroke{1}, \dots, \keystroke{9} & Eingabe der Zahl \\
-\BSpace & Löschen der letzten (eingegebenen) Ziffer \\
-\keystroke{+} & nächsten Artikel für diesen Kunden \\
-\Enter & zweimaliges Drücken beendet den Verkaufsvorgang für den Kunden \\
-\Esc   & die Inhalte der Eingabefelder werden gelöscht \\
-\bottomrule
+  \toprule
+  Taste & Bedeutung \\
+  \midrule
+  \keystroke{0}, \keystroke{1}, \dots, \keystroke{9} & Eingabe der Zahl \\
+  \BSpace & Löschen der letzten (eingegebenen) Ziffer \\
+  \keystroke{+} & nächsten Artikel für diesen Kunden \\
+  \Enter & zweimaliges Drücken beendet den Verkaufsvorgang für den Kunden \\
+  \Esc   & die Inhalte der Eingabefelder werden gelöscht \\
+  \bottomrule
 \end{tabular}
 
 \minisec{Schritt 1: Eingabe der Verkäufernummer}
 Geben Sie die dreistellige Nummer des Verkäufers ein, anschließend wechselt
 die Eingabe zum Feld \enquote{Artikelpreis}. Haben Sie sich vertippt, können Sie
-die letzte Ziffer mit der Rückschritttaste (Backspace) \BSpace löschen.
+die letzte Ziffer mit der Rückschritttaste (Backspace)\BSpace{} löschen.
 
 \minisec{Schritt 2: Eingabe des Artikelpreises}
-Den Artikelpreis geben Sie als fortlaufende Zahl ohne Punkt oder Komma ein. Bspw.\ drücken Sie die Kombination \keystroke{1}\,\keystroke{2}\,\keystroke{5}\,\mbox{\keystroke{0},} um den Preis von \EUR{12,50} einzugeben. Auch hier können Sie Ihre Eingaben korrigieren, indem Sie die Rückschritttaste benutzen.
+Den Artikelpreis geben Sie als fortlaufende Zahl ohne Punkt oder Komma
+ein. Bspw.\ drücken Sie die Kombination\mbox{\keystroke{1}\keystroke{2}\keystroke{5}\keystroke{0},} um den
+Preis von \EUR{12,50} einzugeben. Auch hier können Sie Ihre Eingaben
+korrigieren, indem Sie die Rückschritttaste benutzen. 
 
 \minisec{Schritt 3: Übergang zum nächsten Artikel}
-Den \textindex{Abschluss} einer Artikeleingabe bildet \keystroke{+}. Die zwei Eingaben Verkäufer und Artikelpreis werden in die Liste übernommen und die neue Endsumme berechnet. Anschließend steht die Anwendung wieder bereit, die Verkäufernummer wie in Schritt 1 entgegenzunehmen. Stellen Sie fest, dass die Eingabe, die bereits in der Liste abgelegt ist, fehlerhaft ist oder gelöscht werden soll, betätigen Sie wieder die Rückschritttaste, um den letzten Listenposten in die aktive Eingabe zu übernehmen. Nun können Sie die Eingabe korrigieren oder mit der Taste \Esc löschen.
+Den \textindex{Abschluss} einer Artikeleingabe bildet\keystroke{+}. Die zwei Eingaben Verkäufer und Artikelpreis werden in die Liste übernommen und die neue Endsumme berechnet. Anschließend steht die Anwendung wieder bereit, die Verkäufernummer wie in Schritt 1 entgegenzunehmen. Stellen Sie fest, dass die Eingabe, die bereits in der Liste abgelegt ist, fehlerhaft ist oder gelöscht werden soll, betätigen Sie wieder die Rückschritttaste, um den letzten Listenposten in die aktive Eingabe zu übernehmen. Nun können Sie die Eingabe korrigieren oder mit der Taste\Esc{} löschen.
 
 \minisec{Schritt 4: Abschluss des Verkaufs}
-Sind alle Artikel des Kunden erfasst, kann die Gesamtsumme abgelesen und kassiert werden. Um die erfassten Verkäufe in die Datenbank zu übernehmen und die Anwendung für den nächsten Kunden einzustellen, betätigen Sie die Taste \Enter zweimal. Nach dem ersten Tastendruck erscheint in der Statuszeile des Fensters der Hinweis, die Taste ein zweites Mal zu drücken. Erst jetzt sind die eben eingegebenen Verkäufe in der Datenbank gespeichert, sodass der Datenaustausch erfolgen oder die Anwendung beendet werden kann.
+Sind alle Artikel des Kunden erfasst, kann die Gesamtsumme abgelesen und
+kassiert werden. Um die erfassten Verkäufe in die Datenbank zu
+übernehmen und die Anwendung für den nächsten Kunden einzustellen,
+betätigen Sie die Taste\Enter{} zweimal. Nach dem ersten Tastendruck
+erscheint in der Statuszeile des Fensters der Hinweis, die Taste ein
+zweites Mal zu drücken. Erst jetzt sind die eben eingegebenen Verkäufe
+in der Datenbank gespeichert, sodass der Datenaustausch erfolgen oder
+die Anwendung beendet werden kann.
 
 \subsection{Datenaustausch}
 \emph{Hinweis:} Die Funktionen Datenaustausch erzeugen und einlesen können
@@ -316,10 +307,10 @@ d.~h.\ hier steht der gesamte Erlös, den der Veranstalter erhält. In der
 vierten Spalte ist die Summe aller Erlöse der Verkäufer. Die nachfolgenden
 Zahlen stellen die Verkaufssummen der einzelnen Kassen dar.
 
-\emph{Hinweis:} Die Spalten für die Kassen enthalten die Summe der verkauften
-Artikel, der Anteil des Veranstalters ist in diesen Beträgen enthälten.
+\emph{Hinweis:} Die Spalten für die Kassen enthalten die Summe der verkauf"-ten
+Artikel, der Anteil des Veranstalters ist in diesen Beträgen enthalten.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \ABSCHNITTSTRENNER
 \section{Installationsanleitung}
 Im zukünftigen Installationspfad der Anwendung wird während des ersten Starts
@@ -350,11 +341,13 @@ kann neu befüllt werden. Achten Sie darauf, die Berechtigungen des
 \path{kafbasdb}-Ordners ausreichend zu setzen, d.~h.\ Ändern- und
 Schreibrechte für den späteren Benutzer.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \ABSCHNITTSTRENNER
 \section{Kurzübersicht}
 \subsection*{Bedienung Kassefunktionen}
-Geben Sie zuerst die \textbf{dreistellige Verkäufernummer} und anschließend den \textbf{Artikelpreis ohne Komma oder Punkt} ein. Korrigieren Sie Eingaben mit der \BSpace-Taste (Rückschritt).
+Geben Sie zuerst die \textbf{dreistellige Verkäufernummer} und
+dann den \textbf{Artikelpreis ohne Komma oder Punkt}
+ein. Korrigieren Sie Eingaben mit der\BSpace{}-Taste (Rückschritt).
 
 \minisec{Zahlen}
 \keystroke{0} \keystroke{1} \keystroke{2} \keystroke{3} \keystroke{4} \keystroke{5} \keystroke{6} \keystroke{7} \keystroke{8} \keystroke{9}
@@ -363,26 +356,30 @@ Geben Sie zuerst die \textbf{dreistellige Verkäufernummer} und anschließend den 
 \keystroke{+} übernimmt Preis in die Liste für die Gesamtsummenberechnung
 
 \minisec{Enter}
-2x \Enter schließt den Einkauf dieses Kunden ab.
+2x\Enter{} schließt den Einkauf dieses Kunden ab.
 
 \subsection*{Löschen}
-\BSpace löscht die letzte Ziffer der Eingabe. Ist keine Eingabe mehr vorhanden, wird das letzte Element der Liste aus der Liste gelöscht und als neue Werte für die Eingabefelder vorbelegt. Damit lassen sich falsche \keystroke{+}-Eingaben rückgängig machen.
+\BSpace{} löscht die letzte Ziffer der Eingabe. Ist keine Eingabe mehr
+vorhanden, wird das letzte Element der Liste aus der Liste gelöscht und
+als neue Werte für die Eingabefelder vorbelegt. Damit lassen sich
+falsche\keystroke{+}-Eingaben rückgängig machen.
 
 \subsection*{ESC}
-\Esc löscht die Belegung der Eingabefelder und setzt die Verkäufereingabe als nächstes Eingabefeld.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\Esc{} löscht die Belegung der Eingabefelder und setzt die
+Verkäufereingabe als nächstes Eingabefeld.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \ABSCHNITTSTRENNER
 \appendix
 \section{Liste der Bibliotheken}
 \label{sec:ListeDerBibliotheken}
 \begin{tabular}{@{}lp{6.7cm}@{}}
-\toprule
-Dateiname, Version & Beschreibung \\
-\midrule
-derby.jar, 10.1.2 & Datenbanktreiber \\
-derbyLocale\_de\_DE.jar & deutsche Texte für den Datenbank\-trei"-ber \\
-log4j.jar, 1.2.13 & Protokollierung der Programm\-meld"-ungen \\
-\bottomrule
+  \toprule
+  Dateiname, Version & Beschreibung \\
+  \midrule
+  derby.jar, 10.1.2 & Datenbanktreiber \\
+  derbyLocale\_de\_DE.jar & deutsche Texte für den Datenbank\-trei"-ber \\
+  log4j.jar, 1.2.13 & Protokollierung der Programm\-meld"-ungen \\
+  \bottomrule
 \end{tabular}
 
 Als Datenbank wird die komplett in Java programmierte Datenbank
@@ -402,7 +399,7 @@ Als Datenbank wird die komplett in Java programmierte Datenbank
   author={Erik Wegner},%
   mimetype={text/plain},%
   icon=Paperclip,%
-   description={Beispieldatei kafbas.properties}]{../../kafbas.properties}}
+  description={Beispieldatei kafbas.properties}]{../../kafbas.properties}}
 \ifpdf
 \lstinputlisting[style=properties]{../../kafbas.properties}
 \else
@@ -431,7 +428,8 @@ erfolgt als Zahl:
 
 \minisec{AnteilSpezial}\index{AnteilSpezial}
 Durch die Angabe eines Nummernkreises für die Verkäufernummer kann diesem
-Kreis ein abweichender Anteil (Einstellung \enquote{AnteilProzent}) zugeordnet
+Kreis ein abweichender Anteil (von der Einstellung
+\enquote{AnteilProzent} abweichend) zugeordnet
 werden, beispielsweise können alle Verkäufer von 100 bis 149 einen Anteil von
 20\% berechnet bekommen, von 150 bis 199 bekommen 25\% und die übrigen
 Verkäufer 40\%. Das Angeben mehrerer Einträge ist möglich, indem der Eintrag
@@ -444,14 +442,12 @@ die Bereiche, ist die Angabe
 Diese Einstellungen werden bei jedem Anwendungsstart ausgewertet und die
 jeweiligen Anteile in der Auswertung neu berechnet.
 
-Beispiel:
-\begin{verbatim}
-AnteilProzent=40
-AnteilSpezial1=100-149,20
-AnteilSpezial2=150-199,25
-\end{verbatim}
-
-
+% Beispiel:\nopagebreak
+% \begin{verbatim}
+% AnteilProzent=40
+% AnteilSpezial1=100-149,20
+% AnteilSpezial2=150-199,25
+% \end{verbatim}
 
 \minisec{AnteilSpezialModus}\index{AnteilSpezialModus}
 \hypertarget{anteilspezialmodus}{Hier} kann definiert werden, wie die
@@ -590,21 +586,21 @@ Für Windows bietet sich bei USB-Datenträgern
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \ABSCHNITTSTRENNER
 \markright{Index}
 \renewcommand*{\indexpagestyle}{scrheadings}
 \printindex
 
-%\markright{Literaturreferenzen}
-%\renewcommand{\refname}{Literaturreferenzen}
-%\pdfbookmark[1]{Literaturreferenzen}{literatur}
-%\begin{flushleft}
-%\bibliography{handbuch}
-%\end{flushleft}
+% \markright{Literaturreferenzen}
+% \renewcommand{\refname}{Literaturreferenzen}
+% \pdfbookmark[1]{Literaturreferenzen}{literatur}
+% \begin{flushleft}
+%   \bibliography{handbuch}
+% \end{flushleft}
 
 \end{document}
-%
+% 
 % Umwandlung in XHTML
-%
+% 
 % htlatex handbuch.tex "xhtml,uni-html4" " -cunihtf -utf8"
