@@ -74,8 +74,8 @@
 \usepackage{microtype} % Mikrotypographische Anpassungen für pdflatex
 \usepackage{fixltx2e} % korrigiert LaTeX-Fehler
 %\usepackage{mparhack} % wenn verfügbar, korrigiert Fehler bei marginpar-Befehl
-\usepackage{color,graphics,graphicx} % Unterstützung für Grafiken und Farben
 %\usepackage{picins} % Text umfließt Grafiken
+\usepackage{color,graphics,graphicx} % Unterstützung für Grafiken und Farben
 %\usepackage{eso-pic} % nur falls Entwurf-Seitenhintergrund
 % \usepackage{url} % nur falls kein hyperref-Paket genutzt wird
 % \usepackage{longtable} % für Tabellen über mehrere Seiten
@@ -168,11 +168,12 @@
 %% ==================================
 \subject{Handbuch zur Version 1.2}
 \title{
-  %\includegraphics[scale=0.333]{zusatz/logo_ksk}\\
+  %\includegraphics[scale=0.333]{zusatz/logo_ksk}w\\
   Kassenabrechnung für Basare
   %\includegraphics[draft=false,scale=0.333]{zusatz/logo_a}
 }
 \author{Erik Wegner}
+\publishers{\includegraphics[scale=0.1]{ewuslogo_2007}}
 %Datum wird automatisch eingefügt
 \pdfbookmark[1]{Titelseite}{titel}
 \maketitle
@@ -270,13 +271,14 @@ Den \textindex{Abschluss} einer Artikeleingabe bildet \keystroke{+}. Die zwei Ei
 Sind alle Artikel des Kunden erfasst, kann die Gesamtsumme abgelesen und kassiert werden. Um die erfassten Verkäufe in die Datenbank zu übernehmen und die Anwendung für den nächsten Kunden einzustellen, betätigen Sie die Taste \Enter zweimal. Nach dem ersten Tastendruck erscheint in der Statuszeile des Fensters der Hinweis, die Taste ein zweites Mal zu drücken. Erst jetzt sind die eben eingegebenen Verkäufe in der Datenbank gespeichert, sodass der Datenaustausch erfolgen oder die Anwendung beendet werden kann.
 
 \subsection{Datenaustausch}
-Der Datenaustausch dient zum \textindex{Synchronisieren} der Kassen, dadurch
-funktionieren die Kassen ohne ein verbindendes Netzwerk. Der Datenaustausch
-ist nur für die \textindex{Auswertung} wichtig, d.~h.\,diese Vorgänge können
-nach dem Schließen der eigentlichen Basarveranstaltung durchgeführt werden.
-
 \emph{Hinweis:} Die Funktionen Datenaustausch erzeugen und einlesen können
 mehrmals aufgerufen werden.
+
+Der Datenaustausch dient zum \textindex{Synchronisieren} der Kassen, dadurch
+funktionieren die Kassen ohne ein verbindendes Netzwerk. Der
+Datenaustausch ist nur für die \textindex{Auswertung} wichtig,
+d.\,h.~diese Vorgänge können nach dem Schließen der eigentlichen
+Basarveranstaltung durchgeführt werden.
 
 \subsubsection{Datenaustausch erzeugen}
 Durch Auswahl dieses Punktes wird eine Datei erzeugt, die alle Transaktionen
@@ -396,20 +398,22 @@ Als Datenbank wird die komplett in Java programmierte Datenbank
   postbreak=\space,%
   showspaces=true%
 }
+\marginpar{\attachfile[%
+  author={Erik Wegner},%
+  mimetype={text/plain},%
+  icon=Paperclip,%
+   description={Beispieldatei kafbas.properties}]{../../kafbas.properties}}
 \ifpdf
 \lstinputlisting[style=properties]{../../kafbas.properties}
 \else
 \VerbatimInput{../../kafbas.properties}
 \fi
-\attachfile[%
-  author={Erik Wegner},%
-  mimetype={text/plain},%
-  icon=Paperclip,%
-   description={Beispieldatei kafbas.properties}]{../../kafbas.properties}
 
 \minisec{KassenID}\index{KassenID}
-Die Nummer dieser Kasse. Sie ist für die Veranstaltung einmalig und darf nicht
-größer sein als der Wert für \enquote{AnzahlKassen}. Die Zählung beginnt bei 1.
+Die Nummer dieser Kasse. Sie ist für die Veranstaltung einmalig, jeder
+Kassenplatz erhält seine eigene, individuelle Nummr; sie darf
+nicht größer sein als der Wert für \enquote{AnzahlKassen}. Die erste
+Kasse erhält die KassenID~1.
 
 \minisec{AnzahlKassen}\index{AnzahlKassen}
 Die Anzahl der vorhandenen Kassen für die Veranstaltung. Dieser Wert dient als
@@ -523,25 +527,23 @@ Nach dem Beenden des Datenaustauschs erscheint diese Meldung, sie kann nur mit
 \enquote{Ok} bestätigt werden.
 
 \minisec{Script.Austausch.Beginn}
+\marginpar{\attachfile[%
+  author={Erik Wegner},%
+  mimetype={text/plain},%
+  icon=Paperclip,%
+  description={Beispieldatei mountdisk.sh}]{../../mountdisk.sh}}
 Dieser Befehl wird ausgeführt, wenn der Benutzer die Meldung
 \enquote{Meldung.Austausch.FrageVorBeginn} mit \enquote{Ok} beantwortet
 hat. Damit kann bswp.~ein \textindex{mount}-Befehl abgesetzt werden.
 
-\attachfile[%
+\minisec{Script.Austausch.Beendet}
+\marginpar{\attachfile[%
   author={Erik Wegner},%
   mimetype={text/plain},%
   icon=Paperclip,%
-  description={Beispieldatei mountdisk.sh}]{../../mountdisk.sh}
-
-\minisec{Script.Austausch.Beendet}
+  description={Beispieldatei unmountdisk.sh}]{../../unmountdisk.sh}}
 Nach dem Datenaustausch wird dieser Befehl aufgerufen, anschließend wird die
 Meldung \enquote{Meldung.Austausch.Beendet} abgezeigt.
-
-\attachfile[%
-  author={Erik Wegner},%
-  mimetype={text/plain},%
-  icon=Paperclip,%
-  description={Beispieldatei unmountdisk.sh}]{../../unmountdisk.sh}
 
 Für Windows bietet sich bei USB-Datenträgern 
 \href{http://www.uwe-sieber.de/usbstick.html}{diese Seite} an.
