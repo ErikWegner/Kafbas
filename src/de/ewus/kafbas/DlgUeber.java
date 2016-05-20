@@ -100,7 +100,7 @@ public class DlgUeber extends JDialog implements MouseListener {
 	private JPanel getJPanelN() {
 		if (jPanelN == null) {
 			jLabel3 = new JLabel();
-			jLabel3.setText("http://kafbas.berlios.de/");
+			jLabel3.setText("http://ewus.de/kafbas");
 			jLabel3.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			jLabel3.addMouseListener(this);
 			jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);

@@ -1,0 +1,7 @@
+/nbproject/private/
+/build/
+/nbdist/
+bin/
+db/
+derby.log
+kafbas.log

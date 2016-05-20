@@ -4,10 +4,11 @@
 		<appname>Kafbas</appname>
 		<appversion>1.2</appversion>
 		<authors>
-			<author name="Erik Wegner" email="e-man@berlios.de" />
+			<author name="Erik Wegner" email="eman@ewus.de" />
 		</authors>
-		<url>http://kafbas.berlios.de/</url>
+		<url>http://ewus.de/kafbas</url>
 		<javaversion>1.4</javaversion>
+                <run-privileged condition="izpack.windowsinstall|izpack.macinstall"/>
 	</info>
 	<variables>
 		<variable name="varKassenID" value=""/>
